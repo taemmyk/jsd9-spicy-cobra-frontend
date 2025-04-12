@@ -26,13 +26,13 @@ const Home = () => {
         </a>
       </Box>
       <Typography
-        variant="h1"
+        variant="h2"
       >
         Vite + React
       </Typography>
       <Box
         className="card"
-        sx={{ bgcolor: theme.palette.secondary.light, p: 2 }}
+        sx={{ bgcolor: theme.palette.secondary.dark, p: 2 }}
       >
         <button
           style={{ color: theme.palette.primary.contrastText }}

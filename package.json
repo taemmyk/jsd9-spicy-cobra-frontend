@@ -16,6 +16,7 @@
     "@emotion/styled": "^11.14.0",
     "@fontsource/orbitron": "^5.2.5",
     "@fontsource/roboto": "^5.2.5",
+    "@mui/icons-material": "^7.0.2",
     "@mui/material": "^7.0.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
