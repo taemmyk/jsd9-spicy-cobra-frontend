@@ -39,7 +39,7 @@ const theme = createTheme({
       default: "#121212",
       paper: "#1E1B2D",
       card: "#1B0E3B",
-      layout: "#8677AC",
+      layout: "#3E2F64",
     },
     negative: {
       default: "#F25A6B",
@@ -50,24 +50,20 @@ const theme = createTheme({
     h1: {
       fontFamily: '"Orbitron", "Roboto", "Helvetica", "Arial", sans-serif',
       fontWeight: 900,
-      lineHeight: 1.2,
+      lineHeight: 1.5,
       color: "#00FFB3",
       textShadow: "0px 0px 4px rgba(0,255,179,1)",
     },
     h2: {
       fontFamily: '"Orbitron", "Roboto", "Helvetica", "Arial", sans-serif',
-      fontSize: "2rem",
       fontWeight: 500,
       lineHeight: 1.2,
-      marginBottom: "0.5em",
       color: "#00FF7F",
     },
     body1: {
-      fontSize: "1rem",
       lineHeight: 1.5,
     },
     body2: {
-      fontSize: "0.875rem",
       lineHeight: 1.5,
     },
   },

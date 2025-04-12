@@ -8,6 +8,7 @@ function Membership() {
       sx={{
         fontSize: { xs: 24, md: 32 },
         textTransform: "uppercase",
+        mb: 0,
       }}
     >
       Membership

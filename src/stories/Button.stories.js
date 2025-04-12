@@ -14,36 +14,28 @@ export default {
   tags: ['autodocs'],
   // More on argTypes: https://storybook.js.org/docs/api/argtypes
   argTypes: {
+    primary: { control: 'boolean' },
     backgroundColor: { control: 'color' },
+    size: { control: { type: 'select', options: ['small', 'medium', 'large'] } },
+    label: { control: 'text' },
+    onClick: { action: 'onClick' },
   },
   // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
   args: { onClick: fn() },
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
-export const Primary = {
+export const NavbarMd = {
   args: {
     primary: true,
     label: 'Button',
   },
 };
 
-export const Secondary = {
+export const NavbarSm = {
   args: {
-    label: 'Button',
-  },
-};
-
-export const Large = {
-  args: {
-    size: 'large',
-    label: 'Button',
-  },
-};
-
-export const Small = {
-  args: {
+    primary: true,
     size: 'small',
-    label: 'Button',
+    label: '☰',
   },
 };

@@ -1,9 +1,19 @@
 import React from "react";
+import { Box, Typography } from "@mui/material";
 
 const About = () => {
   return (
     <>
-      <h1>About Us</h1>
+      <Typography
+        variant="h2"
+        sx={{
+          fontSize: { xs: 24, md: 32 },
+          textTransform: "uppercase",
+          mb: 0,
+        }}
+      >
+        About
+      </Typography>
     </>
   );
 };

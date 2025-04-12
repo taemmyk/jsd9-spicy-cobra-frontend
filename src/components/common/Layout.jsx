@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Outlet, Link } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 
@@ -6,6 +6,7 @@ import {
   AppBar,
   Toolbar,
   IconButton,
+  InputBase,
   Typography,
   Box,
   Badge,
@@ -15,46 +16,80 @@ import {
 import {
   Person as PersonIcon,
   ShoppingCart as ShoppingCartIcon,
-  Search as SearchIcon, // Import SearchIcon
+  Search as SearchIcon,
+  Clear as ClearIcon,
 } from "@mui/icons-material";
-import NewspaperIcon from "@mui/icons-material/Newspaper";
-import FolderOpenIcon from "@mui/icons-material/FolderOpen";
-import LoyaltyIcon from "@mui/icons-material/Loyalty";
-import BugReportIcon from "@mui/icons-material/BugReport"; // Using BugReport for the worm icon
-import TagIcon from "@mui/icons-material/Tag";
+
+import ButtonNavbar from "./ButtonNavbar";
 
 const Layout = () => {
   const theme = useTheme();
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const inputRef = useRef(null);
+
+  const handleSearchToggle = () => {
+    setIsSearchOpen(!isSearchOpen);
+  };
+
+  const handleInputChange = (event) => {
+    setSearchText(event.target.value);
+  };
+
+  const handleClearInput = () => {
+    setSearchText("");
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+    setIsSearchOpen(false);
+  };
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    // Perform your search logic here using 'searchText'
+    // console.log("Searching for:", searchText);
+    // Optionally close the search bar after submitting
+    setIsSearchOpen(false);
+  };
+
+  useEffect(() => {
+    if (isSearchOpen && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isSearchOpen]);
+
   return (
     <>
-      <AppBar
-        position="static"
-        sx={{ backgroundColor: theme.palette.background.layout }}
-      >
+      <AppBar position="static">
         <Toolbar
           sx={{
-            px: { xs: 1, md: 4 },
+            backgroundColor: theme.palette.background.layout,
+            px: 1,
             display: "flex",
-            flexDirection: "row", // Make it a row
-            justifyContent: "space-between", // Space between items
+            flexDirection: "row",
+            justifyContent: "space-between",
             alignItems: "center",
           }}
         >
-          <IconButton color="primary">
-            <SearchIcon
-              sx={{
-                width: { xs: 28, md: 40 },
-                height: { xs: 28, md: 40 },
-                color: theme.palette.secondary.light,
-              }}
-            />
-          </IconButton>
           <Link to="/" style={{ textDecoration: "none" }}>
+            <Box
+              component="img"
+              sx={{
+                height: 32,
+                width: 32,
+                maxHeight: 32,
+                maxWidth: 32,
+                display: { xs: "flex", md: "none" },
+              }}
+              alt="The house from the offer."
+              src="./logo.png"
+            />
             <Typography
               variant="h1"
               sx={{
                 fontSize: { xs: 24, md: 32 },
                 textTransform: "uppercase",
+                display: { xs: "none", md: "flex" },
               }}
             >
               Cobra
@@ -68,6 +103,45 @@ const Layout = () => {
               gap: { xs: 1, md: 4 },
             }}
           >
+            <IconButton onClick={handleSearchToggle} sx={{ p: 1 }}>
+              <SearchIcon
+                sx={{
+                  width: { xs: 28, md: 40 },
+                  height: { xs: 28, md: 40 },
+                  color: theme.palette.secondary.light,
+                }}
+              />
+            </IconButton>
+            {isSearchOpen && (
+        <InputBase
+          ref={inputRef}
+          placeholder="Search..."
+          value={searchText}
+          onChange={handleInputChange}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              handleSearchSubmit(event);
+            }
+          }}
+          sx={{
+            ml: 1,
+            flexGrow: 1,
+            color: "inherit",
+            backgroundColor: theme.palette.primary.light,
+          }}
+        />
+      )}
+      {isSearchOpen && searchText && (
+        <IconButton onClick={handleClearInput} sx={{ p: 1 }}>
+          <ClearIcon
+            sx={{
+              color: theme.palette.text.secondary,
+              width: 20,
+              height: 20,
+            }}
+          />
+        </IconButton>
+      )}
             <Link
               to="/order"
               style={{ position: "relative", textDecoration: "none" }}
@@ -96,6 +170,41 @@ const Layout = () => {
               </IconButton>
             </Link>
           </Box>
+        </Toolbar>
+
+        <Toolbar
+          sx={{
+            backgroundColor: theme.palette.background.layout,
+            px: 1,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <List
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: { xs: "100%", md: "60%" },
+              alignItems: "center",
+            }}
+          >
+            <ListItem>
+              <ButtonNavbar path="/about" label="about" />
+            </ListItem>
+            <ListItem>
+              <ButtonNavbar path="/error" label="news" />
+            </ListItem>
+            <ListItem>
+              <ButtonNavbar path="/games" label="genres" />
+            </ListItem>
+            <ListItem>
+              <ButtonNavbar path="/error" label="points" />
+            </ListItem>
+            <ListItem>
+              <ButtonNavbar path="/error" label="developer logs" />
+            </ListItem>
+          </List>
         </Toolbar>
       </AppBar>
 
