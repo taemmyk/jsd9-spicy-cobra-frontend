@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box, Typography } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+// import { useTheme } from "@mui/material/styles";
 import HorizontalImageScroll from "../components/common/Slideshow";
 import Heading from "../components/common/Heading";
+import ProductCard from "../components/products/ProductCard";
 
 const Home = () => {
-  const theme = useTheme();
+  // const theme = useTheme();
   const imageArray = [
     "https://placehold.co/400x200",
     "https://placehold.co/200x100",
@@ -39,7 +40,53 @@ const Home = () => {
         />
       </Box> */}
       <HorizontalImageScroll images={imageArray} />
-      <Heading section="Offers"/>
+      <Heading section="Offers" />
+
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: {
+            md: "repeat(3, 1fr)",
+          },
+          gap: {
+            xs: 2,
+            md: 4,
+          },
+          marginLeft: 4,
+          marginRight: 4,
+        }}
+      >
+        <ProductCard
+          title="The Land Beneath Us"
+          productImagePath="https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/2131010/header.jpg?t=1736181690"
+          developer="FairPlay Studios"
+          avatarImage="https://avatars.cloudflare.steamstatic.com/0334b9e9b4d7fcd1fc03fd88cdd7b6c625a1a17f_full.jpg"
+          rating="3.8"
+          price="690"
+          sale="50"
+        />
+        <ProductCard
+          title="The Land Beneath Us"
+          productImagePath="https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/2131010/header.jpg?t=1736181690"
+          developer="FairPlay Studios"
+          avatarImage="https://avatars.cloudflare.steamstatic.com/0334b9e9b4d7fcd1fc03fd88cdd7b6c625a1a17f_full.jpg"
+          rating="4.2"
+          price="690"
+          sale="30"
+        />
+        <ProductCard
+          title="The Land Beneath Us"
+          productImagePath="https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/2131010/header.jpg?t=1736181690"
+          developer="FairPlay Studios"
+          avatarImage="https://avatars.cloudflare.steamstatic.com/0334b9e9b4d7fcd1fc03fd88cdd7b6c625a1a17f_full.jpg"
+          rating="3.6"
+          price="690"
+          sale="0"
+        />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+      </Box>
     </>
   );
 };

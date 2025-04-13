@@ -43,7 +43,12 @@ const theme = createTheme({
     },
     negative: {
       default: "#F25A6B",
-    }
+    },
+    accent: {
+      default: "#00FFB3",
+      dark: "#00FF7F",
+      light: "#FFC300",
+    },
   },
   typography: {
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
@@ -60,19 +65,41 @@ const theme = createTheme({
       lineHeight: 1.2,
       color: "#00FF7F",
     },
-    h5: {
+    h6: {
       color: "#D1B6FF",
       fontSize: "1rem",
     },
-    h6: {
-      color: "#D1B6FF",
-      fontSize: { xs: "1rem", md: "2.5rem" },
-    },
     body1: {
+      fontSize: "1rem",
       lineHeight: 1.5,
     },
     body2: {
+      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+      color: "#E5E7EB",
+      fontSize: "1rem",
       lineHeight: 1.5,
+    },
+    accent: {
+      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+      color: "#00FF7F",
+    },
+    saleTag: {
+      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+      color: "#05030C",
+      fontSize: "1.5rem",
+      fontWeight: 700,
+    },
+    priceTag: {
+      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+      color: "#00FF7F",
+      fontSize: "2rem",
+      fontWeight: 400,
+    },
+    strikePriceTag: {
+      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+      color: "#00FF7F",
+      fontSize: "1.5rem",
+      fontWeight: 300,
     },
   },
 });

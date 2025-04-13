@@ -56,7 +56,6 @@ function ButtonNavbar({ path, label }) {
         variant="contained"
         sx={{
           display: { xs: "none", md: "inline-flex" },
-          fontSize: 18,
           fontWeight: 600,
           px: 2,
           py: 1,

@@ -23,8 +23,6 @@ import {
   Clear as ClearIcon,
 } from "@mui/icons-material";
 
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import { styled } from "@mui/material/styles";
@@ -335,7 +333,7 @@ const Layout = () => {
             </Box>
           </Box>
           <Typography
-            variant="h5"
+            variant="h6"
             sx={{ display: { xs: "none", md: "flex" }, textWrap: "nowrap" }}
           >
             Where we strike back!
