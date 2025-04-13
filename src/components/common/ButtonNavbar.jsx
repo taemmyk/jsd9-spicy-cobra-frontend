@@ -52,11 +52,11 @@ function ButtonNavbar({ path, label }) {
 
       <Button
         component={Link}
-        to="/about"
+        to={path}
         variant="contained"
         sx={{
           display: { xs: "none", md: "inline-flex" },
-          fontSize: 16,
+          fontSize: 18,
           fontWeight: 600,
           px: 2,
           py: 1,

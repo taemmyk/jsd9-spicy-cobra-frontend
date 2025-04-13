@@ -95,14 +95,48 @@ const Layout = () => {
               Cobra
             </Typography>
           </Link>
+          <Box sx={{ flexGrow: 1, display: "flex", alignItems: "center" }}>
+            {isSearchOpen && (
+              <InputBase
+                ref={inputRef}
+                placeholder="Search..."
+                value={searchText}
+                onChange={handleInputChange}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    handleSearchSubmit(event);
+                  }
+                }}
+                sx={{
+                  flexGrow: 1,
+                  color: "inherit",
+                  backgroundColor: theme.palette.primary.light,
+                  borderRadius: 8,
+                  mx: 2,
+                  px: 1,
+                }}
+              />
+            )}
+          </Box>
           <Box
             sx={{
               display: "flex",
               flexDirection: "row",
-              justifyContent: "space-between",
+              alignItems: "center",
               gap: { xs: 1, md: 4 },
             }}
           >
+            {isSearchOpen && searchText && (
+              <IconButton onClick={handleClearInput} sx={{ p: 1 }}>
+                <ClearIcon
+                  sx={{
+                    width: { xs: 28, md: 40 },
+                    height: { xs: 28, md: 40 },
+                    color: theme.palette.secondary.light,
+                  }}
+                />
+              </IconButton>
+            )}
             <IconButton onClick={handleSearchToggle} sx={{ p: 1 }}>
               <SearchIcon
                 sx={{
@@ -112,36 +146,6 @@ const Layout = () => {
                 }}
               />
             </IconButton>
-            {isSearchOpen && (
-        <InputBase
-          ref={inputRef}
-          placeholder="Search..."
-          value={searchText}
-          onChange={handleInputChange}
-          onKeyDown={(event) => {
-            if (event.key === "Enter") {
-              handleSearchSubmit(event);
-            }
-          }}
-          sx={{
-            ml: 1,
-            flexGrow: 1,
-            color: "inherit",
-            backgroundColor: theme.palette.primary.light,
-          }}
-        />
-      )}
-      {isSearchOpen && searchText && (
-        <IconButton onClick={handleClearInput} sx={{ p: 1 }}>
-          <ClearIcon
-            sx={{
-              color: theme.palette.text.secondary,
-              width: 20,
-              height: 20,
-            }}
-          />
-        </IconButton>
-      )}
             <Link
               to="/order"
               style={{ position: "relative", textDecoration: "none" }}
