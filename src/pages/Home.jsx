@@ -1,9 +1,10 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 // import { useTheme } from "@mui/material/styles";
-import HorizontalImageScroll from "../components/common/Slideshow";
+import HorizontalImageScroll from "../components/common/SlideshowGrid";
 import Heading from "../components/common/Heading";
 import ProductCard from "../components/products/ProductCard";
+import ImageList from "../components/common/SlideshowPages";
 
 const Home = () => {
   // const theme = useTheme();
@@ -83,10 +84,8 @@ const Home = () => {
           price="690"
           sale="0"
         />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
       </Box>
+      <ImageList imageArray={imageArray}/>
     </>
   );
 };
