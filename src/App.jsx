@@ -60,6 +60,14 @@ const theme = createTheme({
       lineHeight: 1.2,
       color: "#00FF7F",
     },
+    h5: {
+      color: "#D1B6FF",
+      fontSize: "1rem",
+    },
+    h6: {
+      color: "#D1B6FF",
+      fontSize: { xs: "1rem", md: "2.5rem" },
+    },
     body1: {
       lineHeight: 1.5,
     },
