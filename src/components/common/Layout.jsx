@@ -219,9 +219,6 @@ const Layout = () => {
               <ButtonNavbar path="/games" label="genres" />
             </ListItem>
             <ListItem>
-              <ButtonNavbar path="/error" label="points" />
-            </ListItem>
-            <ListItem>
               <ButtonNavbar path="/error" label="developer logs" />
             </ListItem>
           </List>

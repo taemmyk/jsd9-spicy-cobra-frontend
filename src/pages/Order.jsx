@@ -5,6 +5,7 @@ import OrderItemCard from "../components/products/OrderItemCard";
 import { useTheme } from "@mui/material/styles";
 import LinearStepper from "../components/payment/LinearStepper";
 import ButtonCta from "../components/common/ButtonCta";
+import OrderItemReviewCard from "../components/payment/OrderItemReviewCard";
 
 function Order() {
   const theme = useTheme();
@@ -15,10 +16,7 @@ function Order() {
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: {
-            xs: "1fr",
-            md: "repeat(2, 1fr)",
-          },
+          gridTemplateColumns: { xs: "1fr", md: "repeat(2, 1fr)" },
           gap: {
             xs: 2,
             md: 4,
@@ -30,14 +28,15 @@ function Order() {
         <Box
           sx={{
             backgroundColor: theme.palette.background.paper,
-            padding: "20px",
           }}
         >
+          <ButtonCta label="Continue to Shopping" to="/" />
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
               gap: 2,
+              mt: 4,
             }}
           >
             <OrderItemCard
@@ -63,7 +62,18 @@ function Order() {
             padding: "20px",
           }}
         >
-          <LinearStepper />
+          <OrderItemReviewCard
+            category="Products"
+            description="2 games"
+            total="THB1,380"
+          />
+          <OrderItemReviewCard
+            category="Tax"
+            description="7% Vat include"
+            total="THB100"
+          />
+          <OrderItemReviewCard category="Total" total="THB1,380" />
+          <ButtonCta label="Proceed to Checkout" to="/checkout" />
         </Box>
       </Box>
     </>

@@ -45,15 +45,6 @@ function OrderItemCard({
           {title}
         </Typography>
         <Typography variant="body2">{edition}</Typography>
-        <Box
-          className="options-container"
-          sx={{
-            display: "flex",
-            gap: { xs: 2, md: 4 },
-            mt: 2,
-            minWidth: { md: "33%" }, // Equivalent to md:min-w-1/3
-          }}
-        ></Box>
       </Box>
       <Typography variant="body1" fontWeight="semibold">
         THB{price}

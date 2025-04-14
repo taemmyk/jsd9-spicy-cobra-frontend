@@ -1,9 +1,72 @@
-import React from 'react'
+import React from "react";
+import { Box, Typography, Button, IconButton } from "@mui/material";
+import Heading from "../components/common/Heading";
+import OrderItemCard from "../components/products/OrderItemCard";
+import { useTheme } from "@mui/material/styles";
+import LinearStepper from "../components/payment/LinearStepper";
+import ButtonCta from "../components/common/ButtonCta";
 
 function Checkout() {
+  const theme = useTheme();
+
   return (
-    <h1>Checkout</h1>
-  )
+    <>
+      <Heading section="Your Order" />
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: {
+            xs: "1fr",
+            md: "repeat(2, 1fr)",
+          },
+          gap: {
+            xs: 2,
+            md: 4,
+          },
+          marginLeft: 4,
+          marginRight: 4,
+        }}
+      >
+        <Box
+          sx={{
+            backgroundColor: theme.palette.background.paper,
+            padding: "20px",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+              mt: 4,
+            }}
+          >
+            <OrderItemCard
+              title="Home Sweet Home: Survive"
+              edition="Edition B"
+              productImagePath="https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1056600/header.jpg?t=1725192678"
+              price={690}
+            />
+            <OrderItemCard
+              title="Home Sweet Home: Survive"
+              edition="Edition B"
+              productImagePath="https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1056600/header.jpg?t=1725192678"
+              price={690}
+            />
+          </Box>
+        </Box>
+
+        <Box
+          sx={{
+            backgroundColor: theme.palette.background.paper,
+            padding: "20px",
+          }}
+        >
+          <LinearStepper />
+        </Box>
+      </Box>
+    </>
+  );
 }
 
-export default Checkout
+export default Checkout;
