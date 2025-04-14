@@ -70,7 +70,9 @@ const theme = createTheme({
       fontSize: "1rem",
     },
     body1: {
-      fontSize: "1rem",
+      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+      color: "#E5E7EB",
+      fontSize: "1.5rem",
       lineHeight: 1.5,
     },
     body2: {
