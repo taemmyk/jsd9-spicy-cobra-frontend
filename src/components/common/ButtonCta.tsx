@@ -6,7 +6,7 @@ interface ButtonCtaProps {
   label: string;
   onClick?: () => void;
   disabled?: boolean;
-  to?: string; // เปลี่ยน path เป็น to และทำให้ Optional
+  to?: string;
 }
 
 function ButtonCta({ label, onClick, disabled, to }) {
@@ -16,8 +16,6 @@ function ButtonCta({ label, onClick, disabled, to }) {
     <>
       {to ? (
         <Link to={to} style={{ textDecoration: "none" }}>
-          {" "}
-          {/* เพิ่ม Link ครอบ Button */}
           <Button
             variant="contained"
             onClick={onClick}

@@ -53,7 +53,20 @@ const theme = createTheme({
       lineHeight: 1.2,
       color: "#00FF7F",
     },
+    h3: {
+      fontFamily: '"Orbitron", "Roboto", "Helvetica", "Arial", sans-serif',
+      fontWeight: 500,
+      lineHeight: 1.5,
+      color: "#00FF7F",
+    },
+    h4: {
+      fontFamily: '"Orbitron", "Roboto", "Helvetica", "Arial", sans-serif',
+      fontWeight: 700,
+      fontSize: "1rem",
+      color: "#E5E7EB",
+    },
     h6: {
+      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
       color: "#D1B6FF",
       fontSize: "1rem",
     },
@@ -61,18 +74,21 @@ const theme = createTheme({
       fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
       color: "#E5E7EB",
       fontSize: "1.5rem",
-      lineHeight: 1.5,
     },
     body2: {
       fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
       color: "#E5E7EB",
       fontSize: "1.25rem",
-      lineHeight: 1.5,
     },
     body3: {
       fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
       color: "#E5E7EB",
       fontSize: "1rem",
+    },
+    body4: {
+      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+      color: "#E5E7EB",
+      fontSize: "0.8rem",
     },
     accent: {
       fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
