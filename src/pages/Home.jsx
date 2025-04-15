@@ -4,7 +4,8 @@ import { Box, Typography } from "@mui/material";
 import HorizontalImageScroll from "../components/common/SlideshowGrid";
 import Heading from "../components/common/Heading";
 import ProductCard from "../components/products/ProductCard";
-import ImageList from "../components/common/SlideshowPages";
+import SlideshowPages from "../components/common/SlideshowPages";
+import SlideshowGrid from "../components/common/SlideshowGrid";
 
 const Home = () => {
   // const theme = useTheme();
@@ -19,6 +20,7 @@ const Home = () => {
 
   return (
     <>
+      <SlideshowGrid images={imageArray} />
       {/* <Box
         component="section"
         className="hero-block"
@@ -85,7 +87,7 @@ const Home = () => {
           sale="0"
         />
       </Box>
-      <ImageList imageArray={imageArray}/>
+      <SlideshowPages imageArray={imageArray} />
     </>
   );
 };

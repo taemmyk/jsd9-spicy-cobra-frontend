@@ -1,15 +1,16 @@
-import * as React from 'react';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormLabel from '@mui/material/FormLabel';
-import Grid from '@mui/material/Grid';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import { styled } from '@mui/material/styles';
-import { useTheme } from '@emotion/react';
+import * as React from "react";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormLabel from "@mui/material/FormLabel";
+import Grid from "@mui/material/Grid";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import { styled } from "@mui/material/styles";
+import { useTheme } from "@emotion/react";
+import { alpha } from '@mui/material/styles';
 
 const FormGrid = styled(Grid)(() => ({
-  display: 'flex',
-  flexDirection: 'column',
+  display: "flex",
+  flexDirection: "column",
 }));
 
 export default function AddressForm() {
@@ -136,7 +137,22 @@ export default function AddressForm() {
       </FormGrid>
       <FormGrid size={{ xs: 12 }}>
         <FormControlLabel
-          control={<Checkbox name="saveAddress" value="yes" color="secondary"/>}
+          control={
+            <Checkbox
+          name="saveAddress"
+          value="yes"
+          color="secondary"
+          sx={{
+            '& .MuiSvgIcon-root': {
+              fontSize: 30,
+            },
+            color: theme.palette.primary.contrastText,
+            '&.Mui-checked': {
+              color: theme.palette.secondary.light,
+            },
+          }}
+        />
+          }
           label="Use this address for payment details"
         />
       </FormGrid>

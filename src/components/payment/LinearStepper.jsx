@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import { styled } from "@mui/material/styles";
 import AddressForm from "./AddressForm";
+import PaymentForm from "./PaymentForm";
 import ButtonCta from "../common/ButtonCta";
 
 const steps = ["Your address", "Payment details", "Review you order"];
@@ -92,6 +93,14 @@ function LinearStepper() {
             Step {activeStep + 1}
           </Typography>
           {activeStep === 0 && <AddressForm />}
+          {activeStep === 1 && <PaymentForm />}
+          {activeStep === 2 && (
+            <Typography
+              sx={{ mt: 2, mb: 1, color: theme.palette.primary.contrastText }}
+            >
+              Review Your Order Details Here
+            </Typography>
+          )}
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <ButtonCta
               label="Back"
