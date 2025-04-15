@@ -1,15 +1,18 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { useTheme } from "@mui/material/styles";
-import { styled } from "@mui/material/styles";
+import {
+  Box,
+  Stepper,
+  Step,
+  StepLabel,
+  Button,
+  Typography,
+  useTheme,
+  styled,
+} from "@mui/material";
 import AddressForm from "./AddressForm";
 import PaymentForm from "./PaymentForm";
 import ButtonCta from "../common/ButtonCta";
+import ReviewOrderForm from "./ReviewOrderForm";
 
 const steps = ["Your address", "Payment details", "Review you order"];
 
@@ -64,7 +67,13 @@ function LinearStepper() {
     <Box sx={{ width: "100%", color: theme.palette.primary.contrastText }}>
       <Stepper
         activeStep={activeStep}
-        sx={{ color: theme.palette.primary.contrastText }}
+        sx={{
+          color: theme.palette.primary.contrastText,
+          "& .MuiStepConnector-line": {
+            borderWidth: 3,
+            borderColor: theme.palette.secondary.main,
+          },
+        }}
       >
         {steps.map((label, index) => (
           <Step key={label} completed={activeStep > index}>
@@ -94,13 +103,7 @@ function LinearStepper() {
           </Typography>
           {activeStep === 0 && <AddressForm />}
           {activeStep === 1 && <PaymentForm />}
-          {activeStep === 2 && (
-            <Typography
-              sx={{ mt: 2, mb: 1, color: theme.palette.primary.contrastText }}
-            >
-              Review Your Order Details Here
-            </Typography>
-          )}
+          {activeStep === 2 && <ReviewOrderForm />}
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <ButtonCta
               label="Back"

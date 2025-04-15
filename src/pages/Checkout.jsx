@@ -1,10 +1,9 @@
 import React from "react";
-import { Box, Typography, Button, IconButton } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Heading from "../components/common/Heading";
 import OrderItemCard from "../components/products/OrderItemCard";
 import { useTheme } from "@mui/material/styles";
 import LinearStepper from "../components/payment/LinearStepper";
-import ButtonCta from "../components/common/ButtonCta";
 
 function Checkout() {
   const theme = useTheme();

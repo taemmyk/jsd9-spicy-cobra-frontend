@@ -213,13 +213,13 @@ const Layout = () => {
               <ButtonNavbar path="/about" label="about" />
             </ListItem>
             <ListItem>
-              <ButtonNavbar path="/error" label="news" />
+              <ButtonNavbar path="/news" label="news" />
             </ListItem>
             <ListItem>
               <ButtonNavbar path="/games" label="genres" />
             </ListItem>
             <ListItem>
-              <ButtonNavbar path="/error" label="developer logs" />
+              <ButtonNavbar path="/devlogs" label="developer logs" />
             </ListItem>
           </List>
         </Toolbar>

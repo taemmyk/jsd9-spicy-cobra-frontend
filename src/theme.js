@@ -66,8 +66,13 @@ const theme = createTheme({
     body2: {
       fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
       color: "#E5E7EB",
-      fontSize: "1rem",
+      fontSize: "1.25rem",
       lineHeight: 1.5,
+    },
+    body3: {
+      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+      color: "#E5E7EB",
+      fontSize: "1rem",
     },
     accent: {
       fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',

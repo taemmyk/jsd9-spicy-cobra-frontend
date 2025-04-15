@@ -7,8 +7,10 @@ import theme from "./theme";
 import Layout from "./components/common/Layout";
 import Home from "./pages/Home";
 import About from "./pages/About";
+import News from "./pages/News";
 import Games from "./pages/Games";
 import GameDetail from "./pages/GameDetail";
+import Devlogs from "./pages/Devlogs";
 import Order from "./pages/Order";
 import Checkout from "./pages/Checkout";
 import Membership from "./pages/Membership";
@@ -25,6 +27,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       { path: "about", element: <About /> },
+      { path: "news", element: <News /> },
       {
         path: "games",
         element: <Games />,
@@ -32,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "games/:productId",
         element: <GameDetail />,
+      },
+      {
+        path: "devlogs",
+        element: <Devlogs />,
       },
       {
         path: "order",
