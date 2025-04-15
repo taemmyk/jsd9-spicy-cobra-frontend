@@ -6,6 +6,7 @@ import Heading from "../components/common/Heading";
 import ProductCard from "../components/products/ProductCard";
 import SlideshowPages from "../components/common/SlideshowPages";
 import SlideshowGrid from "../components/common/SlideshowGrid";
+import SwiperSlideshow from "../components/common/Swiper";
 
 const Home = () => {
   // const theme = useTheme();
@@ -18,9 +19,18 @@ const Home = () => {
     "https://placehold.co/200x100",
   ];
 
+  const imageArrayEqual = [
+    "https://placehold.co/200x100",
+    "https://placehold.co/200x100",
+    "https://placehold.co/200x100",
+    "https://placehold.co/200x100",
+    "https://placehold.co/200x100",
+    "https://placehold.co/200x100",
+  ];
+
   return (
     <>
-      <SlideshowGrid images={imageArray} />
+      <SwiperSlideshow images={imageArrayEqual}/>
       {/* <Box
         component="section"
         className="hero-block"
@@ -42,7 +52,6 @@ const Home = () => {
           }}
         />
       </Box> */}
-      <HorizontalImageScroll images={imageArray} />
       <Heading section="Offers" />
 
       <Box

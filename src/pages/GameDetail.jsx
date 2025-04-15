@@ -16,10 +16,10 @@ import { useTheme } from "@mui/material/styles";
 import ButtonCta from "../components/common/ButtonCta";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import ProductSwiper from "../components/products/ProductSwiper";
 
 function EditionCard({ edition, price, features }) {
   const theme = useTheme();
-
   return (
     <Box
       sx={{
@@ -119,10 +119,31 @@ function GameDetail() {
     },
   ];
   const defaultPrice = editionsData[0]?.price?.toString() || ""; // default selected
+
+  const imageArray = [
+    "https://swiperjs.com/demos/images/nature-1.jpg",
+    "https://swiperjs.com/demos/images/nature-2.jpg",
+    "https://swiperjs.com/demos/images/nature-3.jpg",
+    "https://swiperjs.com/demos/images/nature-4.jpg",
+    "https://swiperjs.com/demos/images/nature-5.jpg",
+    "https://swiperjs.com/demos/images/nature-6.jpg",
+    "https://swiperjs.com/demos/images/nature-7.jpg",
+    "https://swiperjs.com/demos/images/nature-8.jpg",
+    "https://swiperjs.com/demos/images/nature-9.jpg",
+    "https://swiperjs.com/demos/images/nature-10.jpg",
+  ];
+
   return (
     <>
       <Box sx={{ padding: 4 }}>
-        <Grid container spacing={4}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            gap: 4,
+          }}
+        >
+          <ProductSwiper images={imageArray} />
           <Box
             sx={{
               display: "flex",
@@ -192,8 +213,9 @@ function GameDetail() {
               <ButtonCta label="Add to Cart" />
             </Box>
           </Box>
-        </Grid>
+        </Box>
       </Box>
+
       <Box
         sx={{
           padding: 4,

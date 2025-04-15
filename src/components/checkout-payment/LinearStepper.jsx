@@ -17,10 +17,7 @@ import ReviewOrderForm from "./ReviewOrderForm";
 const steps = ["Your address", "Payment details", "Review you order"];
 
 const ColorlibStepIconRoot = styled("div")(({ theme, ownerState }) => ({
-  backgroundColor:
-    theme.palette.mode === "dark"
-      ? theme.palette.grey[700]
-      : theme.palette.grey[300],
+  backgroundColor: theme.palette.secondary.main,
   color: theme.palette.text.secondary,
   zIndex: 1,
   fontFamily: "Roboto",
@@ -34,6 +31,7 @@ const ColorlibStepIconRoot = styled("div")(({ theme, ownerState }) => ({
   ...(ownerState.active && {
     backgroundColor: theme.palette.secondary.light,
     color: theme.palette.secondary.contrastText,
+    fontWeight: "900",
   }),
   ...(ownerState.completed && {
     backgroundColor: theme.palette.secondary.contrastText,
@@ -96,11 +94,6 @@ function LinearStepper() {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <Typography
-            sx={{ mt: 2, mb: 1, color: theme.palette.primary.contrastText }}
-          >
-            Step {activeStep + 1}
-          </Typography>
           {activeStep === 0 && <AddressForm />}
           {activeStep === 1 && <PaymentForm />}
           {activeStep === 2 && <ReviewOrderForm />}

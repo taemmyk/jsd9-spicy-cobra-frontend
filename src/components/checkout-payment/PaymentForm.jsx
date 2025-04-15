@@ -83,7 +83,7 @@ function PaymentForm() {
   };
   return (
     <>
-      <Stack spacing={{ xs: 3, sm: 6 }} useFlexGap>
+      <Stack spacing={{ xs: 3, sm: 6 }} useFlexGap sx={{ mt: 2 }}>
         <Typography>Payment</Typography>
         <FormControl component="fieldset" fullWidth>
           <RadioGroup
