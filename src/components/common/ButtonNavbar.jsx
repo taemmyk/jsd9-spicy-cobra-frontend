@@ -59,7 +59,7 @@ function ButtonNavbar({ path, label }) {
           fontWeight: 600,
           px: 2,
           py: 1,
-          bgcolor: theme.palette.background.paper,
+          bgcolor: theme.palette.background.card,
           color: theme.palette.primary.contrastText,
           borderRadius: 8,
           boxShadow: 2,

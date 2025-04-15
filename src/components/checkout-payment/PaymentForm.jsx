@@ -100,7 +100,7 @@ function PaymentForm() {
             <Card
               selected={paymentType === "creditCard"}
               sx={{
-                backgroundColor: theme.palette.background.default,
+                backgroundColor: theme.palette.background.card,
                 ...(paymentType === "creditCard" && {
                   backgroundColor: theme.palette.background.layout,
                 }),
@@ -150,7 +150,7 @@ function PaymentForm() {
             <Card
               selected={paymentType === "bankTransfer"}
               sx={{
-                backgroundColor: theme.palette.background.default,
+                backgroundColor: theme.palette.background.card,
                 ...(paymentType === "bankTransfer" && {
                   backgroundColor: theme.palette.background.layout,
                 }),

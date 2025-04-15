@@ -3,7 +3,6 @@ import { Box, Typography, Button, IconButton } from "@mui/material";
 import Heading from "../components/common/Heading";
 import OrderItemCard from "../components/orders/OrderItemCard";
 import { useTheme } from "@mui/material/styles";
-import LinearStepper from "../components/checkout-payment/LinearStepper";
 import ButtonCta from "../components/common/ButtonCta";
 import OrderItemReviewCard from "../components/checkout-payment/OrderItemReviewCard";
 

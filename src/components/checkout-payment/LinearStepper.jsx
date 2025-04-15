@@ -105,11 +105,7 @@ function LinearStepper() {
           {activeStep === 1 && <PaymentForm />}
           {activeStep === 2 && <ReviewOrderForm />}
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <ButtonCta
-              label="Back"
-              onClick={handleBack}
-              disabled={activeStep === 0}
-            />
+            {activeStep > 0 && <ButtonCta label="Back" onClick={handleBack} />}
             <Box sx={{ flex: "1 1 auto" }} />
             <ButtonCta
               label={
