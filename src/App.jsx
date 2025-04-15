@@ -4,7 +4,7 @@ import "@fontsource/orbitron";
 import "@fontsource/roboto";
 import theme from "./theme";
 
-import Layout from "./components/common/Layout";
+import Layout from "./components/layout/Layout";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import News from "./pages/News";

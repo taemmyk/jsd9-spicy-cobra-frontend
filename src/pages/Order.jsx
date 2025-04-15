@@ -1,11 +1,11 @@
 import React from "react";
 import { Box, Typography, Button, IconButton } from "@mui/material";
 import Heading from "../components/common/Heading";
-import OrderItemCard from "../components/products/OrderItemCard";
+import OrderItemCard from "../components/orders/OrderItemCard";
 import { useTheme } from "@mui/material/styles";
-import LinearStepper from "../components/payment/LinearStepper";
+import LinearStepper from "../components/checkout-payment/LinearStepper";
 import ButtonCta from "../components/common/ButtonCta";
-import OrderItemReviewCard from "../components/payment/OrderItemReviewCard";
+import OrderItemReviewCard from "../components/checkout-payment/OrderItemReviewCard";
 
 function Order() {
   const theme = useTheme();
