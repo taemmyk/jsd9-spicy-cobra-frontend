@@ -81,6 +81,7 @@ function Dashboard() {
               label="Profile"
               onClick={setOrderType}
             />
+            <ButtonGeneric label="Publish your new game" />
             <ButtonGeneric
               label="Sign out"
               sx={{
@@ -98,94 +99,86 @@ function Dashboard() {
               width: "100%",
               height: "500px",
             }}
-          ></Box>
-        </Box>
-
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            flex: 2,
-            backgroundColor: theme.palette.background.paper,
-            padding: 2,
-            alignItems: "center",
-            gap: 4,
-            borderRadius: 4,
-            marginY: 2,
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              width: "100%",
-            }}
           >
-            <Box sx={{ display: "flex" }}>
-              <Box>
-                <ButtonGeneric
-                  label="Publish your new game"
-                  sx={{ marginY: 2 }}
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                flex: 2,
+                backgroundColor: theme.palette.background.paper,
+                padding: 2,
+                alignItems: "center",
+                gap: 4,
+                borderRadius: 4,
+                marginY: 2,
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "100%",
+                }}
+              >
+                <Heading section="Game Library" />
+                <Box sx={{ display: "flex" }}>
+                  <SearchInput
+                    isSearchOpen={true}
+                    searchText={searchText}
+                    handleInputChange={handleInputChange}
+                    handleSearchSubmit={handleSearchSubmit}
+                    sx={{ backgroundColor: theme.palette.secondary.light }}
+                  />
+                  {searchText && (
+                    <IconButton onClick={handleClearInput} sx={{ p: 1 }}>
+                      <ClearIcon
+                        sx={{
+                          width: { xs: 28, md: 40 },
+                          height: { xs: 28, md: 40 },
+                          color: theme.palette.secondary.light,
+                        }}
+                      />
+                    </IconButton>
+                  )}
+                  <IconButton sx={{ p: 1 }}>
+                    <SearchIcon
+                      sx={{
+                        width: { xs: 28, md: 40 },
+                        height: { xs: 28, md: 40 },
+                        color: theme.palette.secondary.light,
+                      }}
+                    />
+                  </IconButton>
+                </Box>
+              </Box>
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: { xs: "1fr", md: "repeat(2, 1fr)" },
+                  gap: 4,
+                  flexGrow: 1,
+                }}
+              >
+                <Box
+                  component="img"
+                  src="https://placehold.co/200x200"
+                  alt=""
+                  sx={{
+                    maxWidth: "100%",
+                    height: "auto",
+                  }}
+                />
+                <Box
+                  component="img"
+                  src="https://placehold.co/200x200"
+                  alt=""
+                  sx={{
+                    maxWidth: "100%",
+                    height: "auto",
+                  }}
                 />
               </Box>
             </Box>
-            <Heading section="Game Library" />
-            <Box sx={{ display: "flex" }}>
-              <SearchInput
-                isSearchOpen={true}
-                searchText={searchText}
-                handleInputChange={handleInputChange}
-                handleSearchSubmit={handleSearchSubmit}
-                sx={{ backgroundColor: theme.palette.secondary.light }}
-              />
-              {searchText && (
-                <IconButton onClick={handleClearInput} sx={{ p: 1 }}>
-                  <ClearIcon
-                    sx={{
-                      width: { xs: 28, md: 40 },
-                      height: { xs: 28, md: 40 },
-                      color: theme.palette.secondary.light,
-                    }}
-                  />
-                </IconButton>
-              )}
-              <IconButton sx={{ p: 1 }}>
-                <SearchIcon
-                  sx={{
-                    width: { xs: 28, md: 40 },
-                    height: { xs: 28, md: 40 },
-                    color: theme.palette.secondary.light,
-                  }}
-                />
-              </IconButton>
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              display: "grid",
-              gridTemplateColumns: { xs: "1fr", md: "repeat(2, 1fr)" },
-              gap: 4,
-              flexGrow: 1,
-            }}
-          >
-            <Box
-              component="img"
-              src="https://placehold.co/200x200"
-              alt=""
-              sx={{
-                maxWidth: "100%",
-                height: "auto",
-              }}
-            />
-            <Box
-              component="img"
-              src="https://placehold.co/200x200"
-              alt=""
-              sx={{
-                maxWidth: "100%",
-                height: "auto",
-              }}
-            />
           </Box>
         </Box>
       </Box>
