@@ -46,33 +46,6 @@ function Dashboard() {
           gap: 4,
         }}
       >
-        <Box sx={{ display: "flex", flexDirection: "column", flex: 1 }}>
-          <RadioGroupCard
-            cardType="orderStatus"
-            value="orderStatus"
-            label="Dashboard"
-            onClick={setOrderType}
-          />
-          <RadioGroupCard
-            cardType="orderStatus"
-            value="orderStatus"
-            label="My Order"
-            onClick={setOrderType}
-          />
-          <RadioGroupCard
-            cardType="orderStatus"
-            value="orderStatus"
-            label="Follower"
-            onClick={setOrderType}
-          />
-          <RadioGroupCard
-            cardType="orderStatus"
-            value="orderStatus"
-            label="Publish"
-            onClick={setOrderType}
-            sx={{ backgroundColor: theme.palette.accent.emphasis }}
-          />
-        </Box>
         <Box
           sx={{
             display: "flex",
@@ -80,10 +53,53 @@ function Dashboard() {
             flex: 6,
             padding: 2,
             alignItems: "center",
-            backgroundColor: theme.palette.background.paper,
-            gap: 4,
           }}
-        ></Box>
+        >
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-around",
+              alignContent: "center",
+            }}
+          >
+            <RadioGroupCard
+              cardType="orderStatus"
+              value="orderStatus"
+              label="Dashboard"
+              onClick={setOrderType}
+            />
+            <RadioGroupCard
+              cardType="orderStatus"
+              value="orderStatus"
+              label="My Order History"
+              onClick={setOrderType}
+            />
+            <RadioGroupCard
+              cardType="orderStatus"
+              value="orderStatus"
+              label="Profile"
+              onClick={setOrderType}
+            />
+            <ButtonGeneric
+              label="Sign out"
+              sx={{
+                backgroundColor: theme.palette.negative.default,
+                color: theme.palette.primary.contrastText,
+              }}
+            />
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              backgroundColor: theme.palette.background.paper,
+              borderRadius: 4,
+              width: "100%",
+              height: "500px",
+            }}
+          ></Box>
+        </Box>
 
         <Box
           sx={{
@@ -106,8 +122,11 @@ function Dashboard() {
             }}
           >
             <Box sx={{ display: "flex" }}>
-              <Box sx={{ backgroundColor: theme.palette.background.card }}>
-                <ButtonGeneric label="Publish your new game" sx={{ marginY: 2 }} />
+              <Box>
+                <ButtonGeneric
+                  label="Publish your new game"
+                  sx={{ marginY: 2 }}
+                />
               </Box>
             </Box>
             <Heading section="Game Library" />
@@ -143,15 +162,30 @@ function Dashboard() {
           </Box>
           <Box
             sx={{
-              display: "flex",
-              width: "100%",
-              backgroundColor: "lightgreen",
-              padding: 2,
-              justifyContent: "center",
-              alignItems: "center",
+              display: "grid",
+              gridTemplateColumns: { xs: "1fr", md: "repeat(2, 1fr)" },
+              gap: 4,
+              flexGrow: 1,
             }}
           >
-            Games
+            <Box
+              component="img"
+              src="https://placehold.co/200x200"
+              alt=""
+              sx={{
+                maxWidth: "100%",
+                height: "auto",
+              }}
+            />
+            <Box
+              component="img"
+              src="https://placehold.co/200x200"
+              alt=""
+              sx={{
+                maxWidth: "100%",
+                height: "auto",
+              }}
+            />
           </Box>
         </Box>
       </Box>
