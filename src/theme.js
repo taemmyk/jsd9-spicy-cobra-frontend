@@ -32,10 +32,14 @@ const theme = createTheme({
     negative: {
       default: "#F25A6B",
     },
+    disabled: {
+      default: "#BDBDBD",
+    },
     accent: {
       default: "#00FFB3",
       dark: "#00FF7F",
-      light: "#FFC300",
+      emphasis: "#FFC300",
+      emphasisdark: "#916F00",
     },
   },
   typography: {
@@ -49,7 +53,7 @@ const theme = createTheme({
     },
     h2: {
       fontFamily: '"Orbitron", "Roboto", "Helvetica", "Arial", sans-serif',
-      fontWeight: 500,
+      fontWeight: 600,
       lineHeight: 1.2,
       color: "#00FF7F",
     },

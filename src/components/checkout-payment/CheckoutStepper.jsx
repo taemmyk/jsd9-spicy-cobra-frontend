@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import AddressForm from "./AddressForm";
 import PaymentForm from "./PaymentForm";
-import ButtonCta from "../common/ButtonCta";
+import ButtonGeneric from "../common/ButtonGeneric";
 import ReviewOrderForm from "./ReviewOrderForm";
 
 const steps = ["Your address", "Payment details", "Review you order"];
@@ -49,7 +49,7 @@ function ColorlibStepIcon(props) {
   );
 }
 
-function LinearStepper() {
+function CheckoutStepper() {
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
 
@@ -87,7 +87,7 @@ function LinearStepper() {
             <strong>&nbsp;#140396</strong>. We have emailed your order
             confirmation and will update you once its shipped.
           </Typography>
-          <ButtonCta label="Go to my dashboard" to="/" />
+          <ButtonGeneric label="Go to my dashboard" to="/dashboard" />
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Box sx={{ flex: "1 1 auto" }} />
           </Box>
@@ -98,9 +98,9 @@ function LinearStepper() {
           {activeStep === 1 && <PaymentForm />}
           {activeStep === 2 && <ReviewOrderForm />}
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            {activeStep > 0 && <ButtonCta label="Back" onClick={handleBack} />}
+            {activeStep > 0 && <ButtonGeneric label="Back" onClick={handleBack} />}
             <Box sx={{ flex: "1 1 auto" }} />
-            <ButtonCta
+            <ButtonGeneric
               label={
                 activeStep === steps.length - 1 ? "Confirm Your Order" : "Next"
               }
@@ -113,4 +113,4 @@ function LinearStepper() {
   );
 }
 
-export default LinearStepper;
+export default CheckoutStepper;

@@ -18,8 +18,9 @@ function ProductSwiper({ images }) {
       <Swiper
         modules={[Navigation, Thumbs]}
         style={{
-          "--swiper-navigation-color": "#fff",
-          "--swiper-pagination-color": "#fff",
+          "--swiper-navigation-color": "#D1B6FF",
+          "--swiper-pagination-color": "#D1B6FF",
+          borderRadius: 8,
         }}
         spaceBetween={10}
         navigation={true}
@@ -32,8 +33,11 @@ function ProductSwiper({ images }) {
           </SwiperSlide>
         ))}
       </Swiper>
-      <Swiper
+      {/* <Swiper
         onSwiper={setThumbsSwiper}
+        style={{
+          borderRadius: 8,
+        }}
         spaceBetween={10}
         slidesPerView={4}
         freeMode={true}
@@ -45,7 +49,7 @@ function ProductSwiper({ images }) {
             <img src={imageUrl} alt={`thumbnail ${index + 1}`} />
           </SwiperSlide>
         ))}
-      </Swiper>
+      </Swiper> */}
     </>
   );
 }

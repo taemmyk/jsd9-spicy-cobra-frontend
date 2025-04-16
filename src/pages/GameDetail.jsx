@@ -13,7 +13,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import ButtonCta from "../components/common/ButtonCta";
+import ButtonGeneric from "../components/common/ButtonGeneric";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ProductSwiper from "../components/products/ProductSwiper";
@@ -209,8 +209,16 @@ function GameDetail() {
                 justifyContent: "center",
               }}
             >
-              <ButtonCta label="Buy Now" />
-              <ButtonCta label="Add to Cart" />
+              <ButtonGeneric
+                label="Buy Now"
+                sx={{
+                  backgroundColor: theme.palette.accent.emphasis,
+                  "&:hover": {
+                    bgcolor: theme.palette.accent.emphasisdark,
+                  },
+                }}
+              />
+              <ButtonGeneric label="Add to Cart" />
             </Box>
           </Box>
         </Box>
@@ -302,7 +310,7 @@ function GameDetail() {
             </Box>
           </Stack>
           <Box sx={{ marginTop: 4 }}>
-            <ButtonCta label="Donate" />
+            <ButtonGeneric label="Donate" />
           </Box>
         </Box>
         <Box

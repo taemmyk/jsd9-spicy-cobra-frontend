@@ -14,6 +14,7 @@ import Devlogs from "./pages/Devlogs";
 import Order from "./pages/Order";
 import Checkout from "./pages/Checkout";
 import Membership from "./pages/Membership";
+import Dashboard from "./pages/Dashboard";
 
 const router = createBrowserRouter([
   {
@@ -30,10 +31,10 @@ const router = createBrowserRouter([
       { path: "news", element: <News /> },
       {
         path: "games",
-        element: <GameDetail />, // TO TEST
+        element: <Games />,
       },
       {
-        path: "games/:productId",
+        path: "/games_detail", //! TO FIX DYNAMIC ROUTER
         element: <GameDetail />,
       },
       {
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
       {
         path: "membership",
         element: <Membership />,
+      },
+      {
+        path: "dashboard",
+        element: <Dashboard />,
       },
     ],
   },

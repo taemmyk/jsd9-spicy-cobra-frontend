@@ -17,6 +17,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PersonIcon from "@mui/icons-material/Person";
 import ButtonNavbar from "../common/ButtonNavbar";
+import SearchInput from "../common/SearchInput";
 
 const Header = () => {
   const theme = useTheme();
@@ -88,29 +89,15 @@ const Header = () => {
             Cobra
           </Typography>
         </Link>
-        <Box sx={{ flexGrow: 1, display: "flex", alignItems: "center" }}>
-          {isSearchOpen && (
-            <InputBase
-              ref={inputRef}
-              placeholder="Search..."
-              value={searchText}
-              onChange={handleInputChange}
-              onKeyDown={(event) => {
-                if (event.key === "Enter") {
-                  handleSearchSubmit(event);
-                }
-              }}
-              sx={{
-                flexGrow: 1,
-                color: "inherit",
-                backgroundColor: theme.palette.primary.light,
-                borderRadius: 8,
-                mx: 2,
-                px: 1,
-              }}
-            />
-          )}
-        </Box>
+
+        <SearchInput
+          isSearchOpen={isSearchOpen}
+          searchText={searchText}
+          handleInputChange={handleInputChange}
+          handleSearchSubmit={handleSearchSubmit}
+          sx={{ mx: 2 }}
+        />
+
         <Box
           sx={{
             display: "flex",
@@ -202,6 +189,6 @@ const Header = () => {
       </Toolbar>
     </AppBar>
   );
-}
+};
 
 export default Header;

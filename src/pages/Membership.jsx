@@ -1,18 +1,13 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
+import ButtonGeneric from "../components/common/ButtonGeneric";
+
 
 function Membership() {
   return (
-    <Typography
-      variant="h2"
-      sx={{
-        fontSize: { xs: 24, md: 32 },
-        textTransform: "uppercase",
-        mb: 0,
-      }}
-    >
-      Membership
-    </Typography>
+    <>
+    <ButtonGeneric label="Sign in to dashboard" to="/dashboard"/>
+    </>
   );
 }
 

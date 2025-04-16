@@ -1,11 +1,9 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 // import { useTheme } from "@mui/material/styles";
-import HorizontalImageScroll from "../components/common/SlideshowGrid";
 import Heading from "../components/common/Heading";
 import ProductCard from "../components/products/ProductCard";
 import SlideshowPages from "../components/common/SlideshowPages";
-import SlideshowGrid from "../components/common/SlideshowGrid";
 import SwiperSlideshow from "../components/common/Swiper";
 
 const Home = () => {

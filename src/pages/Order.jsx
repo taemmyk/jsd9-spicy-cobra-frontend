@@ -3,7 +3,7 @@ import { Box, Typography, Button, IconButton } from "@mui/material";
 import Heading from "../components/common/Heading";
 import OrderItemCard from "../components/orders/OrderItemCard";
 import { useTheme } from "@mui/material/styles";
-import ButtonCta from "../components/common/ButtonCta";
+import ButtonGeneric from "../components/common/ButtonGeneric";
 import OrderItemReviewCard from "../components/checkout-payment/OrderItemReviewCard";
 
 function Order() {
@@ -29,7 +29,7 @@ function Order() {
             backgroundColor: theme.palette.background.paper,
           }}
         >
-          <ButtonCta label="Continue to Shopping" to="/" />
+          <ButtonGeneric label="Continue to Shopping" to="/" />
           <Box
             sx={{
               display: "flex",
@@ -72,7 +72,7 @@ function Order() {
             total="THB100"
           />
           <OrderItemReviewCard category="Total" total="THB1,380" />
-          <ButtonCta label="Proceed to Checkout" to="/checkout" />
+          <ButtonGeneric label="Proceed to Checkout" to="/checkout" />
         </Box>
       </Box>
     </>

@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/material";
 import Heading from "../components/common/Heading";
 import OrderItemCard from "../components/orders/OrderItemCard";
 import { useTheme } from "@mui/material/styles";
-import LinearStepper from "../components/checkout-payment/LinearStepper";
+import CheckoutStepper from "../components/checkout-payment/CheckoutStepper";
 
 function Checkout() {
   const theme = useTheme();
@@ -61,7 +61,7 @@ function Checkout() {
             padding: "20px",
           }}
         >
-          <LinearStepper />
+          <CheckoutStepper />
         </Box>
       </Box>
     </>
