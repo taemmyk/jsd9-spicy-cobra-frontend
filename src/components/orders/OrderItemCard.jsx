@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Typography, Button, IconButton } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Tooltip from '@mui/material/Tooltip';
 
 function OrderItemCard({
   title,
@@ -50,15 +51,17 @@ function OrderItemCard({
         THB{price}
       </Typography>
       {isEditable && (
-        <IconButton
-          sx={{
-            color: theme.palette.negative.default,
-            width: { xs: 24, md: 32 },
-            height: { xs: 24, md: 32 },
-          }}
-        >
-          <DeleteIcon />
-        </IconButton>
+        <Tooltip title="Delete">
+          <IconButton
+            sx={{
+              color: theme.palette.negative.default,
+              width: { xs: 24, md: 32 },
+              height: { xs: 24, md: 32 },
+            }}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
       )}
     </Box>
   );

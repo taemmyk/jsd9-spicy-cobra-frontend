@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ButtonGeneric from "../components/common/ButtonGeneric";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
@@ -12,7 +12,7 @@ import { useTheme } from "@mui/material/styles";
 
 function Games() {
   const theme = useTheme();
-  const [selectedGenre, setSelectedGenre] = React.useState("viewall");
+  const [selectedGenre, setSelectedGenre] = useState("viewall");
 
   const handleGenreChange = (event) => {
     setSelectedGenre(event.target.value);
@@ -25,23 +25,23 @@ function Games() {
         backgroundColor: "transparent",
         borderRadius: 0,
         boxShadow: "none",
-        ...(selectedGenre === value && {
-          backgroundColor: "transparent",
-        }),
       }}
     >
       <CardActionArea
         onClick={() => handleGenreChange({ target: { value } })}
         sx={{
-          ".MuiCardActionArea-focusHighlight": {
-            backgroundColor: theme.palette.secondary.dark,
-          },
           "&:hover": {
             "& .MuiTypography-root": {
-              color: theme.palette.primary.contrastText,
+              color: selectedGenre === value
+              ? theme.palette.accent.dark
+              : theme.palette.primary.contrastText,
+              fontWeight: "500",
             },
             "& svg": {
-              color: theme.palette.primary.contrastText,
+              color:
+                selectedGenre === value
+                  ? theme.palette.accent.dark
+                  : theme.palette.primary.contrastText,
             },
           },
         }}
@@ -52,17 +52,17 @@ function Games() {
             sx={{
               color:
                 selectedGenre === value
-                  ? theme.palette.secondary.light
+                  ? theme.palette.accent.dark
                   : theme.palette.background.default,
             }}
           />
           <Typography
             sx={{
-              fontWeight: selectedGenre === value ? "600" : "400",
+              fontWeight: selectedGenre === value ? "500" : "400",
               paddingRight: 3,
               color:
                 selectedGenre === value
-                  ? theme.palette.secondary.light
+                  ? theme.palette.accent.dark
                   : theme.palette.primary.contrastText,
             }}
           >

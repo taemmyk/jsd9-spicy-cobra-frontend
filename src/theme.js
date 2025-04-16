@@ -31,6 +31,7 @@ const theme = createTheme({
     },
     negative: {
       default: "#F25A6B",
+      dark: "#A63D4A",
     },
     disabled: {
       default: "#BDBDBD",

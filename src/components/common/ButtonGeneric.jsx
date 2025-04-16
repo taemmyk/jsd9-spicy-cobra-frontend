@@ -10,7 +10,7 @@ function ButtonGeneric({ label, onClick, disabled, to, sx: customSx }) {
     bgcolor: theme.palette.secondary.light,
     color: theme.palette.secondary.contrastText,
     fontSize: "1.25rem",
-    fontWeight: 400,
+    fontWeight: "400",
     px: 2,
     py: 1,
     borderRadius: 8,
