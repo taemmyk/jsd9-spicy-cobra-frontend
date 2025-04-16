@@ -4,7 +4,7 @@ import { Box, Typography } from "@mui/material";
 import Heading from "../components/common/Heading";
 import ProductCard from "../components/products/ProductCard";
 import SlideshowPages from "../components/common/SlideshowPages";
-import SwiperSlideshow from "../components/common/Swiper";
+import SwiperSlideshow from "../components/common/PaginationSwiper";
 
 const Home = () => {
   // const theme = useTheme();

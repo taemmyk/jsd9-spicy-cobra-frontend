@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "@mui/material";
+import { Link } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import {
   Box,
@@ -53,7 +53,6 @@ function Footer({ onBackToTop }) {
             <IconButton
               onClick={onBackToTop}
               sx={{
-                // เปลี่ยนจาก Link เป็น IconButton และใช้ onClick
                 display: "flex",
                 justifyContent: "flex-end",
                 width: "10%",

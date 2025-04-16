@@ -180,7 +180,7 @@ const Header = () => {
             <ButtonNavbar path="/news" label="news" />
           </ListItem>
           <ListItem>
-            <ButtonNavbar path="/games" label="genres" />
+            <ButtonNavbar path="/games" label="games" />
           </ListItem>
           <ListItem>
             <ButtonNavbar path="/devlogs" label="developer logs" />
