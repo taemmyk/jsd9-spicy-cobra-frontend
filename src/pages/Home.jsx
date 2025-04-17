@@ -5,6 +5,8 @@ import Heading from "../components/common/Heading";
 import ProductCard from "../components/products/ProductCard";
 import SlideshowPages from "../components/common/SlideshowPages";
 import SwiperSlideshow from "../components/common/PaginationSwiper";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import theme from "../theme";
 
 const Home = () => {
   // const theme = useTheme();
@@ -28,7 +30,7 @@ const Home = () => {
 
   return (
     <>
-      <SwiperSlideshow images={imageArrayEqual}/>
+      <SwiperSlideshow images={imageArrayEqual} />
       {/* <Box
         component="section"
         className="hero-block"
@@ -95,6 +97,72 @@ const Home = () => {
         />
       </Box>
       <SlideshowPages imageArray={imageArray} />
+
+      <Box
+        sx={{
+          backgroundColor: theme.palette.accent.emphasis,
+          padding: 2,
+        }}
+      >
+        <Box
+          sx={{
+            height: { xs: 16, lg: 24 },
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+          }}
+        >
+          <Box sx={{ display: "flex", gap: 1 }}>
+            <CalendarMonthIcon
+              sx={{ display: { xs: "none", lg: "block" }, fontSize: "2rem" }}
+            />
+            <Typography
+              variant="body1"
+              sx={{
+                display: { xs: "none", lg: "block" },
+                textTransform: "uppercase",
+                fontWeight: "600",
+                color: theme.palette.secondary.contrastText,
+              }}
+            >
+              28th March
+            </Typography>
+          </Box>
+          <Typography
+            variant="body1"
+            sx={{
+              fontWeight: "bold",
+              display: { lg: "none" },
+              whiteSpace: "nowrap",
+              color: theme.palette.secondary.contrastText,
+            }}
+          >
+            28/03
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{
+              fontWeight: "600",
+              whiteSpace: "nowrap",
+              color: theme.palette.secondary.contrastText,
+            }}
+          >
+            TOKYO GAME SHOW 2025 Oversea Sessions
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{
+              textTransform: "uppercase",
+              whiteSpace: "nowrap",
+              color: theme.palette.secondary.contrastText,
+            }}
+          >
+            10am Justco Amarin Plaza
+          </Typography>
+        </Box>
+      </Box>
     </>
   );
 };
