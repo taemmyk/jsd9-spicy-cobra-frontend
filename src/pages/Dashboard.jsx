@@ -18,6 +18,11 @@ import RateReviewIcon from "@mui/icons-material/RateReview";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import LogoutIcon from "@mui/icons-material/Logout";
 
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+
 import DashboardTab from "../components/auth/DashboardTab";
 
 function Dashboard() {
@@ -36,7 +41,7 @@ function Dashboard() {
         color: theme.palette.primary.contrastText,
       },
       selectedTab === value && {
-        color: theme.palette.primary.contrastText,
+        color: theme.palette.secondary.light,
       },
     ];
 
@@ -56,7 +61,13 @@ function Dashboard() {
     return null;
   };
 
-  const TabSelectorCard = ({ value, label }) => (
+  const TabSelectorCard = ({
+    value,
+    label,
+    sx: customCardSx,
+    actionAreaSx: customActionAreaSx,
+    typographySx: customTypographySx,
+  }) => (
     <Card
       selected={selectedTab === value}
       sx={{
@@ -66,6 +77,7 @@ function Dashboard() {
         ...(selectedTab === value && {
           backgroundColor: theme.palette.background.paper,
         }),
+        ...customCardSx,
       }}
     >
       <CardActionArea
@@ -89,19 +101,20 @@ function Dashboard() {
           "&.Mui-selected:hover": {
             backgroundColor: theme.palette.secondary.dark,
           },
+          ...customActionAreaSx,
         }}
       >
         <CardContent sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           {displayTabIcon(value)}
           <Typography
             sx={{
-              display: { xs: "none", md: "block" },
               fontWeight: selectedTab === value ? "500" : "400",
               paddingRight: 3,
               color:
                 selectedTab === value
                   ? theme.palette.secondary.light
                   : theme.palette.primary.contrastText,
+              ...customTypographySx, // Merge styles สำหรับ Typography
             }}
           >
             {label}
@@ -121,7 +134,7 @@ function Dashboard() {
       <Box
         sx={{
           display: "flex",
-          flexDirection: "row",
+          flexDirection: { xs: "column", md: "row" },
           justifyContent: "space-around",
           alignContent: "stretch",
           minHeight: "800px", //! TO FIX
@@ -135,54 +148,139 @@ function Dashboard() {
             backgroundColor: theme.palette.background.layout,
           }}
         >
-          <FormControl component="fieldset" fullWidth sx={{ height: "100%" }}>
-            <RadioGroup
-              aria-label="Dashboard options"
-              name="dashboardTab"
-              value={selectedTab}
-              onChange={handleTabChange}
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-              <TabSelectorCard value="dashboard" label="Dashboard" />
-              <TabSelectorCard value="order" label="Orders" />
-              <TabSelectorCard value="review" label="Community" />
-              <TabSelectorCard value="inventory" label="Inventory" />
-              <TabSelectorCard value="report" label="Report" />
-            </RadioGroup>
-          </FormControl>
-          <Link to="/" style={{ textDecoration: "none" }}>
-            <Button
-              variant="contained"
-              // onClick={handleTabChange}
-              sx={{
-                backgroundColor: theme.palette.negative.default,
-                color: theme.palette.primary.contrastText,
-                fontSize: "1.25rem",
-                fontWeight: "400",
-                px: 2,
-                py: 1,
-                borderRadius: 8,
-                boxShadow: 2,
-                transition: "all 0.2s ease",
-                "&:hover": {
-                  bgcolor: theme.palette.negative.dark,
-                  color: theme.palette.primary.contrastText,
-                },
-              }}
-            >
-              <LogoutIcon />
-              <Typography
+          {/* Desktop View */}
+          <Box sx={{ display: { xs: "none", md: "block" } }}>
+            <FormControl component="fieldset" fullWidth sx={{ height: "100%" }}>
+              <RadioGroup
+                aria-label="Dashboard options"
+                name="dashboardTab"
+                value={selectedTab}
+                onChange={handleTabChange}
                 sx={{
-                  display: { xs: "none", md: "block" },
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
-                Sign out
-              </Typography>
-            </Button>
-          </Link>
+                <TabSelectorCard value="dashboard" label="Dashboard" />
+                <TabSelectorCard value="order" label="Orders" />
+                <TabSelectorCard value="review" label="Community" />
+                <TabSelectorCard value="inventory" label="Inventory" />
+                <TabSelectorCard value="report" label="Report" />
+              </RadioGroup>
+            </FormControl>
+          </Box>
+
+          {/* Mobile View */}
+          <Box sx={{ display: { xs: "block", md: "none" } }}>
+            <Accordion
+              sx={{ backgroundColor: theme.palette.background.layout }}
+            >
+              <AccordionSummary
+                expandIcon={
+                  <ArrowDownwardIcon
+                    sx={{ color: theme.palette.secondary.light }}
+                  />
+                }
+                aria-controls="panel1-content"
+                id="panel1-header"
+                sx={{ backgroundColor: theme.palette.background.layout }}
+              >
+                <TabSelectorCard
+                  value={selectedTab}
+                  label={
+                    {
+                      dashboard: "Dashboard",
+                      order: "Orders",
+                      review: "Community",
+                      inventory: "Inventory",
+                      report: "Report",
+                    }[selectedTab] || "Tab"
+                  }
+                  sx={{
+                    backgroundColor: theme.palette.background.layout,
+                  }}
+                  actionAreaSx={{
+                    "&:hover": {
+                      backgroundColor: theme.palette.background.layout,
+                      "& .MuiTypography-root": {
+                        color: theme.palette.primary.contrastText,
+                      },
+                    },
+                  }}
+                  typographySx={{
+                    color: theme.palette.primary.contrastText,
+                  }}
+                />
+              </AccordionSummary>
+              <AccordionDetails>
+                <FormControl
+                  component="fieldset"
+                  fullWidth
+                  sx={{ height: "100%" }}
+                >
+                  <RadioGroup
+                    aria-label="Dashboard options"
+                    name="dashboardTab"
+                    value={selectedTab}
+                    onChange={handleTabChange}
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
+                    {Object.entries({
+                      dashboard: "Dashboard",
+                      order: "Orders",
+                      review: "Community",
+                      inventory: "Inventory",
+                      report: "Report",
+                    }).map(
+                      ([value, label]) =>
+                        value !== selectedTab && (
+                          <TabSelectorCard
+                            key={value}
+                            value={value}
+                            label={label}
+                          />
+                        )
+                    )}
+                  </RadioGroup>
+                </FormControl>
+              </AccordionDetails>
+            </Accordion>
+          </Box>
+
+          {/* Logout Button (Conditionally Rendered if Needed) */}
+          {/* <Link to="/" style={{ textDecoration: "none" }}>
+    <Button
+      variant="contained"
+      // onClick={handleTabChange}
+      sx={{
+        backgroundColor: theme.palette.negative.default,
+        color: theme.palette.primary.contrastText,
+        fontSize: "1.25rem",
+        fontWeight: "400",
+        px: 2,
+        py: 1,
+        borderRadius: 8,
+        boxShadow: 2,
+        transition: "all 0.2s ease",
+        "&:hover": {
+          bgcolor: theme.palette.negative.dark,
+          color: theme.palette.primary.contrastText,
+        },
+      }}
+    >
+      <LogoutIcon />
+      <Typography
+        sx={{
+          display: { xs: "none", md: "block" },
+        }}
+      >
+        Sign out
+      </Typography>
+    </Button>
+  </Link> */}
         </Box>
 
         <Box
