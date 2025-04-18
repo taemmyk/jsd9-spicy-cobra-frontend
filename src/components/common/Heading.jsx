@@ -9,6 +9,7 @@ function Heading({section}) {
         sx={{
           fontSize: { xs: 24, md: 32 },
           textTransform: "uppercase",
+          whiteSpace: "nowrap",
           mb: 0,
         }}
       >

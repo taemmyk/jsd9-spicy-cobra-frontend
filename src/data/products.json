@@ -1,0 +1,42 @@
+[
+  {
+    "title": "Abyssal Blood",
+    "developer": "A",
+    "developer_avatar": "https://placehold.co/50x50/DBDBDB/FFF",
+    "price": 699,
+    "discount_percentage": 0,
+    "rating": 2,
+    "image_thumbnail": "https://placehold.co/200x100/FF0000/FFF",
+    "url_path": "https://www.example.com/red"
+  },
+  {
+    "title": "Bounty Brawl",
+    "developer": "B",
+    "developer_avatar": "https://placehold.co/50x50/DBDBDB/FFF",
+    "price": 699,
+    "discount_percentage": 10,
+    "rating": 2,
+    "image_thumbnail": "https://placehold.co/200x100/00FF00/FFF",
+    "url_path": "https://www.example.com/green"
+  },
+  {
+    "title": "Eonheart",
+    "developer": "C",
+    "developer_avatar": "https://placehold.co/50x50/DBDBDB/FFF",
+    "price": 699,
+    "discount_percentage": 50,
+    "rating": 3,
+    "image_thumbnail": "https://placehold.co/200x100/0000FF/FFF",
+    "url_path": "https://www.example.com/red"
+  },
+  {
+    "title": "Fallen Knight",
+    "developer": "D",
+    "developer_avatar": "https://placehold.co/50x50/DBDBDB/FFF",
+    "price": 699,
+    "discount_percentage": 30,
+    "rating": 4,
+    "image_thumbnail": "https://placehold.co/200x100/FFFF00/FFF",
+    "url_path": "https://www.example.com/yellow"
+  }
+]

@@ -5,7 +5,7 @@ import {
   AppBar,
   Toolbar,
   IconButton,
-  InputBase,
+  Button,
   Typography,
   Box,
   Badge,
@@ -18,11 +18,16 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PersonIcon from "@mui/icons-material/Person";
 import ButtonNavbar from "../common/ButtonNavbar";
 import SearchInput from "../common/SearchInput";
+import Popover from "@mui/material/Popover";
+
+import Order from "../../pages/Order";
+import TemporaryDrawer from "../orders/TemporaryDrawer";
 
 const Header = () => {
   const theme = useTheme();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const inputRef = useRef(null);
 
   const handleSearchToggle = () => {
@@ -51,6 +56,10 @@ const Header = () => {
       inputRef.current.focus();
     }
   }, [isSearchOpen]);
+
+  const toggleCartDrawer = (newOpen) => () => {
+    setIsCartOpen(newOpen);
+  };
 
   return (
     <AppBar position="static">
@@ -126,22 +135,7 @@ const Header = () => {
               }}
             />
           </IconButton>
-          <Link
-            to="/order"
-            style={{ position: "relative", textDecoration: "none" }}
-          >
-            <IconButton>
-              <Badge badgeContent={1} color="primary">
-                <ShoppingCartIcon
-                  sx={{
-                    width: { xs: 28, md: 40 },
-                    height: { xs: 28, md: 40 },
-                    color: theme.palette.secondary.light,
-                  }}
-                />
-              </Badge>
-            </IconButton>
-          </Link>
+          <TemporaryDrawer open={isCartOpen} toggleDrawer={toggleCartDrawer} />
           <Link to="/membership" style={{ textDecoration: "none" }}>
             <IconButton>
               <PersonIcon
@@ -155,7 +149,6 @@ const Header = () => {
           </Link>
         </Box>
       </Toolbar>
-
       <Toolbar
         sx={{
           backgroundColor: theme.palette.background.layout,

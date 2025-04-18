@@ -9,21 +9,24 @@ function OrderItemReviewCard({ category, description, total }) {
         display: "grid",
         gridTemplateColumns: "auto 1fr",
         justifyItems: "end",
+        alignItems: "center",
       }}
     >
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
-          p: 1,
+          padding: 1,
+          justifyItems: "center",
         }}
       >
-        <Typography variant="body1" fontWeight="semibold">
+        
+        <Typography variant="body3" fontWeight="semibold">
           {category}
         </Typography>
-        <Typography variant="body2">{description}</Typography>
+        <Typography variant="body4">{description}</Typography>
       </Box>
-      <Typography variant="body1" fontWeight="semibold">
+      <Typography variant="body3" fontWeight="semibold">
         {total}
       </Typography>
     </Box>

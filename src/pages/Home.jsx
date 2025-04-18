@@ -3,34 +3,18 @@ import { Box, Typography } from "@mui/material";
 // import { useTheme } from "@mui/material/styles";
 import Heading from "../components/common/Heading";
 import ProductCard from "../components/products/ProductCard";
-import SlideshowPages from "../components/common/SlideshowPages";
-import SwiperSlideshow from "../components/common/PaginationSwiper";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import theme from "../theme";
+import SwiperPerViewAuto from "../components/common/SwiperPerViewAuto";
+import SwiperAutoplay from "../components/common/SwiperAutoplay";
 
+import products from "../data/products.json";
 const Home = () => {
   // const theme = useTheme();
-  const imageArray = [
-    "https://placehold.co/400x200",
-    "https://placehold.co/200x100",
-    "https://placehold.co/200x100",
-    "https://placehold.co/400x200",
-    "https://placehold.co/200x100",
-    "https://placehold.co/200x100",
-  ];
-
-  const imageArrayEqual = [
-    "https://placehold.co/200x100",
-    "https://placehold.co/200x100",
-    "https://placehold.co/200x100",
-    "https://placehold.co/200x100",
-    "https://placehold.co/200x100",
-    "https://placehold.co/200x100",
-  ];
 
   return (
     <>
-      <SwiperSlideshow images={imageArrayEqual} />
+      <SwiperPerViewAuto products={products} />
       {/* <Box
         component="section"
         className="hero-block"
@@ -58,6 +42,8 @@ const Home = () => {
         sx={{
           display: "grid",
           gridTemplateColumns: {
+            xs: "repeat(1, 1fr)",
+            sm: "repeat(2, 1fr)",
             md: "repeat(3, 1fr)",
           },
           gap: {
@@ -68,35 +54,11 @@ const Home = () => {
           marginRight: 4,
         }}
       >
-        <ProductCard
-          title="The Land Beneath Us"
-          productImagePath="https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/2131010/header.jpg?t=1736181690"
-          developer="FairPlay Studios"
-          avatarImage="https://avatars.cloudflare.steamstatic.com/0334b9e9b4d7fcd1fc03fd88cdd7b6c625a1a17f_full.jpg"
-          rating="3.8"
-          price="690"
-          sale="50"
-        />
-        <ProductCard
-          title="The Land Beneath Us"
-          productImagePath="https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/2131010/header.jpg?t=1736181690"
-          developer="FairPlay Studios"
-          avatarImage="https://avatars.cloudflare.steamstatic.com/0334b9e9b4d7fcd1fc03fd88cdd7b6c625a1a17f_full.jpg"
-          rating="4.2"
-          price="690"
-          sale="30"
-        />
-        <ProductCard
-          title="The Land Beneath Us"
-          productImagePath="https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/2131010/header.jpg?t=1736181690"
-          developer="FairPlay Studios"
-          avatarImage="https://avatars.cloudflare.steamstatic.com/0334b9e9b4d7fcd1fc03fd88cdd7b6c625a1a17f_full.jpg"
-          rating="3.6"
-          price="690"
-          sale="0"
-        />
+        <ProductCard products={products[0]} />
+        <ProductCard products={products[1]} />
+        <ProductCard products={products[2]} />
       </Box>
-      <SlideshowPages imageArray={imageArray} />
+      <SwiperAutoplay products={products} />
 
       <Box
         sx={{
