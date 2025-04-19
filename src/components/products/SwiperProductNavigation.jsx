@@ -7,7 +7,6 @@ import { Navigation } from "swiper/modules";
 
 function SwiperProductNavigation({ product }) {
   const imagesToShow = [
-    product.image_thumbnail,
     product.image_show_1,
     product.image_show_2,
     product.image_show_3,
