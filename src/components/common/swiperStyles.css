@@ -1,0 +1,126 @@
+.swiper-autoplay {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-autoplay .swiper-slide {
+    /* Center slide text vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.swiper-autoplay .swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.swiper-autoplay .swiper-pagination-bullet {
+    background-color: #BDBDBD;
+    margin: 0 5px;
+    cursor: pointer;
+    width: 12px;
+    height: 12px;
+}
+
+.swiper-autoplay .swiper-pagination-bullet-active {
+    background-color: #8677AC;
+}
+
+.swiper-autoplay .swiper-pagination {
+    position: static;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.swiper-recommended {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-recommended .swiper-slide {
+    /* Center slide text vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.swiper-recommended .swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.swiper-recommended .swiper-slide a {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-recommended .swiper-slide {
+    width: 40%;
+}
+
+.swiper-recommended .swiper-pagination-bullet {
+    background-color: #BDBDBD;
+    margin: 0 5px;
+    cursor: pointer;
+    width: 12px;
+    height: 12px;
+}
+
+.swiper-recommended .swiper-pagination-bullet-active {
+    background-color: #8677AC;
+}
+
+.swiper-recommended .swiper-pagination {
+    position: static;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.swiper-product {
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+}
+
+@media (min-width: 960px) {
+    .swiper-product {
+        max-width: 960px;
+        height: auto;
+    }
+}
+
+.swiper-product .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.swiper-product .swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.swiper-product .swiper-button-prev,
+.swiper-product .swiper-button-next {
+    color: #D1B6FF;
+}
+
+.swiper-product .swiper-button-prev:hover,
+.swiper-product .swiper-button-next:hover {
+    color: #D1B6FF;
+}

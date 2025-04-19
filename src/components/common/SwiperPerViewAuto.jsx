@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
-import "./SwiperPerViewAutoStyles.css";
+import "./swiperStyles.css";
 import { Pagination } from "swiper/modules";
 
 function SlidesPerViewAuto({ products }) {
@@ -16,14 +16,17 @@ function SlidesPerViewAuto({ products }) {
           clickable: true,
         }}
         modules={[Pagination]}
-        className="mySwiper"
+        className="swiper-recommended"
       >
-        {products.map((item, index) => (
+        {products.map((product, index) => (
           <SwiperSlide key={index}>
-            <Link to={item.url_path} className="swiper-slide-link">
+            <Link
+              to={`/games/${product.product_id}`}
+              style={{ textDecoration: "none" }}
+            >
               <img
-                src={item.image_thumbnail}
-                alt={item.title || `Slide ${index + 1}`}
+                src={product.image_thumbnail}
+                alt={product.title || `Product ${index + 1}`}
               />
             </Link>
           </SwiperSlide>

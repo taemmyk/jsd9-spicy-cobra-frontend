@@ -34,7 +34,15 @@ const router = createBrowserRouter([
         element: <Games />,
       },
       {
-        path: "/games_detail", //! TO FIX DYNAMIC ROUTER
+        path: "/games/:gameId",
+        element: <GameDetail />,
+      },
+      {
+        path: "products",
+        element: <Games />,
+      },
+      {
+        path: "/products/:gameId",
         element: <GameDetail />,
       },
       {

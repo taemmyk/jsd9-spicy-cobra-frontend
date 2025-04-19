@@ -1,6 +1,5 @@
 import React from "react";
 import { Box, Typography, Paper } from "@mui/material";
-// import { useTheme } from "@mui/material/styles";
 import Heading from "../components/common/Heading";
 import ProductCard from "../components/products/ProductCard";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
@@ -10,7 +9,6 @@ import SwiperAutoplay from "../components/common/SwiperAutoplay";
 
 import products from "../data/products.json";
 const Home = () => {
-  // const theme = useTheme();
   const recommendedGames = products.slice(0, 5);
   return (
     <>
@@ -42,13 +40,13 @@ const Home = () => {
             marginRight: 4,
           }}
         >
-          {products.map((product, index) => (
-            <ProductCard key={index} products={product} />
+          {products.map((game, index) => (
+            <ProductCard key={index} products={game} />
           ))}
         </Box>
       </Box>
 
-      <SwiperAutoplay products={products} />
+      <SwiperAutoplay products={recommendedGames} />
     </>
   );
 };

@@ -19,9 +19,10 @@ function ProductCard({ products }) {
     parseInt(products.price) *
       ((100 - parseInt(products.discount_percentage)) / 100)
   );
+  
   return (
     <>
-      <Link to={products.url_path} style={{ textDecoration: 'none' }}>
+      <Link to={`/games/${products.product_id}`} style={{ textDecoration: 'none' }}>
         <Card sx={{ borderRadius: 4 }}>
           <CardActionArea>
             <Box

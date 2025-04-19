@@ -1,137 +1,105 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import {
   Box,
-  Grid,
   Typography,
   Select,
-  MenuItem,
   Avatar,
   Stack,
   useMediaQuery,
-  List,
-  ListItem,
-  ListItemText,
+  Tooltip,
+  Card,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import ButtonGeneric from "../components/common/ButtonGeneric";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
-import ProductSwiper from "../components/products/ProductSwiper";
-
-function EditionCard({ edition, price, features }) {
-  const theme = useTheme();
-  return (
-    <Box
-      sx={{
-        bgcolor: theme.palette.background.card,
-        borderRadius: 4,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: 4,
-        flex: 1,
-        minWidth: 200,
-      }}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          width: "100%",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <Typography
-          variant="h5"
-          sx={{
-            fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-            textTransform: "uppercase",
-            fontWeight: "800",
-            color: theme.palette.secondary.light,
-          }}
-        >
-          {edition}
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{ fontWeight: "800", color: theme.palette.secondary.light }}
-        >
-          THB {price}
-        </Typography>
-      </Box>
-      <List
-        sx={{
-          width: "100%",
-          "& .MuiListItemText-primary": {
-            fontSize: "1rem",
-          },
-        }}
-      >
-        {features &&
-          features.map((feature, index) => (
-            <ListItem key={index}>
-              <ListItemText primary={`- ${feature}`} />
-            </ListItem>
-          ))}
-        {!features && (
-          <ListItem>
-            <ListItemText
-              primary="No features listed."
-              sx={{ textAlign: "center", fontStyle: "italic" }}
-            />
-          </ListItem>
-        )}
-      </List>
-    </Box>
-  );
-}
+import SwiperProductNavigation from "../components/products/SwiperProductNavigation";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import products from "../data/products.json";
+import Heading from "../components/common/Heading";
+import ProductCard from "../components/products/ProductCard";
 
 function GameDetail() {
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const isMediumScreen = useMediaQuery(theme.breakpoints.only("md"));
-  // Test
-  const editionsData = [
-    {
-      name: "Standard Edition",
-      price: "990",
-      features: ["Core game access", "Basic support"],
-    },
-    {
-      name: "Deluxe Edition",
-      price: "1490",
-      features: [
-        "Core game access",
-        "Premium support",
-        "Exclusive in-game items",
-        "Digital artbook",
-      ],
-    },
-    {
-      name: "Collector's Edition",
-      price: "2490",
-      features: [
-        "All Deluxe Edition content",
-        "Physical statue",
-        "Steelbook case",
-        "Soundtrack CD",
-      ],
-    },
-  ];
-  const defaultPrice = editionsData[0]?.price?.toString() || ""; // default selected
+  const { gameId } = useParams();
+  const [gameData, setGameData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const imageArray = [
-    "https://swiperjs.com/demos/images/nature-1.jpg",
-    "https://swiperjs.com/demos/images/nature-2.jpg",
-    "https://swiperjs.com/demos/images/nature-3.jpg",
-    "https://swiperjs.com/demos/images/nature-4.jpg",
-    "https://swiperjs.com/demos/images/nature-5.jpg",
-    "https://swiperjs.com/demos/images/nature-6.jpg",
-    "https://swiperjs.com/demos/images/nature-7.jpg",
-    "https://swiperjs.com/demos/images/nature-8.jpg",
-    "https://swiperjs.com/demos/images/nature-9.jpg",
-    "https://swiperjs.com/demos/images/nature-10.jpg",
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const [thumbsupCount, setThumbsupCount] = useState(
+    Math.max(100, Math.floor(Math.random() * 99999))
+  );
+  const [thumbsdownCount, setThumbsdownCount] = useState(
+    Math.floor(thumbsupCount * Math.random() * 0.1)
+  );
+
+  const recommendedGames = products.sort(() => Math.random() - 0.5).slice(0, 3);
+
+  const formatCount = (count) => {
+    if (isSmallScreen && count >= 1000) {
+      return `${Math.floor(count / 1000)}k`;
+    }
+    return count.toLocaleString();
+  };
+
+  const handleThumbsUp = () => {
+    setThumbsupCount((prevCount) => prevCount + 1);
+  };
+
+  const handleThumbsDown = () => {
+    setThumbsdownCount((prevCount) => prevCount + 1);
+  };
+
+  const systemRequirementMock = [
+    { hardware: "OS", data: "Windows 10/11" },
+    { hardware: "Processor", data: "Intel i5 10400, AMD Ryzen 5 3600" },
+    { hardware: "Memory", data: "8 GB RAM" },
+    {
+      hardware: "Graphics",
+      data: "NVIDIA RTX 2060 (6G VRAM), AMD Radeon RX 5600 XT (6G VRAM)",
+    },
+    { hardware: "Storage", data: "20 GB available space" },
   ];
+
+  useEffect(() => {
+    try {
+      const targetProduct = products.find((game) => game.product_id === gameId);
+
+      if (targetProduct) {
+        setGameData(targetProduct);
+        setLoading(false);
+      } else {
+        setError("Game not found.");
+        setLoading(false);
+      }
+    } catch (err) {
+      setError("Error loading game data.", err);
+      setLoading(false);
+    }
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  }, [gameId]);
+
+  if (loading) {
+    return <div>Loading game details...</div>;
+  }
+
+  if (error) {
+    return <div>Error loading game: {error}</div>;
+  }
+
+  if (!gameData) {
+    return <div>Game not found.</div>;
+  }
 
   return (
     <>
@@ -139,68 +107,156 @@ function GameDetail() {
         <Box
           sx={{
             display: "flex",
-            flexDirection: { xs: "column", md: "row" },
-            gap: 4,
+            flexDirection: { xs: "column", lg: "row" },
+            gap: 2,
+            width: "100%",
           }}
         >
-          <ProductSwiper images={imageArray} />
           <Box
             sx={{
+              flexBasis: { xs: "100%", md: "50%" },
+              flexGrow: 1,
+            }}
+          >
+            <SwiperProductNavigation product={gameData} />
+          </Box>
+          <Box
+            sx={{
+              flexBasis: { xs: "100%", md: "50%" },
+              flexGrow: 1,
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
-              gap: 4,
+              gap: 2,
               padding: 4,
               backgroundColor: theme.palette.background.card,
               borderRadius: 4,
             }}
           >
-            <Typography variant="h3">Home Sweet Home : Survive</Typography>
-            <Typography variant="body1">
-              Home Sweet Home is back with its soul-stirring sequel that will
-              haunt you to the ground ! Immerse yourself in a world of Thai
-              myths, let's fight together to get out of this horrifying world.
-              The 4vs1 game that will give you the experience of hunting and
-              being hunted in one game.
-            </Typography>
+            <Typography variant="h3">{gameData.title}</Typography>
+            {/* Tags */}
+            <Box
+              sx={{
+                display: "flex",
+                gap: 2,
+              }}
+            >
+              {gameData.discount_percentage > 0 && (
+                <Card
+                  sx={{
+                    backgroundColor: "transparent",
+                    border: "solid 1px #FFC300",
+                    padding: 1,
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      color: theme.palette.accent.emphasis,
+                      fontSize: "0.85rem",
+                      fontWeight: "600",
+                    }}
+                  >
+                    {gameData.discount_percentage}%
+                  </Typography>
+                </Card>
+              )}
+              <Card
+                sx={{
+                  backgroundColor: "transparent",
+                  border: "solid 1px #D1B6FF",
+                  padding: 1,
+                }}
+              >
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: theme.palette.secondary.light,
+                    fontSize: "0.85rem",
+                  }}
+                >
+                  {gameData.genre_id_1}
+                </Typography>
+              </Card>
+              {gameData.genre_id_2 && (
+                <Card
+                  sx={{
+                    backgroundColor: "transparent",
+                    border: "solid 1px #D1B6FF",
+                    padding: 1,
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      color: theme.palette.secondary.light,
+                      fontSize: "0.85rem",
+                    }}
+                  >
+                    {gameData.genre_id_2}
+                  </Typography>
+                </Card>
+              )}
+              {gameData.genre_id_3 && (
+                <Card
+                  sx={{
+                    backgroundColor: "transparent",
+                    border: "solid 1px #D1B6FF",
+                    padding: 1,
+                  }}
+                >
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: theme.palette.secondary.light,
+                      fontSize: "0.85rem",
+                    }}
+                  >
+                    {gameData.genre_id_3}
+                  </Typography>
+                </Card>
+              )}
+            </Box>
+            {/* Price */}
+            <Box sx={{ display: "flex", gap: 2 }}>
+              {gameData.discount_percentage > 0 ? (
+                <>
+                  <Typography
+                    variant="body1"
+                    sx={{ color: theme.palette.secondary.light }}
+                  >
+                    ฿
+                    {Math.floor(
+                      parseInt(gameData.price) *
+                        ((100 - parseInt(gameData.discount_percentage)) / 100)
+                    )}
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      color: theme.palette.negative.default,
+                      fontSize: "1rem",
+                      textDecoration: "line-through",
+                    }}
+                  >
+                    ฿{gameData.price}
+                  </Typography>
+                </>
+              ) : (
+                <Typography
+                  variant="body1"
+                  sx={{ color: theme.palette.secondary.light }}
+                >
+                  ฿{gameData.price}
+                </Typography>
+              )}
+            </Box>
+            <Typography variant="body1">{gameData.description}</Typography>
             <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
               }}
-            >
-              <Box
-                sx={{
-                  position: "relative",
-                  display: "inline-block",
-                  bgcolor: theme.palette.primary.contrastText,
-                }}
-              >
-                <Select
-                  defaultValue={defaultPrice}
-                  sx={{
-                    color: theme.palette.secondary.contrastText,
-                    fontSize: "1.25rem",
-                    fontWeight: "600",
-                    bgcolor: "transparent",
-                    padding: 1,
-                    WebkitAppearance: "none",
-                    MozAppearance: "none",
-                    appearance: "none",
-                    "&:focus": {
-                      outline: "none",
-                    },
-                  }}
-                >
-                  {editionsData.map((edition) => (
-                    <MenuItem key={edition.name} value={edition.price}>
-                      {edition.name} THB {edition.price}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </Box>
-            </Box>
+            ></Box>
             <Box
               sx={{
                 display: "flex",
@@ -215,6 +271,7 @@ function GameDetail() {
                   backgroundColor: theme.palette.accent.emphasis,
                   "&:hover": {
                     bgcolor: theme.palette.accent.emphasisdark,
+                    color: theme.palette.primary.contrastText,
                   },
                 }}
               />
@@ -232,6 +289,7 @@ function GameDetail() {
           gap: 4,
         }}
       >
+        {/* Developer */}
         <Box
           sx={{
             bgcolor: theme.palette.background.paper,
@@ -274,7 +332,7 @@ function GameDetail() {
                   textTransform: "uppercase",
                 }}
               >
-                YGGDRAZIL GROUP
+                {gameData.developer}
               </Typography>
               <Typography
                 variant="body3"
@@ -289,37 +347,39 @@ function GameDetail() {
           </Box>
           <Stack direction="row" spacing={4}>
             <Box sx={{ display: "flex", alignItems: "center", gap: 4 }}>
-              <ThumbUpIcon sx={{ color: theme.palette.secondary.light }} />
-              {isSmallScreen && <Typography variant="body4">20k</Typography>}
-              {isMediumScreen && (
-                <Typography variant="body4">20,000</Typography>
-              )}
-              {!isSmallScreen && !isMediumScreen && (
-                <Typography variant="body4">20,000</Typography>
-              )}
+              <ThumbUpIcon
+                onClick={handleThumbsUp}
+                aria-label="thumbs up"
+                sx={{ color: theme.palette.secondary.light, cursor: "pointer" }}
+              />
+              <Typography variant="body4">
+                {formatCount(thumbsupCount)}
+              </Typography>
             </Box>
             <Box sx={{ display: "flex", alignItems: "center", gap: 4 }}>
-              <ThumbDownIcon sx={{ color: theme.palette.secondary.light }} />
-              {isSmallScreen && <Typography variant="body4">20k</Typography>}
-              {isMediumScreen && (
-                <Typography variant="body4">20,000</Typography>
-              )}
-              {!isSmallScreen && !isMediumScreen && (
-                <Typography variant="body4">20,000</Typography>
-              )}
+              <ThumbDownIcon
+                onClick={handleThumbsDown}
+                aria-label="thumbs down"
+                sx={{ color: theme.palette.secondary.light, cursor: "pointer" }}
+              />
+              <Typography variant="body4">
+                {formatCount(thumbsdownCount)}
+              </Typography>
             </Box>
           </Stack>
-          <Box sx={{ marginTop: 4 }}>
-            <ButtonGeneric label="Donate" />
-          </Box>
+          <Tooltip title="Coming soon">
+            <Box sx={{ marginTop: 4 }}>
+              <ButtonGeneric label="Donate" />
+            </Box>
+          </Tooltip>
         </Box>
+        {/* Schedule */}
         <Box
           sx={{
             bgcolor: theme.palette.background.paper,
             borderRadius: 4,
             display: "flex",
             flexDirection: "column",
-            justifyContent: "center",
             alignItems: "center",
             padding: 4,
             flex: 1,
@@ -365,7 +425,7 @@ function GameDetail() {
                   fontFamily: "Roboto Condensed",
                 }}
               >
-                1st April 2025
+                {gameData.release_date}
               </Typography>
             </Box>
           </Box>
@@ -407,14 +467,15 @@ function GameDetail() {
             </Box>
           </Box>
         </Box>
+        {/* System Req */}
         <Box
           sx={{
             bgcolor: theme.palette.background.paper,
             borderRadius: 4,
             display: "flex",
             flexDirection: "column",
-            justifyContent: "center",
             alignItems: "center",
+            gap: 4,
             padding: 4,
             flex: 1,
           }}
@@ -427,25 +488,77 @@ function GameDetail() {
           >
             System Requirements
           </Typography>
+          <Table aria-label="custom padding table">
+            <TableBody>
+              {systemRequirementMock.map((row) => (
+                <TableRow
+                  key={row.hardware}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell
+                    component="th"
+                    scope="row"
+                    sx={{
+                      color: theme.palette.primary.contrastText,
+                      paddingTop: 1,
+                      paddingBottom: 1,
+                      fontSize: "0.75rem",
+                      fontWeight: "400",
+                    }}
+                  >
+                    {row.hardware}
+                  </TableCell>
+                  <TableCell
+                    align="right"
+                    sx={{
+                      color: theme.palette.primary.contrastText,
+                      paddingTop: 1,
+                      paddingBottom: 1,
+                      fontSize: "0.75rem",
+                      fontWeight: "200",
+                    }}
+                  >
+                    {row.data}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </Box>
       </Box>
 
       <Box
         sx={{
-          padding: 4,
           display: "flex",
-          flexDirection: { xs: "column", md: "row" },
-          gap: 4,
+          flexDirection: "column",
+          backgroundColor: theme.palette.background.paper,
+          gap: 2,
+          paddingY: 2,
         }}
       >
-        {editionsData.map((edition) => (
-          <EditionCard
-            key={edition.name}
-            edition={edition.name}
-            price={edition.price}
-            features={edition.features}
-          />
-        ))}
+        <Paper elevation={3} />
+        <Heading section="You may also like" />
+
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: {
+              xs: "repeat(1, 1fr)",
+              sm: "repeat(2, 1fr)",
+              md: "repeat(3, 1fr)",
+            },
+            gap: {
+              xs: 2,
+              md: 4,
+            },
+            marginLeft: 4,
+            marginRight: 4,
+          }}
+        >
+          {recommendedGames.map((product, index) => (
+            <ProductCard key={index} products={product} />
+          ))}
+        </Box>
       </Box>
     </>
   );

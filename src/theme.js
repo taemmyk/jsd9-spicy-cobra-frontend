@@ -40,7 +40,8 @@ const theme = createTheme({
       default: "#00FFB3",
       dark: "#00FF7F",
       emphasis: "#FFC300",
-      emphasisdark: "#916F00",
+      emphasisdark: "#CC9900",
+      emphasislight: "#FFD64D"
     },
   },
   typography: {
