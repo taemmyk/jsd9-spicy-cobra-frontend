@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import React, { useRef, useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import {
   AppBar,
@@ -29,17 +29,21 @@ const Header = () => {
   const [searchText, setSearchText] = useState("");
   const [isCartOpen, setIsCartOpen] = useState(false);
   const inputRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleSearchToggle = () => {
-    setIsSearchOpen(!isSearchOpen);
+    setIsSearchOpen((prev) => !prev);
   };
 
   const handleInputChange = (event) => {
-    setSearchText(event.target.value);
+    const newValue = event.target.value;
+    setSearchText(newValue);
+    navigate(`/search?search=${encodeURIComponent(newValue)}`, { replace: true });
   };
 
   const handleClearInput = () => {
     setSearchText("");
+    navigate(`/search?search=`);
     if (inputRef.current) {
       inputRef.current.focus();
     }
@@ -102,6 +106,7 @@ const Header = () => {
         <SearchInput
           isSearchOpen={isSearchOpen}
           searchText={searchText}
+          inputRef={inputRef}
           handleInputChange={handleInputChange}
           handleSearchSubmit={handleSearchSubmit}
           sx={{ mx: 2 }}

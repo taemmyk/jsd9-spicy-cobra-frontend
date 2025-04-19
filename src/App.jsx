@@ -15,6 +15,7 @@ import Order from "./pages/Order";
 import Checkout from "./pages/Checkout";
 import Membership from "./pages/Membership";
 import Dashboard from "./pages/Dashboard";
+import ProductList from "./components/products/ProductList";
 
 const router = createBrowserRouter([
   {
@@ -65,6 +66,7 @@ const router = createBrowserRouter([
         path: "dashboard",
         element: <Dashboard />,
       },
+      { path: "search", element: <ProductList /> },
     ],
   },
 ]);
