@@ -18,20 +18,16 @@ function SlidesPerViewAuto({ products }) {
         modules={[Pagination]}
         className="mySwiper"
       >
-        {products.map((item, index) =>
-          item.url_path ? (
-            <SwiperSlide key={index}>
-              <Link to={item.url_path} className="swiper-slide-link">
-                <img
-                  src={item.image_thumbnail}
-                  alt={item.title || `Slide ${index + 1}`}
-                />
-              </Link>
-            </SwiperSlide>
-          ) : (
-            <></>
-          )
-        )}
+        {products.map((item, index) => (
+          <SwiperSlide key={index}>
+            <Link to={item.url_path} className="swiper-slide-link">
+              <img
+                src={item.image_thumbnail}
+                alt={item.title || `Slide ${index + 1}`}
+              />
+            </Link>
+          </SwiperSlide>
+        ))}
       </Swiper>
     </>
   );

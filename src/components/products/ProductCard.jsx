@@ -21,7 +21,7 @@ function ProductCard({ products }) {
   );
   return (
     <>
-      <Link to={products.url_path}>
+      <Link to={products.url_path} style={{ textDecoration: 'none' }}>
         <Card sx={{ borderRadius: 4 }}>
           <CardActionArea>
             <Box
@@ -60,7 +60,7 @@ function ProductCard({ products }) {
               <Box
                 sx={{
                   position: "absolute",
-                  backgroundColor: theme.palette.primary.main,
+                  backgroundColor: theme.palette.background.card,
                   bottom: 0,
                   left: theme.spacing(2),
                   borderTopRightRadius: 16,
@@ -83,6 +83,7 @@ function ProductCard({ products }) {
               sx={{
                 display: "flex",
                 justifyContent: "space-around",
+                backgroundColor: theme.palette.background.card,
               }}
             >
               <Stack
@@ -97,7 +98,7 @@ function ProductCard({ products }) {
                   src={products.developer_avatar}
                   sx={{ width: 48, height: 48, objectFit: "cover" }}
                 />
-                <Typography variant="body2">{products.developer}</Typography>
+                <Typography variant="body3">{products.developer}</Typography>
               </Stack>
               <Stack
                 sx={{
@@ -116,7 +117,7 @@ function ProductCard({ products }) {
                   variant="body2"
                   color="primary.contrastText"
                   sx={{
-                    display: { xs: "none", lg: "block" },
+                    display: { xs: "none", md: "block" },
                   }}
                 >
                   {products.rating}
