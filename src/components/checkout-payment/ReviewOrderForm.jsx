@@ -20,15 +20,15 @@ function ReviewOrderForm() {
 
       <OrderItemReviewCard
         category="Products"
-        description="2 games"
-        total="THB1,380"
+        description="1 games"
+        total="฿169"
       />
       <OrderItemReviewCard
         category="Tax"
         description="7% Vat include"
-        total="THB100"
+        total="฿11.83"
       />
-      <OrderItemReviewCard category="Total" total="THB1,380" />
+      <OrderItemReviewCard category="Total" total="THB169" />
       <Divider
         sx={{
           borderColor: theme.palette.secondary.main,

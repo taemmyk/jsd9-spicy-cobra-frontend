@@ -4,7 +4,6 @@ import { Box, Typography } from "@mui/material";
 function OrderItemReviewCard({ category, description, total }) {
   return (
     <Box
-      className="item-entry-card"
       sx={{
         display: "grid",
         gridTemplateColumns: "auto 1fr",

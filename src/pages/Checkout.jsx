@@ -4,6 +4,7 @@ import Heading from "../components/common/Heading";
 import OrderItemCard from "../components/orders/OrderItemCard";
 import { useTheme } from "@mui/material/styles";
 import CheckoutStepper from "../components/checkout-payment/CheckoutStepper";
+import products from "../data/products.json"
 
 function Checkout() {
   const theme = useTheme();
@@ -40,18 +41,7 @@ function Checkout() {
               mt: 4,
             }}
           >
-            <OrderItemCard
-              title="Home Sweet Home: Survive"
-              edition="Edition B"
-              productImagePath="https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1056600/header.jpg?t=1725192678"
-              price={690}
-            />
-            <OrderItemCard
-              title="Home Sweet Home: Survive"
-              edition="Edition B"
-              productImagePath="https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1056600/header.jpg?t=1725192678"
-              price={690}
-            />
+            <OrderItemCard product={products[0]} />
           </Box>
         </Box>
 

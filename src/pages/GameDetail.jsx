@@ -39,7 +39,9 @@ function GameDetail() {
     Math.floor(thumbsupCount * Math.random() * 0.1)
   );
 
-  const recommendedGames = products.sort(() => Math.random() - 0.5).slice(0, 3);
+  const recommendedGames = [...products]
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 3);
 
   const formatCount = (count) => {
     if (isSmallScreen && count >= 1000) {

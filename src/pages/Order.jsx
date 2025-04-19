@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Typography, Button, IconButton } from "@mui/material";
 import Heading from "../components/common/Heading";
 import { useTheme } from "@mui/material/styles";
-import ButtonGeneric from "../components/common/ButtonGeneric";
 import OrderItemReviewCard from "../components/checkout-payment/OrderItemReviewCard";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Tooltip from "@mui/material/Tooltip";
 import { Link } from "react-router-dom";
+import CartItemCard from "../components/cart/CartItemCard";
+import products from "../data/products.json";
 
 function Order({ onCloseDrawer }) {
   const theme = useTheme();
+  const [cartItem, setCartItem] = useState(products[0]);
 
   const OrderButtonSmall = ({ label, to, onClick }) => {
     const buttonSx = {
@@ -28,15 +30,20 @@ function Order({ onCloseDrawer }) {
         color: theme.palette.primary.contrastText,
       },
     };
-
     return (
       <Link to={to} style={{ textDecoration: "none" }}>
-        <Button variant="contained" sx={buttonSx} onClick={onClick}> {/* Use onClick */}
+        <Button variant="contained" sx={buttonSx} onClick={onClick}>
           {label}
         </Button>
       </Link>
     );
   };
+
+  const addItemToCart = (product) => {
+    setCartItem(product);
+  };
+
+  useEffect(() => {}, [cartItem]);
 
   return (
     <>
@@ -47,8 +54,10 @@ function Order({ onCloseDrawer }) {
           justifyContent: "space-between",
         }}
       >
-        <Box sx={{display: "flex", flexDirection: "column", padding: 2, gap: 2}}>
-          <Heading section="Your Order" />
+        <Box
+          sx={{ display: "flex", flexDirection: "column", padding: 2, gap: 2 }}
+        >
+          <Heading section="Your Cart" />
           <OrderButtonSmall label="Continue Shopping" onClick={onCloseDrawer} />
         </Box>
       </Box>
@@ -57,46 +66,27 @@ function Order({ onCloseDrawer }) {
           backgroundColor: theme.palette.background.paper,
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-            mt: 4,
-          }}
-        >
+        <CartItemCard product={cartItem} key={cartItem.product_id} />
+        {/* {cartItem ? (
           <Box
             sx={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
-              placeItems: "center",
-              backgroundColor: theme.palette.background.card,
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+              mt: 4,
               padding: 2,
             }}
           >
-            <Typography
-              variant="body3"
-              fontWeight="semibold"
-              sx={{ gridColumn: "span 2" }}
-            >
-              Home Sweet Home: Survive
-            </Typography>
-            <Typography variant="body3" fontWeight="semibold">
-              THB690
-            </Typography>
-            <Tooltip title="Delete">
-              <IconButton
-                sx={{
-                  color: theme.palette.negative.default,
-                  width: { xs: 24, md: 32 },
-                  height: { xs: 24, md: 32 },
-                }}
-              >
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
+            <CartItemCard product={cartItem} key={cartItem.product_id} />
           </Box>
-        </Box>
+        ) : (
+          <Typography
+            variant="body2"
+            sx={{ padding: 4, color: theme.palette.secondary.light }}
+          >
+            No Items in your cart
+          </Typography>
+        )} */}
       </Box>
 
       <Box
@@ -107,15 +97,39 @@ function Order({ onCloseDrawer }) {
       >
         <OrderItemReviewCard
           category="Products"
-          description="2 games"
-          total="THB1,380"
+          description={cartItem?.title || "0 games"}
+          total={
+            cartItem?.price
+              ? `฿${cartItem.price.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}`
+              : "฿0.00"
+          }
         />
         <OrderItemReviewCard
           category="Tax"
           description="7% Vat include"
-          total="THB100"
+          total={
+            cartItem?.price
+              ? `฿${(cartItem.price * 0.07).toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}`
+              : "฿0.00"
+          }
         />
-        <OrderItemReviewCard category="Total" total="THB1,380" />
+        <OrderItemReviewCard
+          category="Total"
+          total={
+            cartItem?.price
+              ? `฿${cartItem.price.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}`
+              : "฿0.00"
+          }
+        />
         <OrderButtonSmall label="Continue to Checkout" to="/checkout" />
       </Box>
     </>

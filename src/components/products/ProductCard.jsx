@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState} from "react";
 import { Link } from "react-router-dom";
 import {
   Card,
@@ -19,10 +19,14 @@ function ProductCard({ products }) {
     parseInt(products.price) *
       ((100 - parseInt(products.discount_percentage)) / 100)
   );
-  
+  const [ratingValue] = useState(parseFloat(products.rating) || 0);
+
   return (
     <>
-      <Link to={`/games/${products.product_id}`} style={{ textDecoration: 'none' }}>
+      <Link
+        to={`/games/${products.product_id}`}
+        style={{ textDecoration: "none" }}
+      >
         <Card sx={{ borderRadius: 4 }}>
           <CardActionArea>
             <Box
@@ -74,10 +78,10 @@ function ProductCard({ products }) {
                     variant="strikePriceTag"
                     sx={{ textDecoration: "line-through" }}
                   >
-                    THB{products.price}
+                    ฿{products.price}
                   </Typography>
                 )}
-                <Typography variant="priceTag">THB{currentPrice}</Typography>
+                <Typography variant="priceTag"> ฿{currentPrice}</Typography>
               </Box>
             </Box>
             <CardContent
@@ -110,7 +114,7 @@ function ProductCard({ products }) {
               >
                 <Rating
                   name="half-rating-read"
-                  defaultValue={parseFloat(products.rating)}
+                  value={ratingValue}
                   precision={0.1}
                   readOnly
                 />

@@ -1,32 +1,23 @@
 import React from "react";
 import { Box, Typography, Button, IconButton } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Tooltip from '@mui/material/Tooltip';
 
-function OrderItemCard({
-  title,
-  edition,
-  productImagePath,
-  price,
-  isEditable = false,
-}) {
+function OrderItemCard({ product }) {
   const theme = useTheme();
   return (
     <Box
       className="item-entry-card"
       sx={{
-        display: "grid",
-        gridTemplateColumns: isEditable ? "repeat(5, 1fr)" : "repeat(4, 1fr)",
-        placeItems: "center",
-        backgroundColor: "background.card",
-        borderRadius: 4,
+        display: "flex",
+        justifyContent: "space-around",
+        alignItems: "center",
+        backgroundColor: theme.palette.background.card,
       }}
     >
       <Box
         component="img"
-        src={productImagePath}
-        alt={title}
+        src={product.image_thumbnail}
+        alt={product.title}
         sx={{
           display: { xs: "none", md: "block" },
           maxWidth: "150px",
@@ -43,26 +34,12 @@ function OrderItemCard({
         }}
       >
         <Typography variant="body1" fontWeight="semibold">
-          {title}
+          {product.title}
         </Typography>
-        <Typography variant="body2">{edition}</Typography>
       </Box>
       <Typography variant="body1" fontWeight="semibold">
-        THB{price}
+        ฿{product.price}
       </Typography>
-      {isEditable && (
-        <Tooltip title="Delete">
-          <IconButton
-            sx={{
-              color: theme.palette.negative.default,
-              width: { xs: 24, md: 32 },
-              height: { xs: 24, md: 32 },
-            }}
-          >
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      )}
     </Box>
   );
 }
