@@ -9,7 +9,8 @@ function OrderItemCard({ product }) {
       className="item-entry-card"
       sx={{
         display: "flex",
-        justifyContent: "space-around",
+        justifyContent: "space-between",
+        paddingRight: 2,
         alignItems: "center",
         backgroundColor: theme.palette.background.card,
       }}
@@ -25,19 +26,18 @@ function OrderItemCard({ product }) {
         }}
       />
       <Box
-        className="item-detail-container"
         sx={{
           gridColumn: { xs: "span 2", md: "span 2" },
           display: "flex",
           flexDirection: "column",
-          p: { xs: 1, md: 0 },
+          padding: { xs: 1, md: 0 },
         }}
       >
-        <Typography variant="body1" fontWeight="semibold">
+        <Typography variant="body3" fontWeight="semibold">
           {product.title}
         </Typography>
       </Box>
-      <Typography variant="body1" fontWeight="semibold">
+      <Typography variant="body3" fontWeight="semibold">
         ฿{product.price}
       </Typography>
     </Box>

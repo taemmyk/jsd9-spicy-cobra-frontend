@@ -14,7 +14,7 @@ function Order({ onCloseDrawer }) {
   const { items, removeItem } = useContext(CartContext);
 
   const handleRemove = (itemId) => {
-    console.log("trying to remove", itemId);
+    // console.log("trying to remove", itemId);
     removeItem(itemId);
   };
 

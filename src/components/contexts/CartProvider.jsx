@@ -15,7 +15,9 @@ export const CartProvider = ({ children }) => {
   const addToCart = useCallback(
     (itemToAdd) => {
       // console.log(`trying to add ${itemToAdd.product_id}`)
-      const isItemInCart = cartItems.some((item) => item.product_id === itemToAdd.product_id);
+      const isItemInCart = cartItems.some(
+        (item) => item.product_id === itemToAdd.product_id
+      );
 
       if (!isItemInCart) {
         setCartItems([...cartItems, itemToAdd]);
@@ -29,20 +31,33 @@ export const CartProvider = ({ children }) => {
     [cartItems]
   );
 
-  //! remove item from cart
   const removeFromCart = useCallback(
     (itemId) => {
-      const updatedCart = cartItems.filter((item) => item.product_id !== itemId);
+      const itemToRemove = cartItems.find((item) => item.product_id === itemId);
+      const updatedCart = cartItems.filter(
+        (item) => item.product_id !== itemId
+      );
       // console.log(`cart count ${updatedCart.length}`);
       setCartItems(updatedCart);
+      if (itemToRemove) {
+        setSnackbarMessage(`${itemToRemove.title} removed from your cart.`); // แสดงชื่อสินค้าที่ถูกลบ
+        setSnackbarOpen(true);
+      }
     },
     [cartItems]
   );
+
+  const clearCart = useCallback(() => {
+    if (cartItems.length > 0) {
+      setCartItems([]);
+    }
+  }, [cartItems]);
 
   const cartContextValue = {
     items: cartItems,
     addItem: addToCart,
     removeItem: removeFromCart,
+    clearCart: clearCart,
   };
 
   return (
