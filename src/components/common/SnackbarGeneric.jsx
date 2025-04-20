@@ -1,13 +1,12 @@
-// src/components/common/SnackbarGeneric.jsx
 import React from "react";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import Alert from "@mui/material/Alert";
 
-function SnackbarGeneric({ open, onClose, message, duration = 3000, sx }) {
+function SnackbarGeneric({ open, onClose, message, duration = 2000, sx, vertical = 'bottom', horizontal = 'center' }) {
   return (
     <Snackbar
+      anchorOrigin={{ vertical, horizontal }}
       open={open}
       autoHideDuration={duration}
       onClose={onClose}

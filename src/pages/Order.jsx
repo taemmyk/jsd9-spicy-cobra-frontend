@@ -13,16 +13,9 @@ function Order({ onCloseDrawer }) {
   const theme = useTheme();
   const { items, removeItem } = useContext(CartContext);
 
-  const handleRemoveFromCart = (idToRemove) => {
-    // Receives the 'id'
-    console.log(`Removing item with ID: ${idToRemove}`);
-    const itemToRemove = items.find((item) => item.id === idToRemove); // Find by 'id'
-    if (itemToRemove) {
-      alert(`${itemToRemove.title} has been removed from cart`);
-      removeItem(idToRemove); // Pass the 'id' to removeItem
-    } else {
-      console.error(`Item with ID ${idToRemove} not found in cart.`);
-    }
+  const handleRemove = (itemId) => {
+    console.log("trying to remove", itemId);
+    removeItem(itemId);
   };
 
   const calculateItemTotalPrice = () => {
@@ -49,16 +42,20 @@ function Order({ onCloseDrawer }) {
         color: theme.palette.primary.contrastText,
       },
     };
-    return (
+    return to ? (
       <Link to={to} style={{ textDecoration: "none" }}>
         <Button variant="contained" sx={buttonSx} onClick={onClick}>
           {label}
         </Button>
       </Link>
+    ) : (
+      <Button variant="contained" sx={buttonSx} onClick={onClick}>
+        {label}
+      </Button>
     );
   };
 
-  console.log("Items in Order:", items);
+  // console.log("Items in Order:", items);
 
   return (
     <>
@@ -95,7 +92,7 @@ function Order({ onCloseDrawer }) {
               <CartItemCard
                 key={item.product_id}
                 product={item}
-                onClickFunc={handleRemoveFromCart}
+                onRemove={handleRemove}
               />
             ))}
           </Box>

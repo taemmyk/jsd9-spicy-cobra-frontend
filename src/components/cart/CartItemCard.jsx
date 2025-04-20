@@ -5,7 +5,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Tooltip from "@mui/material/Tooltip";
 import calculateSalePrice from "../../utils/calculateSalePrice";
 
-function CartItemCard({ product, onClickFunc }) {
+function CartItemCard({ product, onRemove }) {
   const theme = useTheme();
   const currentPrice = calculateSalePrice(product);
   return (
@@ -36,7 +36,7 @@ function CartItemCard({ product, onClickFunc }) {
               width: { xs: 24, md: 32 },
               height: { xs: 24, md: 32 },
             }}
-            onClick={() => onClickFunc(product.product_id)}
+            onClick={() => onRemove(product.product_id)}
           >
             <DeleteIcon />
           </IconButton>

@@ -1,4 +1,3 @@
-// CartProvider.jsx
 import React, { useState, useCallback } from "react";
 import { CartContext } from "./CartContext";
 import SnackbarGeneric from "../common/SnackbarGeneric";
@@ -20,6 +19,8 @@ export const CartProvider = ({ children }) => {
 
       if (!isItemInCart) {
         setCartItems([...cartItems, itemToAdd]);
+        setSnackbarMessage(`${itemToAdd.title} added to your cart.`);
+        setSnackbarOpen(true);
       } else {
         setSnackbarMessage(`${itemToAdd.title} is already in your cart.`);
         setSnackbarOpen(true);
@@ -31,7 +32,8 @@ export const CartProvider = ({ children }) => {
   //! remove item from cart
   const removeFromCart = useCallback(
     (itemId) => {
-      const updatedCart = cartItems.filter((item) => item.id !== itemId);
+      const updatedCart = cartItems.filter((item) => item.product_id !== itemId);
+      // console.log(`cart count ${updatedCart.length}`);
       setCartItems(updatedCart);
     },
     [cartItems]
