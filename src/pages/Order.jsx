@@ -150,7 +150,8 @@ function Order({ onCloseDrawer }) {
               : "฿0.00"
           }
         />
-        <OrderButtonSmall label="Continue to Checkout" to="/checkout" />
+        { items.length > 0 ? 
+        <OrderButtonSmall label="Continue to Checkout" to="/checkout" /> : <></>}
       </Box>
     </>
   );

@@ -16,8 +16,12 @@ import calculateSalePrice from "../../utils/calculateSalePrice";
 
 function ProductCard({ product }) {
   const theme = useTheme();
-  const currentPrice = calculateSalePrice(product);
-  const [ratingValue] = useState(parseFloat(product.rating) || 0);
+  const currentPrice = product ? calculateSalePrice(product) : null;
+  const [ratingValue] = useState(parseFloat(product?.rating) || 0);
+
+  if (!product) {
+    return null;
+  }
 
   return (
     <>
@@ -71,15 +75,18 @@ function ProductCard({ product }) {
                   padding: theme.spacing(1, 2),
                 }}
               >
-                {product.discount_percentage > 0 && (
-                  <Typography
-                    variant="strikePriceTag"
-                    sx={{ textDecoration: "line-through" }}
-                  >
-                    ฿{product.price}
-                  </Typography>
-                )}
-                <Typography variant="priceTag"> ฿{currentPrice}</Typography>
+                {product.discount_percentage > 0 &&
+                  product.price !== undefined && (
+                    <Typography
+                      variant="strikePriceTag"
+                      sx={{ textDecoration: "line-through" }}
+                    >
+                      ฿{product.price}
+                    </Typography>
+                  )}
+                <Typography variant="priceTag">
+                  ฿{currentPrice !== null ? currentPrice : "N/A"}
+                </Typography>
               </Box>
             </Box>
             <CardContent
@@ -112,7 +119,7 @@ function ProductCard({ product }) {
               >
                 <Rating
                   name="half-rating-read"
-                  value={ratingValue}
+                  value={parseFloat(product?.rating) || 0}
                   precision={0.1}
                   readOnly
                 />
@@ -123,7 +130,7 @@ function ProductCard({ product }) {
                     display: { xs: "none", md: "block" },
                   }}
                 >
-                  {product.rating}
+                  {ratingValue}
                 </Typography>
               </Stack>
             </CardContent>

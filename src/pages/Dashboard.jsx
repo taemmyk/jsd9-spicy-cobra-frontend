@@ -24,6 +24,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
 import DashboardTab from "../components/auth/DashboardTab";
+import InventoryTab from "../components/auth/InventoryTab";
 
 function Dashboard() {
   const theme = useTheme();
@@ -276,6 +277,7 @@ function Dashboard() {
           }}
         >
           {selectedTab === "dashboard" && <DashboardTab />}
+          {selectedTab === "inventory" && <InventoryTab />}
         </Box>
       </Box>
     </>
