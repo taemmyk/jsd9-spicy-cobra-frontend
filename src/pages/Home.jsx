@@ -41,7 +41,7 @@ const Home = () => {
           }}
         >
           {products.map((game, index) => (
-            <ProductCard key={index} products={game} />
+            <ProductCard key={index} product={game} />
           ))}
         </Box>
       </Box>
