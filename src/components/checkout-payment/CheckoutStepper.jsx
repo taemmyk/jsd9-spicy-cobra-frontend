@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import {
   Box,
   Stepper,
@@ -13,6 +13,8 @@ import AddressForm from "./AddressForm";
 import PaymentForm from "./PaymentForm";
 import ButtonGeneric from "../common/ButtonGeneric";
 import ReviewOrderForm from "./ReviewOrderForm";
+
+import { CartContext } from "../contexts/CartContext";
 
 const steps = ["Your address", "Payment details", "Review you order"];
 
@@ -52,6 +54,7 @@ function ColorlibStepIcon(props) {
 function CheckoutStepper() {
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
+  const { items, clearCart } = useContext(CartContext);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -59,6 +62,11 @@ function CheckoutStepper() {
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleClearCart = () => {
+    handleNext();
+    clearCart();
   };
 
   return (
@@ -87,7 +95,11 @@ function CheckoutStepper() {
             <strong>&nbsp;#140396</strong>. We have emailed your order
             confirmation and will update you once its shipped.
           </Typography>
-          <ButtonGeneric label="Go to my dashboard" to="/dashboard" />
+          <ButtonGeneric
+            label="Go to my dashboard"
+            to="/dashboard"
+            onClick={handleClearCart}
+          />
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Box sx={{ flex: "1 1 auto" }} />
           </Box>
@@ -98,7 +110,9 @@ function CheckoutStepper() {
           {activeStep === 1 && <PaymentForm />}
           {activeStep === 2 && <ReviewOrderForm />}
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            {activeStep > 0 && <ButtonGeneric label="Back" onClick={handleBack} />}
+            {activeStep > 0 && (
+              <ButtonGeneric label="Back" onClick={handleBack} />
+            )}
             <Box sx={{ flex: "1 1 auto" }} />
             <ButtonGeneric
               label={

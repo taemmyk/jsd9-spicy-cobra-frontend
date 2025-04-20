@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -24,12 +24,17 @@ import products from "../data/products.json";
 import Heading from "../components/common/Heading";
 import ProductCard from "../components/products/ProductCard";
 
+import { CartContext } from "../components/contexts/CartContext";
+import calculateSalePrice from "../utils/calculateSalePrice";
+
 function GameDetail() {
   const theme = useTheme();
   const { gameId } = useParams();
   const [gameData, setGameData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { addItem } = useContext(CartContext);
+  const navigate = useNavigate();
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [thumbsupCount, setThumbsupCount] = useState(
@@ -42,6 +47,17 @@ function GameDetail() {
   const recommendedGames = [...products]
     .sort(() => Math.random() - 0.5)
     .slice(0, 3);
+
+  const handleAddToCart = () => {
+    addItem(gameData);
+  };
+
+  const handleBuyNow = () => {
+    addItem(gameData);
+    setTimeout(() => {
+      navigate('/checkout');
+    }, 1000);
+  };
 
   const formatCount = (count) => {
     if (isSmallScreen && count >= 1000) {
@@ -226,10 +242,7 @@ function GameDetail() {
                     sx={{ color: theme.palette.secondary.light }}
                   >
                     ฿
-                    {Math.floor(
-                      parseInt(gameData.price) *
-                        ((100 - parseInt(gameData.discount_percentage)) / 100)
-                    )}
+                    {calculateSalePrice(gameData)}
                   </Typography>
                   <Typography
                     variant="body1"
@@ -275,9 +288,9 @@ function GameDetail() {
                     bgcolor: theme.palette.accent.emphasisdark,
                     color: theme.palette.primary.contrastText,
                   },
-                }}
+                }} onClick={handleBuyNow}
               />
-              <ButtonGeneric label="Add to Cart" />
+              <ButtonGeneric label="Add to Cart" onClick={handleAddToCart} />
             </Box>
           </Box>
         </Box>
@@ -541,7 +554,7 @@ function GameDetail() {
         <Paper elevation={3} />
         <Heading section="You may also like" />
 
-        <Box
+        {/* <Box
           sx={{
             display: "grid",
             gridTemplateColumns: {
@@ -560,7 +573,7 @@ function GameDetail() {
           {recommendedGames.map((product, index) => (
             <ProductCard key={index} products={product} />
           ))}
-        </Box>
+        </Box> */}
       </Box>
     </>
   );
