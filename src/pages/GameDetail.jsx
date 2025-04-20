@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -34,6 +34,7 @@ function GameDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { addItem } = useContext(CartContext);
+  const navigate = useNavigate();
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [thumbsupCount, setThumbsupCount] = useState(
@@ -49,6 +50,13 @@ function GameDetail() {
 
   const handleAddToCart = () => {
     addItem(gameData);
+  };
+
+  const handleBuyNow = () => {
+    addItem(gameData);
+    setTimeout(() => {
+      navigate('/checkout');
+    }, 1000);
   };
 
   const formatCount = (count) => {
@@ -280,7 +288,7 @@ function GameDetail() {
                     bgcolor: theme.palette.accent.emphasisdark,
                     color: theme.palette.primary.contrastText,
                   },
-                }}
+                }} onClick={handleBuyNow}
               />
               <ButtonGeneric label="Add to Cart" onClick={handleAddToCart} />
             </Box>
