@@ -24,6 +24,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
 import DashboardTab from "../components/auth/DashboardTab";
+import InventoryTab from "../components/auth/InventoryTab";
 
 function Dashboard() {
   const theme = useTheme();
@@ -47,11 +48,11 @@ function Dashboard() {
 
     if (value === "dashboard") {
       return <DashboardIcon fontSize="small" sx={defaultIconSx} />;
-    } else if (value === "order") {
+    } else if (value === "orders") {
       return <ReceiptIcon fontSize="small" sx={defaultIconSx} />;
     } else if (value === "report") {
       return <SummarizeIcon fontSize="small" sx={defaultIconSx} />;
-    } else if (value === "customer") {
+    } else if (value === "profile") {
       return <PersonIcon fontSize="small" sx={defaultIconSx} />;
     } else if (value === "review") {
       return <RateReviewIcon fontSize="small" sx={defaultIconSx} />;
@@ -114,7 +115,7 @@ function Dashboard() {
                 selectedTab === value
                   ? theme.palette.secondary.light
                   : theme.palette.primary.contrastText,
-              ...customTypographySx, // Merge styles สำหรับ Typography
+              ...customTypographySx,
             }}
           >
             {label}
@@ -162,10 +163,11 @@ function Dashboard() {
                 }}
               >
                 <TabSelectorCard value="dashboard" label="Dashboard" />
-                <TabSelectorCard value="order" label="Orders" />
+                <TabSelectorCard value="orders" label="Orders" />
                 <TabSelectorCard value="review" label="Community" />
                 <TabSelectorCard value="inventory" label="Inventory" />
                 <TabSelectorCard value="report" label="Report" />
+                <TabSelectorCard value="profile" label="Profile" />
               </RadioGroup>
             </FormControl>
           </Box>
@@ -185,32 +187,21 @@ function Dashboard() {
                 id="panel1-header"
                 sx={{ backgroundColor: theme.palette.background.layout }}
               >
-                <TabSelectorCard
-                  value={selectedTab}
-                  label={
-                    {
-                      dashboard: "Dashboard",
-                      order: "Orders",
-                      review: "Community",
-                      inventory: "Inventory",
-                      report: "Report",
-                    }[selectedTab] || "Tab"
-                  }
+                <Typography
                   sx={{
-                    backgroundColor: theme.palette.background.layout,
+                    fontWeight: "500",
+                    paddingRight: 3,
+                    color: theme.palette.secondary.light,
+                    paddingX: 2,
                   }}
-                  actionAreaSx={{
-                    "&:hover": {
-                      backgroundColor: theme.palette.background.layout,
-                      "& .MuiTypography-root": {
-                        color: theme.palette.primary.contrastText,
-                      },
-                    },
-                  }}
-                  typographySx={{
-                    color: theme.palette.primary.contrastText,
-                  }}
-                />
+                >
+                  {displayTabIcon(selectedTab)}{" "}
+                  {selectedTab === "review"
+                    ? "Community"
+                    : selectedTab &&
+                      selectedTab.charAt(0).toUpperCase() +
+                        selectedTab.slice(1).toLowerCase()}
+                </Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <FormControl
@@ -228,22 +219,12 @@ function Dashboard() {
                       flexDirection: "column",
                     }}
                   >
-                    {Object.entries({
-                      dashboard: "Dashboard",
-                      order: "Orders",
-                      review: "Community",
-                      inventory: "Inventory",
-                      report: "Report",
-                    }).map(
-                      ([value, label]) =>
-                        value !== selectedTab && (
-                          <TabSelectorCard
-                            key={value}
-                            value={value}
-                            label={label}
-                          />
-                        )
-                    )}
+                    <TabSelectorCard value="dashboard" label="Dashboard" />
+                    <TabSelectorCard value="orders" label="Orders" />
+                    <TabSelectorCard value="review" label="Community" />
+                    <TabSelectorCard value="inventory" label="Inventory" />
+                    <TabSelectorCard value="report" label="Report" />
+                    <TabSelectorCard value="profile" label="Profile" />
                   </RadioGroup>
                 </FormControl>
               </AccordionDetails>
@@ -296,6 +277,7 @@ function Dashboard() {
           }}
         >
           {selectedTab === "dashboard" && <DashboardTab />}
+          {selectedTab === "inventory" && <InventoryTab />}
         </Box>
       </Box>
     </>

@@ -1,17 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { Box, Typography, Button, IconButton } from "@mui/material";
 import Heading from "../components/common/Heading";
 import { useTheme } from "@mui/material/styles";
 import OrderItemReviewCard from "../components/checkout-payment/OrderItemReviewCard";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Tooltip from "@mui/material/Tooltip";
 import { Link } from "react-router-dom";
 import CartItemCard from "../components/cart/CartItemCard";
-import products from "../data/products.json";
+
+import { CartContext } from "../components/contexts/CartContext";
+import calculateSalePrice from "../utils/calculateSalePrice";
 
 function Order({ onCloseDrawer }) {
   const theme = useTheme();
-  const [cartItem, setCartItem] = useState(products[0]);
+  const { items, removeItem } = useContext(CartContext);
+
+  const handleRemove = (itemId) => {
+    // console.log("trying to remove", itemId);
+    removeItem(itemId);
+  };
+
+  const calculateItemTotalPrice = () => {
+    return items.reduce((total, item) => total + item.price, 0);
+  };
+  const calculateOrderTotalPrice = () => {
+    return items.reduce((total, item) => total + calculateSalePrice(item), 0);
+  };
 
   const OrderButtonSmall = ({ label, to, onClick }) => {
     const buttonSx = {
@@ -30,20 +42,20 @@ function Order({ onCloseDrawer }) {
         color: theme.palette.primary.contrastText,
       },
     };
-    return (
+    return to ? (
       <Link to={to} style={{ textDecoration: "none" }}>
         <Button variant="contained" sx={buttonSx} onClick={onClick}>
           {label}
         </Button>
       </Link>
+    ) : (
+      <Button variant="contained" sx={buttonSx} onClick={onClick}>
+        {label}
+      </Button>
     );
   };
 
-  const addItemToCart = (product) => {
-    setCartItem(product);
-  };
-
-  useEffect(() => {}, [cartItem]);
+  // console.log("Items in Order:", items);
 
   return (
     <>
@@ -66,8 +78,7 @@ function Order({ onCloseDrawer }) {
           backgroundColor: theme.palette.background.paper,
         }}
       >
-        <CartItemCard product={cartItem} key={cartItem.product_id} />
-        {/* {cartItem ? (
+        {items.length > 0 ? (
           <Box
             sx={{
               display: "flex",
@@ -77,7 +88,13 @@ function Order({ onCloseDrawer }) {
               padding: 2,
             }}
           >
-            <CartItemCard product={cartItem} key={cartItem.product_id} />
+            {items.map((item) => (
+              <CartItemCard
+                key={item.product_id}
+                product={item}
+                onRemove={handleRemove}
+              />
+            ))}
           </Box>
         ) : (
           <Typography
@@ -86,7 +103,7 @@ function Order({ onCloseDrawer }) {
           >
             No Items in your cart
           </Typography>
-        )} */}
+        )}
       </Box>
 
       <Box
@@ -97,13 +114,22 @@ function Order({ onCloseDrawer }) {
       >
         <OrderItemReviewCard
           category="Products"
-          description={cartItem?.title || "0 games"}
+          description={
+            items.length > 0 ? `${items.length} games` : "No items in cart"
+          }
           total={
-            cartItem?.price
-              ? `฿${cartItem.price.toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}`
+            items.length > 0
+              ? `฿${calculateItemTotalPrice().toFixed(2)}`
+              : "฿0.00"
+          }
+        />
+        <OrderItemReviewCard
+          category="Discount"
+          total={
+            items.length > 0
+              ? `฿${(
+                  calculateItemTotalPrice() - calculateOrderTotalPrice()
+                ).toFixed(2)}`
               : "฿0.00"
           }
         />
@@ -111,26 +137,21 @@ function Order({ onCloseDrawer }) {
           category="Tax"
           description="7% Vat include"
           total={
-            cartItem?.price
-              ? `฿${(cartItem.price * 0.07).toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}`
+            items.length > 0
+              ? `฿${(calculateOrderTotalPrice() * 0.07).toFixed(2)}`
               : "฿0.00"
           }
         />
         <OrderItemReviewCard
           category="Total"
           total={
-            cartItem?.price
-              ? `฿${cartItem.price.toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}`
+            items.length > 0
+              ? `฿${calculateOrderTotalPrice().toFixed(2)}`
               : "฿0.00"
           }
         />
-        <OrderButtonSmall label="Continue to Checkout" to="/checkout" />
+        { items.length > 0 ? 
+        <OrderButtonSmall label="Continue to Checkout" to="/checkout" /> : <></>}
       </Box>
     </>
   );

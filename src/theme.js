@@ -79,12 +79,12 @@ const theme = createTheme({
     body1: {
       fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
       color: "#E5E7EB",
-      fontSize: "1.5rem",
+      fontSize: "1.25rem",
     },
     body2: {
       fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
       color: "#E5E7EB",
-      fontSize: "1.25rem",
+      fontSize: "1.125rem",
     },
     body3: {
       fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
