@@ -1,13 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import Heading from "../components/common/Heading";
 import OrderItemCard from "../components/orders/OrderItemCard";
 import { useTheme } from "@mui/material/styles";
 import CheckoutStepper from "../components/checkout-payment/CheckoutStepper";
-import products from "../data/products.json"
+import axios from "axios";
 
 function Checkout() {
   const theme = useTheme();
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchOrderItems = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/products"); 
+        setProducts(res.data); 
+      } catch (err) {
+        console.error("Failed to fetch order items:", err);
+        setError("Error fetching order items");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrderItems();
+  }, []);
+
+  if (loading) return <Typography>Loading order...</Typography>;
+  if (error) return <Typography>{error}</Typography>;
 
   return (
     <>
@@ -41,7 +63,9 @@ function Checkout() {
               mt: 4,
             }}
           >
-            <OrderItemCard product={products[0]} />
+            {products.map((products, index) => (
+              <OrderItemCard key={index} products={products} />
+            ))}
           </Box>
         </Box>
 

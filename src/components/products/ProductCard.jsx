@@ -14,19 +14,23 @@ import { useTheme } from "@mui/material/styles";
 import Rating from "@mui/material/Rating";
 
 function ProductCard({ products }) {
+  
+
   const theme = useTheme();
   const currentPrice = Math.floor(
     parseInt(products.price) *
       ((100 - parseInt(products.discount_percentage)) / 100)
   );
   const [ratingValue] = useState(parseFloat(products.rating) || 0);
-
+  
   return (
     <>
       <Link
-        to={`/games/${products.product_id}`}
+        to={`/games/${products._id}`}
+        
         style={{ textDecoration: "none" }}
       >
+        <Typography variant="h6">{products.title}</Typography>
         <Card sx={{ borderRadius: 4 }}>
           <CardActionArea>
             <Box
@@ -81,7 +85,7 @@ function ProductCard({ products }) {
                     ฿{products.price}
                   </Typography>
                 )}
-                <Typography variant="priceTag"> ฿{currentPrice}</Typography>
+                <Typography variant="priceTag"> ฿{products.price}</Typography>
               </Box>
             </Box>
             <CardContent

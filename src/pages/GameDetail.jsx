@@ -20,17 +20,18 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import products from "../data/products.json";
+import axios from "axios";
 import Heading from "../components/common/Heading";
 import ProductCard from "../components/products/ProductCard";
 
 function GameDetail() {
   const theme = useTheme();
-  const { gameId } = useParams();
+  const { id } = useParams()
+  
   const [gameData, setGameData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const [recommendedGames, setRecommendedGames] = useState([]);
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [thumbsupCount, setThumbsupCount] = useState(
     Math.max(100, Math.floor(Math.random() * 99999))
@@ -38,10 +39,6 @@ function GameDetail() {
   const [thumbsdownCount, setThumbsdownCount] = useState(
     Math.floor(thumbsupCount * Math.random() * 0.1)
   );
-
-  const recommendedGames = [...products]
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 3);
 
   const formatCount = (count) => {
     if (isSmallScreen && count >= 1000) {
@@ -58,6 +55,35 @@ function GameDetail() {
     setThumbsdownCount((prevCount) => prevCount + 1);
   };
 
+
+
+  useEffect(() => {
+    
+    const fetchGame = async () => {
+      try {
+        const res = await axios.get(`http://localhost:5000/products/${id}`);
+        console.log("Fetched Game Data:", res.data);
+        setGameData(res.data);
+        setError(null);
+  
+       
+        const allGamesRes = await axios.get("http://localhost:5000/products");
+        console.log("All Games:", allGamesRes.data);
+        const shuffled = allGamesRes.data.sort(() => Math.random() - 0.5);
+        const topThree = shuffled.slice(0, 3);
+        console.log("Recommended Top 3:", topThree);
+        setRecommendedGames(topThree);
+      } catch (err) {
+        console.error(err);
+        setError("Game not found or API error.");
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchGame();
+  }, [id]);
+
   const systemRequirementMock = [
     { hardware: "OS", data: "Windows 10/11" },
     { hardware: "Processor", data: "Intel i5 10400, AMD Ryzen 5 3600" },
@@ -69,27 +95,7 @@ function GameDetail() {
     { hardware: "Storage", data: "20 GB available space" },
   ];
 
-  useEffect(() => {
-    try {
-      const targetProduct = products.find((game) => game.product_id === gameId);
-
-      if (targetProduct) {
-        setGameData(targetProduct);
-        setLoading(false);
-      } else {
-        setError("Game not found.");
-        setLoading(false);
-      }
-    } catch (err) {
-      setError("Error loading game data.", err);
-      setLoading(false);
-    }
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
-  }, [gameId]);
+ 
 
   if (loading) {
     return <div>Loading game details...</div>;

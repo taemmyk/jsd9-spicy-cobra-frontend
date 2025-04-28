@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography, Button, IconButton } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 import Heading from "../components/common/Heading";
 import { useTheme } from "@mui/material/styles";
 import OrderItemReviewCard from "../components/checkout-payment/OrderItemReviewCard";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Tooltip from "@mui/material/Tooltip";
 import { Link } from "react-router-dom";
 import CartItemCard from "../components/cart/CartItemCard";
-import products from "../data/products.json";
-
+import axios from "axios";
+import { useParams } from "react-router-dom";
 function Order({ onCloseDrawer }) {
   const theme = useTheme();
-  const [cartItem, setCartItem] = useState(products[0]);
-
+  const [cartItem, setCartItem] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const { id } = useParams();
   const OrderButtonSmall = ({ label, to, onClick }) => {
     const buttonSx = {
       bgcolor: theme.palette.secondary.light,
@@ -39,11 +39,22 @@ function Order({ onCloseDrawer }) {
     );
   };
 
-  const addItemToCart = (product) => {
-    setCartItem(product);
-  };
+  useEffect(() => {
+    const fetchCartItem = async () => {
+      try {
+        const res = await axios.get(`http://localhost:5000/products`);
+        console.log("Fetched Cart Item:", res.data);
+        setCartItem(res.data);
+      } catch (err) {
+        console.error("Failed to fetch cart item:", err);
+        setError("Failed to fetch product.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  useEffect(() => {}, [cartItem]);
+    fetchCartItem();
+  }, []);
 
   return (
     <>
@@ -54,47 +65,25 @@ function Order({ onCloseDrawer }) {
           justifyContent: "space-between",
         }}
       >
-        <Box
-          sx={{ display: "flex", flexDirection: "column", padding: 2, gap: 2 }}
-        >
+        <Box sx={{ display: "flex", flexDirection: "column", padding: 2, gap: 2 }}>
           <Heading section="Your Cart" />
           <OrderButtonSmall label="Continue Shopping" onClick={onCloseDrawer} />
         </Box>
       </Box>
-      <Box
-        sx={{
-          backgroundColor: theme.palette.background.paper,
-        }}
-      >
-        <CartItemCard product={cartItem} key={cartItem.product_id} />
-        {/* {cartItem ? (
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 2,
-              mt: 4,
-              padding: 2,
-            }}
-          >
-            <CartItemCard product={cartItem} key={cartItem.product_id} />
-          </Box>
+
+      <Box sx={{ backgroundColor: theme.palette.background.paper }}>
+        {loading ? (
+          <Typography sx={{ padding: 4 }}>Loading...</Typography>
+        ) : error ? (
+          <Typography sx={{ padding: 4, color: "red" }}>{error}</Typography>
+        ) : cartItem ? (
+          <CartItemCard product={cartItem} key={cartItem.product_id} />
         ) : (
-          <Typography
-            variant="body2"
-            sx={{ padding: 4, color: theme.palette.secondary.light }}
-          >
-            No Items in your cart
-          </Typography>
-        )} */}
+          <Typography sx={{ padding: 4 }}>No Items in your cart</Typography>
+        )}
       </Box>
 
-      <Box
-        sx={{
-          backgroundColor: theme.palette.background.paper,
-          padding: "20px",
-        }}
-      >
+      <Box sx={{ backgroundColor: theme.palette.background.paper, padding: "20px" }}>
         <OrderItemReviewCard
           category="Products"
           description={cartItem?.title || "0 games"}
