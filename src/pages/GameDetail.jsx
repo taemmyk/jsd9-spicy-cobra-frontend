@@ -27,7 +27,6 @@ import ProductCard from "../components/products/ProductCard";
 function GameDetail() {
   const theme = useTheme();
   const { id } = useParams()
-  
   const [gameData, setGameData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -58,15 +57,14 @@ function GameDetail() {
 
 
   useEffect(() => {
-    
+console.log("useEffect")
+
     const fetchGame = async () => {
       try {
         const res = await axios.get(`http://localhost:5000/products/${id}`);
         console.log("Fetched Game Data:", res.data);
         setGameData(res.data);
         setError(null);
-  
-       
         const allGamesRes = await axios.get("http://localhost:5000/products");
         console.log("All Games:", allGamesRes.data);
         const shuffled = allGamesRes.data.sort(() => Math.random() - 0.5);
@@ -80,9 +78,12 @@ function GameDetail() {
         setLoading(false);
       }
     };
-  
+
     fetchGame();
-  }, [id]);
+  }, []);
+
+
+
 
   const systemRequirementMock = [
     { hardware: "OS", data: "Windows 10/11" },
@@ -95,7 +96,7 @@ function GameDetail() {
     { hardware: "Storage", data: "20 GB available space" },
   ];
 
- 
+
 
   if (loading) {
     return <div>Loading game details...</div>;
@@ -149,7 +150,7 @@ function GameDetail() {
                 gap: 2,
               }}
             >
-              {gameData.discount_percentage > 0 && (
+              {gameData.discountPercentage > 0 && (
                 <Card
                   sx={{
                     backgroundColor: "transparent",
@@ -164,7 +165,7 @@ function GameDetail() {
                       fontWeight: "600",
                     }}
                   >
-                    {gameData.discount_percentage}%
+                    {gameData.discountPercentage}%
                   </Typography>
                 </Card>
               )}
@@ -182,10 +183,10 @@ function GameDetail() {
                     fontSize: "0.85rem",
                   }}
                 >
-                  {gameData.genre_id_1}
+                  {gameData.genreId}
                 </Typography>
               </Card>
-              {gameData.genre_id_2 && (
+              {gameData.genre && (
                 <Card
                   sx={{
                     backgroundColor: "transparent",
@@ -225,7 +226,8 @@ function GameDetail() {
             </Box>
             {/* Price */}
             <Box sx={{ display: "flex", gap: 2 }}>
-              {gameData.discount_percentage > 0 ? (
+              {gameData.
+                discountPercentage > 0 ? (
                 <>
                   <Typography
                     variant="body1"
@@ -234,7 +236,8 @@ function GameDetail() {
                     ฿
                     {Math.floor(
                       parseInt(gameData.price) *
-                        ((100 - parseInt(gameData.discount_percentage)) / 100)
+                      ((100 - parseInt(gameData.
+                        discountPercentage)) / 100)
                     )}
                   </Typography>
                   <Typography

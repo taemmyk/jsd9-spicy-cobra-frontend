@@ -42,9 +42,13 @@ function Order({ onCloseDrawer }) {
   useEffect(() => {
     const fetchCartItem = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/products`);
-        console.log("Fetched Cart Item:", res.data);
-        setCartItem(res.data);
+        const res = await axios.get(`http://localhost:5000/products/${id}`);
+        console.log("price type:", typeof res.data.price);
+
+        setCartItem({
+          ...res.data,
+          price: Number(res.data.price),
+        });
       } catch (err) {
         console.error("Failed to fetch cart item:", err);
         setError("Failed to fetch product.");
@@ -54,7 +58,8 @@ function Order({ onCloseDrawer }) {
     };
 
     fetchCartItem();
-  }, []);
+  }, [id]);
+
 
   return (
     <>
@@ -88,23 +93,23 @@ function Order({ onCloseDrawer }) {
           category="Products"
           description={cartItem?.title || "0 games"}
           total={
-            cartItem?.price
-              ? `฿${cartItem.price.toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}`
+            typeof cartItem?.price === 'number'
+            
+              ? `฿${cartItem.price}`
               : "฿0.00"
+
           }
         />
+
         <OrderItemReviewCard
           category="Tax"
           description="7% Vat include"
           total={
             cartItem?.price
               ? `฿${(cartItem.price * 0.07).toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}`
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}`
               : "฿0.00"
           }
         />
@@ -113,9 +118,9 @@ function Order({ onCloseDrawer }) {
           total={
             cartItem?.price
               ? `฿${cartItem.price.toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}`
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}`
               : "฿0.00"
           }
         />
