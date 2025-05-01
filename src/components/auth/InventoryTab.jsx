@@ -249,7 +249,7 @@ export default function AddressForm() {
     <>
       <Box sx={{ display: "flex", flexDirection: "column", margin: 4 }}>
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Heading section="Inventory Manager" />
+          <Heading section="Developer's Inventory Manager" />
           {initialValueSet && (
             <ButtonGeneric label="Change game" onClick={handleChangeProduct} />
           )}

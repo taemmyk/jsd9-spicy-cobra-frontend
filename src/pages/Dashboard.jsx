@@ -24,7 +24,11 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
 import DashboardTab from "../components/auth/DashboardTab";
+import OrdersTab from "../components/auth/OrdersTab";
+import CommunityTab from "../components/auth/CommunityTab";
+import ReportTab from "../components/auth/ReportTab"
 import InventoryTab from "../components/auth/InventoryTab";
+import ProfileTab from "../components/auth/ProfileTab";
 
 function Dashboard() {
   const theme = useTheme();
@@ -277,7 +281,11 @@ function Dashboard() {
           }}
         >
           {selectedTab === "dashboard" && <DashboardTab />}
+          {selectedTab === "orders" && <OrdersTab />}
+          {selectedTab === "review" && <CommunityTab />}
+          {selectedTab === "report" && <ReportTab />}
           {selectedTab === "inventory" && <InventoryTab />}
+          {selectedTab === "profile" && <ProfileTab />}
         </Box>
       </Box>
     </>
