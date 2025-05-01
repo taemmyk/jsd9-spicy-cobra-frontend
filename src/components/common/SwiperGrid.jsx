@@ -28,10 +28,6 @@ export default function App({ products }) {
         {products.map((item, index) => (
           <SwiperSlide key={index}>
             <Link to={`/games/${item.product_id}`}>
-              {/* <img
-                src={item.image_thumbnail}
-                alt={item.title || `Slide ${index + 1}`}
-              /> */}
               <ProductCard product={item}/>
             </Link>
           </SwiperSlide>

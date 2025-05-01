@@ -9,9 +9,9 @@ import {
   Typography,
   Avatar,
   Stack,
+  useTheme,
+  Rating,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
-import Rating from "@mui/material/Rating";
 import calculateSalePrice from "../../utils/calculateSalePrice";
 
 function ProductCard({ product }) {
@@ -130,7 +130,7 @@ function ProductCard({ product }) {
                     display: { xs: "none", md: "block" },
                   }}
                 >
-                  {ratingValue}
+                  {ratingValue.toFixed(1)}
                 </Typography>
               </Stack>
             </CardContent>

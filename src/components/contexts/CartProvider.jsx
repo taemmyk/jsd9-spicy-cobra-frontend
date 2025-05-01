@@ -14,7 +14,6 @@ export const CartProvider = ({ children }) => {
   //! multiple copies not allowed
   const addToCart = useCallback(
     (itemToAdd) => {
-      // console.log(`trying to add ${itemToAdd.product_id}`)
       const isItemInCart = cartItems.some(
         (item) => item.product_id === itemToAdd.product_id
       );
@@ -37,10 +36,9 @@ export const CartProvider = ({ children }) => {
       const updatedCart = cartItems.filter(
         (item) => item.product_id !== itemId
       );
-      // console.log(`cart count ${updatedCart.length}`);
       setCartItems(updatedCart);
       if (itemToRemove) {
-        setSnackbarMessage(`${itemToRemove.title} removed from your cart.`); // แสดงชื่อสินค้าที่ถูกลบ
+        setSnackbarMessage(`${itemToRemove.title} removed from your cart.`);
         setSnackbarOpen(true);
       }
     },

@@ -4,7 +4,7 @@
 }
 
 .swiper-autoplay .swiper-slide {
-    /* Center slide text vertically */
+    /*TODO: Center slide */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -123,18 +123,6 @@
 .swiper-product .swiper-button-next:hover {
     color: #D1B6FF;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 .swiper {
     width: 100%;

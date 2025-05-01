@@ -19,7 +19,7 @@ function ButtonNavbar({ path, label }) {
         return <LogoDevIcon sx={iconStyle} />;
       case "points":
         return <AutoAwesomeIcon sx={iconStyle} />;
-      case "genres":
+      case "games":
         return <FolderIcon sx={iconStyle} />;
       case "news":
         return <NewspaperIcon sx={iconStyle} />;

@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Typography } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
+
 import Heading from "../components/common/Heading";
 import OrderItemCard from "../components/orders/OrderItemCard";
-import { useTheme } from "@mui/material/styles";
 import CheckoutStepper from "../components/checkout-payment/CheckoutStepper";
 import { CartContext } from "../components/contexts/CartContext";
 import OrderItemReviewCard from "../components/checkout-payment/OrderItemReviewCard";
@@ -29,8 +29,6 @@ function Checkout() {
 
   const handleStepChange = (step) => {
     setCurrentCheckoutStep(step);
-    console.log("Current Step in Checkout:", step);
-    // ทำ Logic อื่นๆ ที่ Checkout ต้องการทราบ Step
   };
 
   return (

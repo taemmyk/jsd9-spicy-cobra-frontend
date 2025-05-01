@@ -2,7 +2,6 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import Heading from "../common/Heading";
 import productsData from "../../data/products.json";
-
 import ReviewCard from "../common/ReviewCard";
 
 function CommunityTab() {

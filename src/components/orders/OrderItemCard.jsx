@@ -1,6 +1,5 @@
 import React from "react";
-import { Box, Typography, Button, IconButton } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { Box, Typography, useTheme } from "@mui/material";
 
 function OrderItemCard({ product }) {
   const theme = useTheme();

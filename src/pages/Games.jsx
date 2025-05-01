@@ -1,18 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
-import ButtonGeneric from "../components/common/ButtonGeneric";
-import Card from "@mui/material/Card";
-import CardActionArea from "@mui/material/CardActionArea";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControl from "@mui/material/FormControl";
+import { useNavigate, useLocation } from "react-router-dom";
+import {
+  Card,
+  CardActionArea,
+  CardContent,
+  Typography,
+  RadioGroup,
+  FormControl,
+  IconButton,
+  Box,
+  useTheme,
+} from "@mui/material";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
-import SearchInput from "../components/common/SearchInput"; // Adjust path as needed
-import { IconButton, Box } from "@mui/material";
+import SearchInput from "../components/common/SearchInput";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
-import { useNavigate, useLocation } from "react-router-dom";
-import { useTheme } from "@mui/material/styles";
 
 function Games() {
   const theme = useTheme();

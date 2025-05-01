@@ -1,13 +1,11 @@
-import React, { useState} from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import { AppBar, Toolbar, IconButton, Typography, Box } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PersonIcon from "@mui/icons-material/Person";
 import ButtonNavbar from "../common/ButtonNavbar";
 import TemporaryDrawer from "../orders/TemporaryDrawer";
-import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const theme = useTheme();

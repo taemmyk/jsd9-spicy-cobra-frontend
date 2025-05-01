@@ -1,32 +1,28 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
-import { Box, IconButton, Button } from "@mui/material";
-import Card from "@mui/material/Card";
-import CardActionArea from "@mui/material/CardActionArea";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import { useTheme } from "@mui/material/styles";
-import ButtonGeneric from "../components/common/ButtonGeneric";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControl from "@mui/material/FormControl";
-
+import {
+  Box,
+  Typography,
+  useTheme,
+  Card,
+  CardActionArea,
+  CardContent,
+  RadioGroup,
+  FormControl,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from "@mui/material";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import SummarizeIcon from "@mui/icons-material/Summarize";
 import PersonIcon from "@mui/icons-material/Person";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import InventoryIcon from "@mui/icons-material/Inventory";
-import LogoutIcon from "@mui/icons-material/Logout";
-
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-
 import DashboardTab from "../components/auth/DashboardTab";
 import OrdersTab from "../components/auth/OrdersTab";
 import CommunityTab from "../components/auth/CommunityTab";
-import ReportTab from "../components/auth/ReportTab"
+import ReportTab from "../components/auth/ReportTab";
 import InventoryTab from "../components/auth/InventoryTab";
 import ProfileTab from "../components/auth/ProfileTab";
 
@@ -142,7 +138,7 @@ function Dashboard() {
           flexDirection: { xs: "column", md: "row" },
           justifyContent: "space-around",
           alignContent: "stretch",
-          minHeight: "800px", //! TO FIX
+          minHeight: "800px",
         }}
       >
         <Box
@@ -234,38 +230,6 @@ function Dashboard() {
               </AccordionDetails>
             </Accordion>
           </Box>
-
-          {/* Logout Button (Conditionally Rendered if Needed) */}
-          {/* <Link to="/" style={{ textDecoration: "none" }}>
-    <Button
-      variant="contained"
-      // onClick={handleTabChange}
-      sx={{
-        backgroundColor: theme.palette.negative.default,
-        color: theme.palette.primary.contrastText,
-        fontSize: "1.25rem",
-        fontWeight: "400",
-        px: 2,
-        py: 1,
-        borderRadius: 8,
-        boxShadow: 2,
-        transition: "all 0.2s ease",
-        "&:hover": {
-          bgcolor: theme.palette.negative.dark,
-          color: theme.palette.primary.contrastText,
-        },
-      }}
-    >
-      <LogoutIcon />
-      <Typography
-        sx={{
-          display: { xs: "none", md: "block" },
-        }}
-      >
-        Sign out
-      </Typography>
-    </Button>
-  </Link> */}
         </Box>
 
         <Box

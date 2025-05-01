@@ -1,5 +1,4 @@
 import React from "react";
-import { styled, useTheme } from "@mui/material/styles";
 import {
   Card,
   CardActions,
@@ -10,11 +9,15 @@ import {
   IconButton,
   Typography,
   Tooltip,
+  useTheme,
+  styled,
 } from "@mui/material";
-import ShareIcon from "@mui/icons-material/Share";
-import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
-import ContactSupportIcon from "@mui/icons-material/ContactSupport";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import {
+  ContactSupport as ContactSupportIcon,
+  CloudDownload as CloudDownloadIcon,
+  Share as ShareIcon,
+  ExpandMore as ExpandMoreIcon,
+} from "@mui/icons-material";
 
 const ExpandMore = styled((props) => {
   const { ...other } = props;
@@ -61,7 +64,7 @@ function ExpandableCard({ product }) {
             <CardMedia
               component="img"
               image={product.image_thumbnail}
-                alt={product.title}
+              alt={product.title}
               sx={{ height: "auto", maxWidth: "100%" }}
             />
           </Grid>

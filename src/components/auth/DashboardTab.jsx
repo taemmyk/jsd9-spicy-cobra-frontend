@@ -5,7 +5,6 @@ import Heading from "../../components/common/Heading";
 import SearchInput from "../../components/common/SearchInput";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
-import ProductCard from "../products/ProductCard";
 import productsData from "../../data/products.json";
 import {
   Card,
@@ -20,6 +19,7 @@ import {
 function DashboardTab() {
   const theme = useTheme();
   const [searchText, setSearchText] = useState("");
+  const newSelectedProducts = [productsData[2], productsData[8]];
 
   const inputRef = useRef(null);
 
@@ -112,7 +112,7 @@ function DashboardTab() {
           marginRight: 4,
         }}
       >
-        {productsData.map((game, index) => (
+        {newSelectedProducts.map((game, index) => (
           <Card key={index} sx={{ borderRadius: 4 }}>
             <CardActionArea>
               <Box

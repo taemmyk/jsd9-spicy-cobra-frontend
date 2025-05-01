@@ -1,29 +1,27 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useParams, useNavigate } from "react-router-dom";
 import {
   Box,
   Typography,
-  Select,
   Avatar,
   Stack,
   useMediaQuery,
   Tooltip,
   Card,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  Paper,
+  useTheme,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { useParams, useNavigate } from "react-router-dom";
 import ButtonGeneric from "../components/common/ButtonGeneric";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import SwiperProductNavigation from "../components/products/SwiperProductNavigation";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import products from "../data/products.json";
 import Heading from "../components/common/Heading";
 import ProductCard from "../components/products/ProductCard";
-
 import { CartContext } from "../components/contexts/CartContext";
 import calculateSalePrice from "../utils/calculateSalePrice";
 
@@ -44,9 +42,9 @@ function GameDetail() {
     Math.floor(thumbsupCount * Math.random() * 0.1)
   );
 
-  const recommendedGames = [...products]
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 3);
+  // const recommendedGames = [...products]
+  //   .sort(() => Math.random() - 0.5)
+  //   .slice(0, 3);
 
   const handleAddToCart = () => {
     addItem(gameData);
@@ -55,7 +53,7 @@ function GameDetail() {
   const handleBuyNow = () => {
     addItem(gameData);
     setTimeout(() => {
-      navigate('/checkout');
+      navigate("/checkout");
     }, 1000);
   };
 
@@ -241,8 +239,7 @@ function GameDetail() {
                     variant="body1"
                     sx={{ color: theme.palette.secondary.light }}
                   >
-                    ฿
-                    {calculateSalePrice(gameData)}
+                    ฿{calculateSalePrice(gameData)}
                   </Typography>
                   <Typography
                     variant="body1"
@@ -288,7 +285,8 @@ function GameDetail() {
                     bgcolor: theme.palette.accent.emphasisdark,
                     color: theme.palette.primary.contrastText,
                   },
-                }} onClick={handleBuyNow}
+                }}
+                onClick={handleBuyNow}
               />
               <ButtonGeneric label="Add to Cart" onClick={handleAddToCart} />
             </Box>

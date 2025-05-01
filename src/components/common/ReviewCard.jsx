@@ -6,8 +6,8 @@ import {
   CardContent,
   Typography,
   Box,
+  Rating,
 } from "@mui/material";
-import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
 
 function ReviewCard({ product, ratingValue, reviewContent }) {

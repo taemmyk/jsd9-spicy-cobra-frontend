@@ -1,9 +1,5 @@
 import React, { useState, useContext } from "react";
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import Button from "@mui/material/Button";
-import { Badge } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { Badge, Box, Drawer, Button, useTheme } from "@mui/material";
 
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { CartContext } from "../contexts/CartContext";

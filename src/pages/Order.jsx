@@ -1,12 +1,10 @@
 import React, { useContext } from "react";
-import { Box, Typography, Button, IconButton } from "@mui/material";
-import Heading from "../components/common/Heading";
-import { useTheme } from "@mui/material/styles";
-import OrderItemReviewCard from "../components/checkout-payment/OrderItemReviewCard";
+import { Box, Typography, Button, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
-import CartItemCard from "../components/cart/CartItemCard";
-
 import { CartContext } from "../components/contexts/CartContext";
+import Heading from "../components/common/Heading";
+import OrderItemReviewCard from "../components/checkout-payment/OrderItemReviewCard";
+import CartItemCard from "../components/cart/CartItemCard";
 import calculateSalePrice from "../utils/calculateSalePrice";
 
 function Order({ onCloseDrawer }) {
@@ -14,7 +12,6 @@ function Order({ onCloseDrawer }) {
   const { items, removeItem } = useContext(CartContext);
 
   const handleRemove = (itemId) => {
-    // console.log("trying to remove", itemId);
     removeItem(itemId);
   };
 
@@ -54,8 +51,6 @@ function Order({ onCloseDrawer }) {
       </Button>
     );
   };
-
-  // console.log("Items in Order:", items);
 
   return (
     <>
@@ -150,8 +145,11 @@ function Order({ onCloseDrawer }) {
               : "฿0.00"
           }
         />
-        { items.length > 0 ? 
-        <OrderButtonSmall label="Continue to Checkout" to="/checkout" /> : <></>}
+        {items.length > 0 ? (
+          <OrderButtonSmall label="Continue to Checkout" to="/checkout" />
+        ) : (
+          <></>
+        )}
       </Box>
     </>
   );

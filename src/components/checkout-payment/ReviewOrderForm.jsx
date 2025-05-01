@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
-import { Box, Typography, useTheme, Divider } from "@mui/material";
-
+import { Box, Typography, useTheme } from "@mui/material";
 import OrderItemReviewCard from "./OrderItemReviewCard";
 import { CartContext } from "../contexts/CartContext";
 import calculateSalePrice from "../../utils/calculateSalePrice";

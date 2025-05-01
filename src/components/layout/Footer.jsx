@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useTheme } from "@mui/material/styles";
 import {
   Box,
   Typography,
@@ -10,10 +9,11 @@ import {
   List,
   ListItem,
   ListItemText,
+  useTheme,
+  styled,
 } from "@mui/material";
-import YouTubeIcon from "@mui/icons-material/YouTube";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import { styled } from "@mui/material/styles";
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 function Footer({ onBackToTop }) {
   const theme = useTheme();
