@@ -5,6 +5,17 @@ import Heading from "../../components/common/Heading";
 import SearchInput from "../../components/common/SearchInput";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
+import ProductCard from "../products/ProductCard";
+import productsData from "../../data/products.json";
+import {
+  Card,
+  CardActionArea,
+  CardMedia,
+  CardContent,
+  Typography,
+  Avatar,
+  Stack,
+} from "@mui/material";
 
 function DashboardTab() {
   const theme = useTheme();
@@ -88,29 +99,65 @@ function DashboardTab() {
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: { xs: "1fr", md: "repeat(2, 1fr)" },
-          gap: 4,
-          flexGrow: 1,
+          gridTemplateColumns: {
+            xs: "repeat(1, 1fr)",
+            sm: "repeat(2, 1fr)",
+            md: "repeat(3, 1fr)",
+          },
+          gap: {
+            xs: 2,
+            md: 4,
+          },
+          marginLeft: 4,
+          marginRight: 4,
         }}
       >
-        <Box
-          component="img"
-          src="https://placehold.co/200x200"
-          alt=""
-          sx={{
-            maxWidth: "100%",
-            height: "auto",
-          }}
-        />
-        <Box
-          component="img"
-          src="https://placehold.co/200x200"
-          alt=""
-          sx={{
-            maxWidth: "100%",
-            height: "auto",
-          }}
-        />
+        {productsData.map((game, index) => (
+          <Card key={index} sx={{ borderRadius: 4 }}>
+            <CardActionArea>
+              <Box
+                sx={{
+                  position: "relative",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <CardMedia
+                  component="img"
+                  height="auto"
+                  image={game.image_thumbnail}
+                  alt={game.title}
+                  sx={{
+                    width: "100%",
+                    objectFit: "cover",
+                  }}
+                />
+              </Box>
+              <CardContent
+                sx={{
+                  display: "flex",
+                  justifyContent: "start",
+                  backgroundColor: theme.palette.background.card,
+                }}
+              >
+                <Stack
+                  sx={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 2,
+                  }}
+                >
+                  <Avatar
+                    alt={game.developer}
+                    src={game.developer_avatar}
+                    sx={{ width: 48, height: 48, objectFit: "cover" }}
+                  />
+                  <Typography variant="body3">{game.developer}</Typography>
+                </Stack>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        ))}
       </Box>
     </Box>
   );

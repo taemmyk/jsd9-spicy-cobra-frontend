@@ -27,6 +27,8 @@ import ButtonGeneric from "../common/ButtonGeneric";
 import productsData from "../../data/products.json";
 import genresData from "../../data/genre.json";
 
+const genres = genresData.map((genre) => genre.genre_name);
+
 export default function AddressForm() {
   const theme = useTheme();
   const fileInputRef = useRef(null);
@@ -49,7 +51,6 @@ export default function AddressForm() {
   const [developerName, setDeveloperName] = useState("");
   const [publisherName, setPublisherName] = useState("");
   const [selectedGenres, setSelectedGenres] = useState({});
-  const genres = genresData.map((genre) => genre.genre_name);
   const [price, setPrice] = useState("");
   const [selectedDiscount, setSelectedDiscount] = useState(0.0);
   const currentPrice =
