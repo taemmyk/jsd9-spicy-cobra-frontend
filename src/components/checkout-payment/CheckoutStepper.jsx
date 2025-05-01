@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import {
   Box,
   Stepper,
@@ -15,6 +15,8 @@ import ButtonGeneric from "../common/ButtonGeneric";
 import ReviewOrderForm from "./ReviewOrderForm";
 
 import { CartContext } from "../contexts/CartContext";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const steps = ["Your address", "Payment details", "Review you order"];
 
@@ -51,23 +53,71 @@ function ColorlibStepIcon(props) {
   );
 }
 
-function CheckoutStepper() {
+function CheckoutStepper({ onStepChange }) {
   const theme = useTheme();
-  const [activeStep, setActiveStep] = React.useState(0);
-  const { items, clearCart } = useContext(CartContext);
+  const [activeStep, setActiveStep] = useState(0);
+  const { clearCart } = useContext(CartContext);
+  const [open, setOpen] = useState(false);
+  const [countdown, setCountdown] = useState(5);
+  const [showButton, setShowButton] = useState(false);
+  const countdownRef = useRef(null);
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    if (activeStep === 2) {
+      handleOpen();
+      return;
+    } else {
+      const nextStep = activeStep + 1;
+      setActiveStep(nextStep);
+      if (onStepChange) {
+        onStepChange(nextStep);
+      }
+    }
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    const prevStep = activeStep - 1;
+    setActiveStep(prevStep);
+    if (onStepChange) {
+      onStepChange(prevStep);
+    }
   };
 
   const handleClearCart = () => {
     handleNext();
     clearCart();
   };
+
+  const handleOpen = () => {
+    setOpen(true);
+    setCountdown(3);
+    setShowButton(false);
+
+    countdownRef.current = setInterval(() => {
+      setCountdown((prev) => prev - 1);
+    }, 1000);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    clearInterval(countdownRef.current);
+    const nextStep = activeStep + 1;
+    setActiveStep(nextStep);
+    if (onStepChange) {
+      onStepChange(nextStep);
+    }
+  };
+
+  const handleContinue = () => {
+    handleClose();
+  };
+
+  useEffect(() => {
+    if (countdown === 0) {
+      clearInterval(countdownRef.current);
+      setShowButton(true);
+    }
+  }, [countdown]);
 
   return (
     <Box sx={{ width: "100%", color: theme.palette.primary.contrastText }}>
@@ -91,8 +141,7 @@ function CheckoutStepper() {
         <React.Fragment>
           <Typography variant="h5">Thank you for your order!</Typography>
           <Typography variant="body1">
-            Your order number is
-            <strong>&nbsp;#140396</strong>. We have emailed your order
+            Your order number is &nbsp;#140396. We have emailed your order
             confirmation and will update you once its shipped.
           </Typography>
           <ButtonGeneric
@@ -123,6 +172,54 @@ function CheckoutStepper() {
           </Box>
         </React.Fragment>
       )}
+      <Backdrop
+        sx={(theme) => ({
+          color: theme.palette.primary.contrastText,
+          zIndex: theme.zIndex.drawer + 1,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "rgba(62, 47, 100, 0.8)",
+        })}
+        open={open}
+        aria-hidden={!open}
+      >
+        {!showButton ? (
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <CircularProgress color="inherit" />
+            <Typography variant="body1">
+              Transaction initialized... {countdown}s
+            </Typography>
+          </Box>
+        ) : (
+          <>
+            <Typography variant="body1">Payment completed</Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleContinue}
+              sx={{
+                fontSize: { xs: "1rem", md: "1.25rem" },
+                fontWeight: "400",
+                paddingX: { xs: 1, md: 2 },
+                paddingY: { xs: 0, md: 1 },
+                borderRadius: 8,
+                boxShadow: 2,
+                whiteSpace: "nowrap",
+              }}
+            >
+              Back to Store
+            </Button>
+          </>
+        )}
+      </Backdrop>
     </Box>
   );
 }

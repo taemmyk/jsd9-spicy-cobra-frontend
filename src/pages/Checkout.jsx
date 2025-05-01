@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
 import Heading from "../components/common/Heading";
@@ -14,6 +14,7 @@ function Checkout() {
   const theme = useTheme();
   const { items } = useContext(CartContext);
   const navigate = useNavigate();
+  const [currentCheckoutStep, setCurrentCheckoutStep] = useState(0);
 
   const calculateItemTotalPrice = () => {
     return items.reduce((total, item) => total + item.price, 0);
@@ -24,6 +25,12 @@ function Checkout() {
 
   const handleGoBack = () => {
     navigate(-1);
+  };
+
+  const handleStepChange = (step) => {
+    setCurrentCheckoutStep(step);
+    console.log("Current Step in Checkout:", step);
+    // ทำ Logic อื่นๆ ที่ Checkout ต้องการทราบ Step
   };
 
   return (
@@ -53,10 +60,12 @@ function Checkout() {
               : `Checkout 1 game`
           }
         />
-        <ButtonGeneric
-          label="Continue Shopping"
-          onClick={handleGoBack}
-        ></ButtonGeneric>
+        {currentCheckoutStep < 3 && (
+          <ButtonGeneric
+            label="Continue Shopping"
+            onClick={handleGoBack}
+          ></ButtonGeneric>
+        )}
         <Box
           flexGrow={1}
           sx={{
@@ -129,7 +138,7 @@ function Checkout() {
         }}
       >
         <Box>
-          <CheckoutStepper />
+          <CheckoutStepper onStepChange={handleStepChange} />
         </Box>
       </Box>
     </Box>
