@@ -16,14 +16,8 @@ import Checkout from "./pages/Checkout";
 import Membership from "./pages/Membership";
 import Dashboard from "./pages/Dashboard";
 import ProductList from "./components/products/ProductList";
-import Login from "./pages/LoginForm";
 
 const router = createBrowserRouter([
-  {
-    path: "membership",
-    element: <Login />,
-  },
-
   {
     path: "/",
     element: <Layout />,
@@ -55,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: "checkout",
         element: <Checkout />,
+      },
+      {
+        path: "membership",
+        element: <Membership />,
       },
       {
         path: "dashboard",

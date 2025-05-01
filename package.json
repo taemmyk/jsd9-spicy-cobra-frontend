@@ -19,7 +19,6 @@
     "axios": "^1.8.4",
     "lodash": "^4.17.21",
     "lodash.debounce": "^4.0.8",
-    "motion": "^12.7.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-id-swiper": "^4.0.0",
