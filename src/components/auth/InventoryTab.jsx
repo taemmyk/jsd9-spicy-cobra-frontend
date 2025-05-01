@@ -248,7 +248,13 @@ export default function AddressForm() {
   return (
     <>
       <Box sx={{ display: "flex", flexDirection: "column", margin: 4 }}>
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            justifyContent: "space-between",
+          }}
+        >
           <Heading section="Developer's Inventory Manager" />
           {initialValueSet && (
             <ButtonGeneric label="Change game" onClick={handleChangeProduct} />
@@ -286,7 +292,7 @@ export default function AddressForm() {
         )}
 
         {selectedProduct && (
-          <Box sx={{ display: "flex", gap: 4, marginTop: 2 }}>
+          <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: 4, marginTop: 2 }}>
             <Box
               sx={{
                 flexBasis: "40%",

@@ -28,13 +28,13 @@ function CommunityTab() {
           <Typography variant="h4">Your Reviews</Typography>
           <ReviewCard
             product={productsData[2]}
-            ratingValue={3.0}
-            reviewContent="Review"
+            ratingValue={4.0}
+            reviewContent="Once you get past the initial awkwardness of the door-opening mechanics, this is actually a pretty scary game."
           />
           <ReviewCard
-            product={productsData[3]}
-            ratingValue={3.0}
-            reviewContent="Review"
+            product={productsData[8]}
+            ratingValue={3.5}
+            reviewContent="Once you play it for 30 mins above and understand the mechanics of how to make your friend angry, this game is good. Give it a try with 1 or 2 of your friends (with a mic) in a public match!"
           />
         </Box>
       </Box>
