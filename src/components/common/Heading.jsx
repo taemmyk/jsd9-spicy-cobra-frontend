@@ -10,7 +10,8 @@ function Heading({section}) {
           fontSize: { xs: 24, md: 32 },
           textTransform: "uppercase",
           whiteSpace: "nowrap",
-          mb: 0,
+          marginTop: 2,
+          marginBottom: 2,
         }}
       >
         {section}

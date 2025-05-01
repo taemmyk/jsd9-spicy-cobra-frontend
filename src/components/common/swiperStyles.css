@@ -123,3 +123,42 @@
 .swiper-product .swiper-button-next:hover {
     color: #D1B6FF;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+.swiper {
+    width: 100%;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.swiper-grid .swiper-pagination-bullet {
+    background-color: #BDBDBD;
+    margin: 0 5px;
+    cursor: pointer;
+    width: 12px;
+    height: 12px;
+}
+
+.swiper-grid .swiper-pagination-bullet-active {
+    background-color: #8677AC;
+}
+
+.swiper-grid .swiper-pagination {
+    position: static;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}

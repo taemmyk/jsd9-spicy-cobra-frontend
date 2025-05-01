@@ -6,6 +6,7 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import theme from "../theme";
 import SwiperPerViewAuto from "../components/common/SwiperPerViewAuto";
 import SwiperAutoplay from "../components/common/SwiperAutoplay";
+import SwiperGrid from "../components/common/SwiperGrid";
 
 import products from "../data/products.json";
 // import { getProducts } from "../api/products";
@@ -60,41 +61,36 @@ const Home = () => {
           ))}
         </ul>
       </Box> */}
-      <SwiperPerViewAuto products={recommendedGames} />
+      <Box sx={{ paddingBottom: 2 }}>
+        <SwiperPerViewAuto products={recommendedGames} />
+      </Box>
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           backgroundColor: theme.palette.background.paper,
-          gap: 2,
-          paddingY: 2,
+          paddingBottom: 2,
         }}
       >
         <Paper elevation={3} />
         <Heading section="For you" />
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: {
-              xs: "repeat(1, 1fr)",
-              sm: "repeat(2, 1fr)",
-              md: "repeat(3, 1fr)",
-            },
-            gap: {
-              xs: 2,
-              md: 4,
-            },
-            marginLeft: 4,
-            marginRight: 4,
-          }}
-        >
-          {products.map((game, index) => (
-            <ProductCard key={index} product={game} />
-          ))}
+        <Box sx={{ marginLeft: 4, marginRight: 4 }}>
+          <SwiperGrid products={products} />
         </Box>
       </Box>
-
-      <SwiperAutoplay products={recommendedGames} />
+      <Box sx={{ paddingBottom: 2 }}>
+        <Heading section="New Release" />
+        <SwiperAutoplay products={recommendedGames} />
+      </Box>
+      <Box
+        sx={{
+          backgroundColor: theme.palette.background.paper,
+          paddingBottom: 2,
+        }}
+      >
+        <Paper elevation={3} />
+        <Heading section="News" />
+      </Box>
     </>
   );
 };
