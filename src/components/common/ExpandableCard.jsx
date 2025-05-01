@@ -1,22 +1,23 @@
-import * as React from "react";
-import { styled } from "@mui/material/styles";
-import { Card, Grid } from "@mui/material";
-import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Collapse from "@mui/material/Collapse";
-import IconButton from "@mui/material/IconButton";
-import { Typography, useTheme, Box } from "@mui/material"; // Import Box ด้วย
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import React from "react";
+import { styled, useTheme } from "@mui/material/styles";
+import {
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Collapse,
+  Grid,
+  IconButton,
+  Typography,
+  Tooltip,
+} from "@mui/material";
 import ShareIcon from "@mui/icons-material/Share";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import ContactSupportIcon from "@mui/icons-material/ContactSupport";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Tooltip from "@mui/material/Tooltip";
 
 const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
+  const { ...other } = props;
   return <IconButton {...other} />;
 })(({ theme }) => ({
   marginLeft: "auto",

@@ -33,9 +33,9 @@ function OrdersTab() {
     <>
       <Box sx={{ display: "flex", flexDirection: "column", margin: 4, width: "100%" }}>
         <Heading section="Your order" />
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 4, marginTop: 2 }}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 4, marginTop: 4 }}>
           <ExpandableCard product={productsData[0]}/>
-          <ExpandableCard product={productsData[0]}/>
+          <ExpandableCard product={productsData[2]}/>
         </Box>
       </Box>
     </>
