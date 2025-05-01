@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import {
   Card,
   CardActions,
@@ -11,6 +11,7 @@ import {
   Tooltip,
   useTheme,
   styled,
+  Rating,
 } from "@mui/material";
 import {
   ContactSupport as ContactSupportIcon,
@@ -18,6 +19,12 @@ import {
   Share as ShareIcon,
   ExpandMore as ExpandMoreIcon,
 } from "@mui/icons-material";
+import StarIcon from "@mui/icons-material/Star";
+import {
+  generateRandomDateAndTime,
+  formatDateWithTime,
+  generateDatetimeTransaction,
+} from "../../utils/getRandomDatetime";
 
 const ExpandMore = styled((props) => {
   const { ...other } = props;
@@ -43,9 +50,18 @@ const ExpandMore = styled((props) => {
   ],
 }));
 
-function ExpandableCard({ product }) {
+function ExpandableCard({ product, ratingValue, reviewContent }) {
   const theme = useTheme();
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const orderDatetimeRef = useRef(null);
+  const transactionDatetimeRef = useRef(null);
+
+  if (!orderDatetimeRef.current) {
+    orderDatetimeRef.current = generateRandomDateAndTime();
+    transactionDatetimeRef.current = generateDatetimeTransaction(
+      orderDatetimeRef.current
+    );
+  }
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -85,13 +101,13 @@ function ExpandableCard({ product }) {
               variant="body2"
               sx={{ color: theme.palette.primary.contrastText }}
             >
-              Order
+              Order {formatDateWithTime(orderDatetimeRef.current)}
             </Typography>
             <Typography
               variant="body2"
               sx={{ color: theme.palette.primary.contrastText }}
             >
-              Transaction
+              Transaction {formatDateWithTime(transactionDatetimeRef.current)}
             </Typography>
           </Grid>
         </Grid>
@@ -113,7 +129,7 @@ function ExpandableCard({ product }) {
           </IconButton>
         </Tooltip>
         <ExpandMore
-          expand={expanded}
+          expand={expanded.toString()}
           onClick={handleExpandClick}
           aria-expanded={expanded}
           aria-label="show more"
@@ -129,8 +145,19 @@ function ExpandableCard({ product }) {
           >
             Your Review on This Game
           </Typography>
+          <Rating
+            name="text-feedback"
+            value={ratingValue}
+            readOnly
+            precision={0.5}
+            emptyIcon={
+              <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+            }
+          />
           <Typography variant="body2">
-            You have not review this game yet.
+            {reviewContent
+              ? reviewContent
+              : "You have not review this game yet."}
           </Typography>
         </CardContent>
       </Collapse>
