@@ -12,18 +12,13 @@ function CheckoutGeneric() {
   return (
     <Checkbox
       sx={{
-        color: theme.palette.primary.contrastText, // ขอบตอนยังไม่ติ๊ก
+        "& .MuiSvgIcon-root": {
+          fontSize: 30,
+        },
+        color: theme.palette.primary.contrastText,
         "&.Mui-checked": {
-          color: theme.palette.primary.contrastText, // ขอบตอนติ๊ก
+          color: theme.palette.secondary.light,
         },
-        "&.MuiCheckbox-root:hover": {
-          backgroundColor: "transparent", // ปิดสี hover
-        },
-        "&.Mui-checked:hover": {
-          backgroundColor: "transparent", // ปิดสี hover ตอน checked
-        },
-        borderRadius: "20%",
-        marginBottom: "4",
       }}
       checked={checked}
       onChange={handleChange}

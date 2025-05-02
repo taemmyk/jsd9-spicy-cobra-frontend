@@ -12,8 +12,10 @@ const Layout = () => {
   const scrollToTop = () => {
     headerRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-  const showHeader = location.pathname !== "/checkout";
+  const showHeader =
+    location.pathname !== "/checkout" && location.pathname !== "/membership";
   const showFooter = location.pathname === "/";
+
   useEffect(() => {
     const currentHeaderHeight = headerRef.current?.offsetHeight || 0;
     document.documentElement.style.setProperty(
