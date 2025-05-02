@@ -216,7 +216,7 @@ const Home = () => {
                   <Typography
                     variant="body2"
                     sx={{
-                      display: { xs: "none", lg: "block" },
+                      display: { xs: "none", md: "block" },
                       color: theme.palette.primary.contrastText,
                     }}
                   >
