@@ -5,8 +5,11 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "./swiperStyles.css";
 import { Autoplay, Pagination } from "swiper/modules";
+import banners from "../../assets/game-banner-bounty-brawl.jpg";
 
-export default function App({ products }) {
+export default function App() {
+  const numberOfSlides = 3; //TODO: Repeated slide
+
   return (
     <>
       <Swiper
@@ -22,13 +25,10 @@ export default function App({ products }) {
         modules={[Autoplay, Pagination]}
         className="swiper-autoplay"
       >
-        {products.map((item, index) => (
+        {Array.from({ length: numberOfSlides }).map((_, index) => (
           <SwiperSlide key={index}>
-            <Link to={`/games/${item.product_id}`}>
-              <img
-                src={item.image_thumbnail}
-                alt={item.title || `Slide ${index + 1}`}
-              />
+            <Link to={`/games/6`}>
+              <img src={banners} alt="Bounty Brawl: Most Wanted" />
             </Link>
           </SwiperSlide>
         ))}
