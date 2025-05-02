@@ -85,6 +85,7 @@ function ProductCard({ product }) {
                     </Typography>
                   )}
                 <Typography variant="priceTag">
+                  {" "}
                   ฿{currentPrice !== null ? currentPrice : "N/A"}
                 </Typography>
               </Box>
@@ -94,6 +95,7 @@ function ProductCard({ product }) {
                 display: "flex",
                 justifyContent: "space-around",
                 backgroundColor: theme.palette.background.card,
+                maxHeight: 100,
               }}
             >
               <Stack
