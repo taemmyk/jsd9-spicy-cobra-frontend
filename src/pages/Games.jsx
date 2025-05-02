@@ -1,9 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useState, useRef, useEffect, useMemo } from "react";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import {
   Card,
   CardActionArea,
-  CardMedia,
   CardContent,
   Typography,
   RadioGroup,
@@ -11,23 +10,19 @@ import {
   IconButton,
   Box,
   useTheme,
-  Avatar,
-  Stack,
 } from "@mui/material";
-import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
-import SearchInput from "../components/common/SearchInput";
-import ClearIcon from "@mui/icons-material/Clear";
-import SearchIcon from "@mui/icons-material/Search";
 import ProductCard from "../components/products/ProductCard";
+import SearchInput from "../components/common/SearchInput";
 import ProductsData from "../data/products.json";
 import GenresData from "../data/genre.json";
+import ClearIcon from '@mui/icons-material/Clear';
+import SearchIcon from '@mui/icons-material/Search';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 const genres = GenresData.map((genre) => genre.genre_name);
-import { Link } from "react-router-dom";
 
 function Games() {
   const theme = useTheme();
-  const [selectedGenre, setSelectedGenre] = useState("viewall");
-
+  const [selectedGenre, setSelectedGenre] = useState("View All");
   const [searchText, setSearchText] = useState("");
   const inputRef = useRef(null);
   const navigate = useNavigate();
@@ -85,6 +80,20 @@ function Games() {
     }
     navigate(`/games?${searchParams.toString()}`, { replace: true });
   };
+
+  const filteredProducts = useMemo(() => {
+    if (selectedGenre === "View All") {
+      return ProductsData;
+    }
+    const lowerSelectedGenre = selectedGenre.toLowerCase();
+    return ProductsData.filter((product) => {
+      return (
+        product.genre_id_1?.toLowerCase() === lowerSelectedGenre ||
+        product.genre_id_2?.toLowerCase() === lowerSelectedGenre ||
+        product.genre_id_3?.toLowerCase() === lowerSelectedGenre
+      );
+    });
+  }, [selectedGenre]);
 
   const GenreSelectorCard = ({ value, label }) => (
     <Card
@@ -144,6 +153,7 @@ function Games() {
 
   return (
     <Box sx={{ padding: 2 }}>
+      {/* Search Bar */}
       <Box
         sx={{
           display: "flex",
@@ -181,6 +191,7 @@ function Games() {
         )}
       </Box>
 
+      {/* Genre Selector */}
       <FormControl component="fieldset" fullWidth>
         <RadioGroup
           aria-label="Genre options"
@@ -201,6 +212,7 @@ function Games() {
         </RadioGroup>
       </FormControl>
 
+      {/* Product Grid */}
       <Box
         sx={{
           display: "grid",
@@ -217,7 +229,7 @@ function Games() {
           marginRight: 4,
         }}
       >
-        {ProductsData.map((item) => (
+        {filteredProducts.map((item) => (
           <ProductCard key={item.product_id} product={item} />
         ))}
       </Box>
