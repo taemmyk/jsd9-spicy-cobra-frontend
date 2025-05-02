@@ -23,11 +23,6 @@ import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import cobraBg from "../assets/Cobra.png";
 import cobraLogo from "../assets/logo.png";
 import ExampleCheckbox from "../components/common/CheckoutGeneric";
-import DialogTitle from "@mui/material/DialogTitle";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import ButtonGeneric from "../components/common/ButtonGeneric";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 

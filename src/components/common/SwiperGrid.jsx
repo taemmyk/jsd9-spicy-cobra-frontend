@@ -16,7 +16,15 @@ export default function App({ products }) {
   return (
     <>
       <Swiper
-        slidesPerView={3}
+        // slidesPerView={3}
+        breakpoints={{
+          0: {
+            slidesPerView: 1,
+          },
+          768: {
+            slidesPerView: 3,
+          },
+        }}
         grid={{ rows: 2, fill: "row" }}
         spaceBetween={30}
         pagination={{
