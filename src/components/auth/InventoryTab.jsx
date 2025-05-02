@@ -29,7 +29,7 @@ import genresData from "../../data/genre.json";
 
 const genres = genresData.map((genre) => genre.genre_name);
 
-export default function AddressForm() {
+export default function InventoryTab() {
   const theme = useTheme();
   const fileInputRef = useRef(null);
   const cardFileInputRef = useRef(null);
@@ -116,7 +116,7 @@ export default function AddressForm() {
       setSlideshowImages([]);
       setInitialValueSet(false);
     }
-  }, [selectedProduct, genres, initialValueSet]);
+  }, [selectedProduct, initialValueSet]);
 
   const handleSelectProduct = (product) => {
     setSelectedProduct(product);

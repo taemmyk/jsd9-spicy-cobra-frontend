@@ -24,7 +24,7 @@ function CommunityTab() {
             marginTop: 2,
           }}
         >
-          <Typography variant="h4">Your Reviews</Typography>
+          <Typography variant="h5">Your Reviews</Typography>
           <ReviewCard
             product={productsData[2]}
             ratingValue={4.0}

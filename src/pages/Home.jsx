@@ -1,7 +1,6 @@
 import React from "react";
 import { Box, Typography, Paper } from "@mui/material";
 import Heading from "../components/common/Heading";
-import ProductCard from "../components/products/ProductCard";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import theme from "../theme";
 import SwiperPerViewAuto from "../components/common/SwiperPerViewAuto";

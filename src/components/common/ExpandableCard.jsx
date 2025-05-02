@@ -86,7 +86,7 @@ function ExpandableCard({ product, ratingValue, reviewContent }) {
           </Grid>
           <Grid>
             <Typography
-              variant="body2"
+              variant="h5"
               sx={{ color: theme.palette.accent.default }}
             >
               {product.title}
@@ -101,13 +101,13 @@ function ExpandableCard({ product, ratingValue, reviewContent }) {
               variant="body2"
               sx={{ color: theme.palette.primary.contrastText }}
             >
-              Order {formatDateWithTime(orderDatetimeRef.current)}
+              <b>Order</b> {formatDateWithTime(orderDatetimeRef.current)}
             </Typography>
             <Typography
               variant="body2"
               sx={{ color: theme.palette.primary.contrastText }}
             >
-              Transaction {formatDateWithTime(transactionDatetimeRef.current)}
+              <b>Transaction</b> {formatDateWithTime(transactionDatetimeRef.current)}
             </Typography>
           </Grid>
         </Grid>

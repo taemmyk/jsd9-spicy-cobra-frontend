@@ -39,7 +39,7 @@ function ReviewCard({ product, ratingValue, reviewContent }) {
         />
         <Box style={{ display: "flex", flexDirection: "column", flexGrow: 2 }}>
           <Typography
-            variant="body1"
+            variant="h5"
             sx={{
               color: theme.palette.accent.dark,
               wordWrap: "break-word",
