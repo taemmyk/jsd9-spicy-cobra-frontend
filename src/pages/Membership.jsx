@@ -1,7 +1,6 @@
 import React, { useState, Fragment } from "react";
 import {
   Container,
-  TextField,
   Button,
   Box,
   Typography,
@@ -14,7 +13,6 @@ import {
   FormControl,
   FormLabel,
   OutlinedInput,
-  Checkbox,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import EmailIcon from "@mui/icons-material/Email";

@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import {
   Card,
   CardActionArea,
+  CardMedia,
   CardContent,
   Typography,
   RadioGroup,
@@ -10,11 +11,18 @@ import {
   IconButton,
   Box,
   useTheme,
+  Avatar,
+  Stack,
 } from "@mui/material";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 import SearchInput from "../components/common/SearchInput";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
+import ProductCard from "../components/products/ProductCard";
+import ProductsData from "../data/products.json";
+import GenresData from "../data/genre.json";
+const genres = GenresData.map((genre) => genre.genre_name);
+import { Link } from "react-router-dom";
 
 function Games() {
   const theme = useTheme();
@@ -53,8 +61,14 @@ function Games() {
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const query = searchParams.get("search");
+    const genreParam = searchParams.get("genre");
     if (query) {
       setSearchText(query);
+    }
+    if (genreParam) {
+      setSelectedGenre(genreParam);
+    } else {
+      setSelectedGenre("View All");
     }
     if (inputRef.current && !query) {
       inputRef.current.focus();
@@ -64,7 +78,7 @@ function Games() {
   const handleGenreChange = (event) => {
     setSelectedGenre(event.target.value);
     const searchParams = new URLSearchParams(location.search);
-    if (event.target.value !== "viewall") {
+    if (event.target.value !== "View All") {
       searchParams.set("genre", event.target.value);
     } else {
       searchParams.delete("genre");
@@ -175,21 +189,38 @@ function Games() {
           onChange={handleGenreChange}
           sx={{
             display: "flex",
-            flexDirection: { xs: "column", sm: "row" },
-            mb: 2,
+            flexDirection: "row",
+            marginBottom: 2,
+            overflowX: "auto",
           }}
         >
-          <GenreSelectorCard value="viewall" label="View all" />
-          <GenreSelectorCard value="action" label="Action" />
-          <GenreSelectorCard value="adventure" label="Adventure" />
-          <GenreSelectorCard value="puzzle" label="Puzzle" />
+          <GenreSelectorCard value="View All" label="View All" />
+          {genres.map((genre) => (
+            <GenreSelectorCard key={genre} value={genre} label={genre} />
+          ))}
         </RadioGroup>
       </FormControl>
 
-      <Typography variant="body1">{`Selected Genre: ${selectedGenre}`}</Typography>
-      {searchText && (
-        <Typography variant="body1">{`Search Text: ${searchText}`}</Typography>
-      )}
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: {
+            xs: "repeat(1, 1fr)",
+            sm: "repeat(2, 1fr)",
+            md: "repeat(3, 1fr)",
+          },
+          gap: {
+            xs: 2,
+            md: 4,
+          },
+          marginLeft: 4,
+          marginRight: 4,
+        }}
+      >
+        {ProductsData.map((item) => (
+          <ProductCard key={item.product_id} product={item} />
+        ))}
+      </Box>
     </Box>
   );
 }

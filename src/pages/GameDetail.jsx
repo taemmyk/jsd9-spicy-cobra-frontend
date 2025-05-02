@@ -21,9 +21,10 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import SwiperProductNavigation from "../components/products/SwiperProductNavigation";
 import products from "../data/products.json";
 import Heading from "../components/common/Heading";
-import ProductCard from "../components/products/ProductCard";
 import { CartContext } from "../components/contexts/CartContext";
 import calculateSalePrice from "../utils/calculateSalePrice";
+import SwiperPerViewAuto from "../components/common/SwiperPerViewAuto";
+import { systemRequirements } from "../data/misc";
 
 function GameDetail() {
   const theme = useTheme();
@@ -42,9 +43,10 @@ function GameDetail() {
     Math.floor(thumbsupCount * Math.random() * 0.1)
   );
 
-  // const recommendedGames = [...products]
-  //   .sort(() => Math.random() - 0.5)
-  //   .slice(0, 3);
+  const recommendedGames = products
+    .filter((product) => product.product_id !== gameId)
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 3);
 
   const handleAddToCart = () => {
     addItem(gameData);
@@ -72,16 +74,7 @@ function GameDetail() {
     setThumbsdownCount((prevCount) => prevCount + 1);
   };
 
-  const systemRequirementMock = [
-    { hardware: "OS", data: "Windows 10/11" },
-    { hardware: "Processor", data: "Intel i5 10400, AMD Ryzen 5 3600" },
-    { hardware: "Memory", data: "8 GB RAM" },
-    {
-      hardware: "Graphics",
-      data: "NVIDIA RTX 2060 (6G VRAM), AMD Radeon RX 5600 XT (6G VRAM)",
-    },
-    { hardware: "Storage", data: "20 GB available space" },
-  ];
+  const systemRequirementMock = systemRequirements();
 
   useEffect(() => {
     try {
@@ -552,26 +545,9 @@ function GameDetail() {
         <Paper elevation={3} />
         <Heading section="You may also like" />
 
-        {/* <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: {
-              xs: "repeat(1, 1fr)",
-              sm: "repeat(2, 1fr)",
-              md: "repeat(3, 1fr)",
-            },
-            gap: {
-              xs: 2,
-              md: 4,
-            },
-            marginLeft: 4,
-            marginRight: 4,
-          }}
-        >
-          {recommendedGames.map((product, index) => (
-            <ProductCard key={index} products={product} />
-          ))}
-        </Box> */}
+        <Box sx={{ paddingBottom: 2, paddingX: 4 }}>
+          <SwiperPerViewAuto products={recommendedGames} />
+        </Box>
       </Box>
     </>
   );

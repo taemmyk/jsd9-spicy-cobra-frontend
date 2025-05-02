@@ -16,7 +16,6 @@ export default function App({ products }) {
   return (
     <>
       <Swiper
-        // slidesPerView={3}
         breakpoints={{
           0: {
             slidesPerView: 1,
@@ -33,11 +32,9 @@ export default function App({ products }) {
         modules={[Grid, Pagination]}
         className="swiper-grid"
       >
-        {products.map((item, index) => (
-          <SwiperSlide key={index}>
-            <Link to={`/games/${item.product_id}`}>
-              <ProductCard product={item}/>
-            </Link>
+        {products.map((item) => (
+          <SwiperSlide key={item.product_id}>
+            <ProductCard product={item} />
           </SwiperSlide>
         ))}
       </Swiper>
