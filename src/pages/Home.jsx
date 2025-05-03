@@ -150,11 +150,11 @@ const Home = () => {
               </Box>
               <CardContent
                 sx={{
-                  p: 3,
+                  padding: 3,
                   flexGrow: 1,
                   display: "flex",
                   flexDirection: "column",
-                  justifyContent: "space-between",
+                  gap: 4,
                 }}
               >
                 <Typography
@@ -202,7 +202,7 @@ const Home = () => {
                     flexGrow: 1,
                     display: "flex",
                     flexDirection: "column",
-                    justifyContent: "space-between",
+                    gap: 1,
                   }}
                 >
                   <Typography
