@@ -1,13 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Checkbox, useTheme } from "@mui/material";
+import PropTypes from "prop-types";
 
-function CheckoutGeneric() {
+function FormCheckbox({ checked, onChange, name, ...rest }) {
   const theme = useTheme();
-  const [checked, setChecked] = useState(false);
-
-  const handleChange = (event) => {
-    setChecked(event.target.checked);
-  };
 
   return (
     <Checkbox
@@ -21,11 +17,18 @@ function CheckoutGeneric() {
         },
       }}
       checked={checked}
-      onChange={handleChange}
-      inputProps={{ "aria-label": "controlled checkbox" }}
+      onChange={onChange}
+      name={name}
+      {...rest}
       style={{ padding: "0px", margin: "0px" }}
     />
   );
 }
 
-export default CheckoutGeneric;
+FormCheckbox.propTypes = {
+  checked: PropTypes.bool,
+  onChange: PropTypes.func.isRequired,
+  name: PropTypes.string,
+};
+
+export default FormCheckbox;

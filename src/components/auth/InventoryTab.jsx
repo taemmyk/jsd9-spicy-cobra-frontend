@@ -2,13 +2,10 @@ import React, { useState, useRef, useEffect } from "react";
 import {
   Grid,
   FormLabel,
-  OutlinedInput,
   useTheme,
   Box,
   FormControl,
   FormControlLabel,
-  Checkbox,
-  Select,
   MenuItem,
   Card,
   CardActionArea,
@@ -24,6 +21,9 @@ import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
 import CloseIcon from "@mui/icons-material/Close";
 import Heading from "../common/Heading";
 import ButtonGeneric from "../common/ButtonGeneric";
+import FormInput from "../common/FormInput";
+import FormSelect from "../common/FormSelect";
+import FormCheckbox from "../common/FormCheckbox";
 import productsData from "../../data/products.json";
 import genresData from "../../data/genre.json";
 
@@ -292,7 +292,14 @@ export default function InventoryTab() {
         )}
 
         {selectedProduct && (
-          <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: 4, marginTop: 2 }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", md: "row" },
+              gap: 4,
+              marginTop: 2,
+            }}
+          >
             <Box
               sx={{
                 flexBasis: "40%",
@@ -491,100 +498,49 @@ export default function InventoryTab() {
                 flexDirection: "column",
               }}
             >
-              <FormLabel
-                htmlFor="title"
-                required
-                sx={{ color: theme.palette.secondary.light, display: "block" }}
-              >
-                Title
-              </FormLabel>
-              <OutlinedInput
+              <FormInput
                 id="title"
                 name="title"
+                label="Title"
                 type="text"
                 placeholder="title"
-                autoComplete="off"
-                required={true}
-                size="small"
-                fullWidth
-                sx={{ backgroundColor: theme.palette.primary.contrastText }}
+                required
                 value={title}
                 onChange={handleTitleChange}
               />
-              <FormLabel
-                htmlFor="description"
-                required
-                sx={{
-                  color: theme.palette.secondary.light,
-                  display: "block",
-                  marginTop: 2,
-                }}
-              >
-                Description
-              </FormLabel>
-              <OutlinedInput
+              <FormInput
                 id="description"
                 name="description"
+                label="Title"
                 type="text"
+                placeholder="description"
+                required
                 multiline
                 rows={5}
-                placeholder="description"
-                autoComplete="off"
-                required={true}
-                size="small"
-                fullWidth
-                sx={{ backgroundColor: theme.palette.primary.contrastText }}
                 value={description}
                 onChange={handleDescriptionChange}
               />
-              <FormLabel
-                htmlFor="developer"
-                required
-                sx={{
-                  color: theme.palette.secondary.light,
-                  display: "block",
-                  marginTop: 2,
-                }}
-              >
-                Developer
-              </FormLabel>
-              <OutlinedInput
+              <FormInput
                 id="developer"
                 name="developer"
+                label="Developer"
                 type="text"
                 placeholder="developer"
-                autoComplete="off"
-                required={true}
-                size="small"
-                fullWidth
-                sx={{ backgroundColor: theme.palette.primary.contrastText }}
+                required
                 value={developerName}
                 onChange={handleDeveloperChange}
               />
-              <FormLabel
-                htmlFor="publisher"
-                required
-                sx={{
-                  color: theme.palette.secondary.light,
-                  display: "block",
-                  marginTop: 2,
-                }}
-              >
-                Publisher
-              </FormLabel>
-              <OutlinedInput
+              <FormInput
                 id="publisher"
                 name="publisher"
+                label="Developer"
                 type="text"
                 placeholder="publisher"
-                autoComplete="off"
-                required={true}
-                size="small"
-                fullWidth
-                sx={{ backgroundColor: theme.palette.primary.contrastText }}
+                required
                 value={publisherName}
                 onChange={handlePublisherChange}
               />
+
               <FormLabel
                 htmlFor="genre"
                 required
@@ -596,27 +552,18 @@ export default function InventoryTab() {
               >
                 Genres
               </FormLabel>
-              <FormControl component="fieldset" sx={{ mt: 2 }}>
+              <FormControl component="fieldset" sx={{ marginX: 2 }}>
                 <Grid container spacing={2}>
                   {genres.map((option) => (
                     <Grid key={option}>
                       <FormControlLabel
                         control={
-                          <Checkbox
+                          <FormCheckbox
                             checked={selectedGenres[option] || false}
                             onChange={(event) =>
                               handleSingleOptionChange(event, option)
                             }
                             name={option}
-                            sx={{
-                              "& .MuiSvgIcon-root": {
-                                fontSize: 30,
-                              },
-                              color: theme.palette.primary.contrastText,
-                              "&.Mui-checked": {
-                                color: theme.palette.secondary.light,
-                              },
-                            }}
                           />
                         }
                         label={option}
@@ -625,92 +572,57 @@ export default function InventoryTab() {
                   ))}
                 </Grid>
               </FormControl>
-              <FormLabel
-                htmlFor="price"
-                required
-                sx={{
-                  color: theme.palette.secondary.light,
-                  display: "block",
-                  marginTop: 2,
-                }}
-              >
-                Price
-              </FormLabel>
-              <OutlinedInput
+
+              <FormInput
                 id="price"
                 name="price"
-                type="number"
+                label="Price"
+                type="text"
                 placeholder="price"
-                autoComplete="off"
-                required={true}
-                size="small"
-                fullWidth
-                sx={{ backgroundColor: theme.palette.primary.contrastText }}
+                required
                 value={price}
                 onChange={handlePriceChange}
               />
-              <FormLabel
-                htmlFor="discount"
-                required={false}
-                sx={{
-                  color: theme.palette.secondary.light,
-                  display: "block",
-                  marginTop: 2,
-                }}
-              >
-                Current Promotion
-              </FormLabel>
-              <FormControl fullWidth size="small">
-                <Select
-                  id="discount"
-                  name="discount"
-                  value={selectedDiscount}
-                  onChange={handleDiscountChange}
-                  sx={{ backgroundColor: theme.palette.primary.contrastText }}
-                  MenuProps={{
-                    PaperProps: {
-                      sx: {
-                        "& .MuiMenuItem-root": {
-                          backgroundColor: theme.palette.secondary.main,
-                        },
+
+              <FormSelect
+                id="discount"
+                name="discount"
+                label="Current Promotion"
+                value={selectedDiscount}
+                onChange={handleDiscountChange}
+                sx={{ marginTop: 2 }}
+                MenuProps={{
+                  PaperProps: {
+                    sx: {
+                      "& .MuiMenuItem-root": {
+                        backgroundColor: theme.palette.secondary.main,
                       },
                     },
-                  }}
-                >
-                  <MenuItem value={0.0}>
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={0.1}>10%</MenuItem>
-                  <MenuItem value={0.2}>20%</MenuItem>
-                  <MenuItem value={0.3}>30%</MenuItem>
-                  <MenuItem value={0.4}>40%</MenuItem>
-                  <MenuItem value={0.5}>50%</MenuItem>
-                  <MenuItem value={0.6}>60%</MenuItem>
-                  <MenuItem value={0.7}>70%</MenuItem>
-                </Select>
-              </FormControl>
-              <FormLabel
-                htmlFor="release_date"
-                sx={{
-                  color: theme.palette.secondary.light,
-                  display: "block",
-                  marginTop: 2,
+                  },
                 }}
               >
-                Release Date
-              </FormLabel>
-              <OutlinedInput
-                id="release_date"
-                name="release_date"
+                <MenuItem value={0.0}>
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value={0.1}>10%</MenuItem>
+                <MenuItem value={0.2}>20%</MenuItem>
+                <MenuItem value={0.3}>30%</MenuItem>
+                <MenuItem value={0.4}>40%</MenuItem>
+                <MenuItem value={0.5}>50%</MenuItem>
+                <MenuItem value={0.6}>60%</MenuItem>
+                <MenuItem value={0.7}>70%</MenuItem>
+              </FormSelect>
+
+              <FormInput
+                id="release-date"
+                name="release-date"
+                label="Release date"
                 type="text"
-                placeholder="DD MMMM YYYY"
-                autoComplete="off"
-                size="small"
-                fullWidth
-                sx={{ backgroundColor: theme.palette.primary.contrastText }}
+                placeholder="release-date"
                 value={releaseDate}
                 onChange={handleReleaseDateChange}
               />
+
               <ButtonGeneric
                 label="Save Changes"
                 onClick={handleSaveChanges}

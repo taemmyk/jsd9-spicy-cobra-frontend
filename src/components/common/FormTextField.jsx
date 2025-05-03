@@ -1,17 +1,6 @@
 import React from "react";
-import {
-  Grid,
-  FormLabel,
-  OutlinedInput,
-  styled,
-  useTheme,
-} from "@mui/material";
+import { FormLabel, TextField, useTheme, FormControl } from "@mui/material";
 import PropTypes from "prop-types";
-
-const FormGrid = styled(Grid)(() => ({
-  display: "flex",
-  flexDirection: "column",
-}));
 
 const FormInput = ({
   id,
@@ -23,11 +12,14 @@ const FormInput = ({
   required,
   sx,
   size = "small",
-  gridSize = { xs: 6 },
+  value,
+  onChange,
+  multiline = false,
+  rows,
 }) => {
   const theme = useTheme();
   return (
-    <FormGrid item xs={gridSize.xs} md={gridSize.md}>
+    <FormControl fullWidth margin="normal" variant="outlined">
       <FormLabel
         htmlFor={id}
         required={required}
@@ -35,7 +27,7 @@ const FormInput = ({
       >
         {label}
       </FormLabel>
-      <OutlinedInput
+      <TextField
         id={id}
         name={name}
         type={type}
@@ -43,9 +35,14 @@ const FormInput = ({
         autoComplete={autoComplete}
         required={required}
         size={size}
+        variant="outlined"
         sx={{ backgroundColor: theme.palette.primary.contrastText, ...sx }}
+        value={value}
+        onChange={onChange}
+        multiline={multiline}
+        rows={multiline ? rows : undefined}
       />
-    </FormGrid>
+    </FormControl>
   );
 };
 
@@ -59,10 +56,10 @@ FormInput.propTypes = {
   required: PropTypes.bool,
   sx: PropTypes.object,
   size: PropTypes.oneOf(["small", "medium"]),
-  gridSize: PropTypes.shape({
-    xs: PropTypes.number,
-    md: PropTypes.number,
-  }),
+  value: PropTypes.any,
+  onChange: PropTypes.func,
+  multiline: PropTypes.bool,
+  rows: PropTypes.number,
 };
 
 export default FormInput;
