@@ -18,37 +18,12 @@ import {
 import AccountBalanceRoundedIcon from "@mui/icons-material/AccountBalanceRounded";
 import CreditCardRoundedIcon from "@mui/icons-material/CreditCardRounded";
 
-const PaymentContainer = styled("div")(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "space-between",
-  width: "100%",
-  height: 375,
-  padding: theme.spacing(3),
-  borderRadius: `calc(${theme.shape.borderRadius}px + 4px)`,
-  border: "1px solid ",
-  borderColor: (theme.vars || theme).palette.divider,
-  background: theme.palette.background.card,
-  boxShadow: "0px 4px 8px hsla(210, 0%, 0%, 0.05)",
-  [theme.breakpoints.up("xs")]: {
-    height: 300,
-  },
-  [theme.breakpoints.up("sm")]: {
-    height: 350,
-  },
-  ...theme.applyStyles("dark", {
-    background:
-      "linear-gradient(to right bottom, hsla(220, 30%, 6%, 0.2) 25%, hsla(220, 20%, 25%, 0.2) 100%)",
-    boxShadow: "0px 4px 8px hsl(220, 35%, 0%)",
-  }),
-}));
-
 const FormGrid = styled("div")(() => ({
   display: "flex",
   flexDirection: "column",
 }));
 
-function PaymentForm() {
+function PaymentForm({ onPaymentTypeChange }) {
   const theme = useTheme();
   const [paymentType, setPaymentType] = useState("");
   const [cardNumber, setCardNumber] = useState("");
@@ -56,7 +31,12 @@ function PaymentForm() {
   const [expirationDate, setExpirationDate] = useState("");
 
   const handlePaymentTypeChange = (event) => {
-    setPaymentType(event.target.value);
+    const value = event.target.value;
+    setPaymentType(value);
+    if (onPaymentTypeChange) {
+      onPaymentTypeChange(value);
+    }
+    console.log(`PaymentForm ${paymentType}`); //TODO:
   };
 
   const handleCardNumberChange = (event) => {
@@ -81,6 +61,7 @@ function PaymentForm() {
       setExpirationDate(formattedValue);
     }
   };
+  
   return (
     <>
       <Stack spacing={{ xs: 3, sm: 6 }} useFlexGap sx={{ mt: 2 }}>
@@ -203,7 +184,20 @@ function PaymentForm() {
         </FormControl>
         {paymentType === "creditCard" && (
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-            <PaymentContainer>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                width: "100%",
+                padding: 2,
+                borderRadius: 4,
+                border: "1px solid ",
+                borderColor: (theme.vars || theme).palette.divider,
+                background: theme.palette.background.paper,
+                boxShadow: "0px 4px 8px hsla(210, 0%, 0%, 0.05)",
+              }}
+            >
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <Typography variant="body1">Credit Card Detail</Typography>
                 <CreditCardRoundedIcon
@@ -307,7 +301,7 @@ function PaymentForm() {
                   />
                 </FormGrid>
               </Box>
-            </PaymentContainer>
+            </Box>
             <FormControlLabel
               control={
                 <Checkbox

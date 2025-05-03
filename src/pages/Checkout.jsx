@@ -31,6 +31,12 @@ function Checkout() {
     setCurrentCheckoutStep(step);
   };
 
+  const handlePaymentTypeChangeInParent = (type) => {
+    setPaymentMethod(type);
+    console.log("Payment type updated in CheckoutPage:", type);
+    // คุณสามารถทำอย่างอื่นกับค่านี้ได้ที่นี่
+  };
+
   return (
     <Box
       sx={{
@@ -136,7 +142,7 @@ function Checkout() {
         }}
       >
         <Box>
-          <CheckoutStepper onStepChange={handleStepChange} />
+          <CheckoutStepper onStepChange={handleStepChange} onPaymentTypeChange={handlePaymentTypeChangeInParent} />
         </Box>
       </Box>
     </Box>

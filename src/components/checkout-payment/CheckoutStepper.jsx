@@ -38,8 +38,8 @@ const ColorlibStepIconRoot = styled("div")(({ theme, ownerState }) => ({
     fontWeight: "900",
   }),
   ...(ownerState.completed && {
-    backgroundColor: theme.palette.secondary.contrastText,
-    color: theme.palette.secondary.light,
+    backgroundColor: theme.palette.secondary.light,
+    color: theme.palette.secondary.contrastText,
   }),
 }));
 
@@ -53,7 +53,7 @@ function ColorlibStepIcon(props) {
   );
 }
 
-function CheckoutStepper({ onStepChange }) {
+function CheckoutStepper({ onStepChange, onPaymentTypeChange }) {
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
   const { clearCart } = useContext(CartContext);
@@ -61,6 +61,16 @@ function CheckoutStepper({ onStepChange }) {
   const [countdown, setCountdown] = useState(5);
   const [showButton, setShowButton] = useState(false);
   const countdownRef = useRef(null);
+  const [paymentType, setPaymentType] = useState("");
+
+  const handlePaymentTypeUpdated = (type) => {
+    console.log("handlePaymentTypeUpdated called with:", type);
+    setPaymentType(type);
+    console.log("paymentType state in CheckoutStepper:", paymentType);
+    if (onPaymentTypeChange) {
+      onPaymentTypeChange(type);
+    }
+  };
 
   const handleNext = () => {
     if (activeStep === 2) {
@@ -156,8 +166,10 @@ function CheckoutStepper({ onStepChange }) {
       ) : (
         <React.Fragment>
           {activeStep === 0 && <AddressForm />}
-          {activeStep === 1 && <PaymentForm />}
-          {activeStep === 2 && <ReviewOrderForm />}
+          {activeStep === 1 && (
+            <PaymentForm onPaymentTypeChange={handlePaymentTypeUpdated} />
+          )}
+          {activeStep === 2 && <ReviewOrderForm paymentType={paymentType} />}
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             {activeStep > 0 && (
               <ButtonGeneric label="Back" onClick={handleBack} />

@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Typography, Divider, useTheme } from "@mui/material";
 import OrderItemReviewCard from "./OrderItemReviewCard";
 import { CartContext } from "../contexts/CartContext";
 import calculateSalePrice from "../../utils/calculateSalePrice";
+import DividerGeneric from "../common/DividerGeneric"
 
-function ReviewOrderForm() {
+function ReviewOrderForm({ paymentType }) {
   const theme = useTheme();
   const { items } = useContext(CartContext);
 
@@ -14,7 +15,6 @@ function ReviewOrderForm() {
   const calculateOrderTotalPrice = () => {
     return items.reduce((total, item) => total + calculateSalePrice(item), 0);
   };
-
 
   return (
     <>
@@ -68,9 +68,10 @@ function ReviewOrderForm() {
               : "฿0.00"
           }
         />
+        <DividerGeneric/>
         <OrderItemReviewCard
           category="Payment Method"
-          description="Credit card" // TODO: payment context
+          description="Credit card" // TODO: payment method
           total={" "}
         />
       </Box>

@@ -19,7 +19,6 @@ function OrderItemCard({ product }) {
         src={product.image_thumbnail}
         alt={product.title}
         sx={{
-          display: { xs: "none", md: "block" },
           maxWidth: "150px",
           height: "auto",
         }}
@@ -37,7 +36,7 @@ function OrderItemCard({ product }) {
         </Typography>
       </Box>
       <Typography variant="body3" fontWeight="semibold">
-        ฿{product.price}
+        ฿{parseFloat(product.price).toFixed(2)}
       </Typography>
     </Box>
   );
