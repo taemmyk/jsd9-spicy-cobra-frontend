@@ -124,6 +124,11 @@ const theme = createTheme({
       fontSize: "1.5rem",
       fontWeight: 300,
     },
+    devlogTag: {
+      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+      color: "#FFC300",
+      fontSize: "0.8rem",
+    }
   },
 });
 
