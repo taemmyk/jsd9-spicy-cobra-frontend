@@ -78,9 +78,8 @@ function Order({ onCloseDrawer }) {
             sx={{
               display: "flex",
               flexDirection: "column",
-              gap: 2,
+              gap: 1,
               mt: 4,
-              padding: 2,
             }}
           >
             {items.map((item) => (
