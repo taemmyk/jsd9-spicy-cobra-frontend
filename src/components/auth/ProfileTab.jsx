@@ -12,7 +12,7 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import Heading from "../common/Heading";
 import ButtonGeneric from "../common/ButtonGeneric";
-import FormInput from "../common/FormInput";
+import FormTextField from "../common/FormTextField";
 import DividerGeneric from "../common/DividerGeneric";
 
 export default function ProfileTab() {
@@ -103,14 +103,14 @@ export default function ProfileTab() {
               </Typography>
             </Box>
           </Box>
-          <FormInput
+          <FormTextField
             id="password"
             name="password"
             label="Password"
             type="password"
             placeholder="password"
           />
-          <FormInput
+          <FormTextField
             id="birthday"
             name="birthday"
             label="Birthday"
@@ -132,7 +132,7 @@ export default function ProfileTab() {
             <AccordionDetails
               style={{ backgroundColor: theme.palette.background.layout }}
             >
-              <FormInput
+              <FormTextField
                 id="address1"
                 name="address1"
                 type="address1"
@@ -141,7 +141,7 @@ export default function ProfileTab() {
                 autoComplete="receipt address-line1"
                 required
               />
-              <FormInput
+              <FormTextField
                 id="address2"
                 name="address2"
                 type="address2"
@@ -150,7 +150,7 @@ export default function ProfileTab() {
                 autoComplete="receipt address-line2"
               />
 
-              <FormInput
+              <FormTextField
                 id="city"
                 name="city"
                 type="city"
@@ -159,7 +159,7 @@ export default function ProfileTab() {
                 autoComplete="City"
                 required
               />
-              <FormInput
+              <FormTextField
                 id="state"
                 name="state"
                 type="state"
@@ -168,7 +168,7 @@ export default function ProfileTab() {
                 autoComplete="State"
                 required
               />
-              <FormInput
+              <FormTextField
                 id="zip"
                 name="zip"
                 type="zip"
@@ -177,7 +177,7 @@ export default function ProfileTab() {
                 autoComplete="postal-code"
                 required
               />
-              <FormInput
+              <FormTextField
                 id="country"
                 name="country"
                 type="country"
@@ -205,7 +205,7 @@ export default function ProfileTab() {
             <AccordionDetails
               style={{ backgroundColor: theme.palette.background.layout }}
             >
-              <FormInput
+              <FormTextField
                 id="card-number"
                 name="card-number"
                 type="text"
@@ -216,7 +216,7 @@ export default function ProfileTab() {
                 value={cardNumber}
                 onChange={handleCardNumberChange}
               />
-              <FormInput
+              <FormTextField
                 id="card-expiration"
                 name="card-expiration"
                 type="text"

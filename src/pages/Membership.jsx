@@ -20,7 +20,7 @@ import LockIcon from "@mui/icons-material/Lock";
 import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import cobraBg from "../assets/Cobra.png";
 import cobraLogo from "../assets/logo.png";
-import ExampleCheckbox from "../components/common/CheckoutGeneric";
+import FormCheckbox from "../components/common/FormCheckbox";
 import ButtonGeneric from "../components/common/ButtonGeneric";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
@@ -166,7 +166,7 @@ function Membership() {
           ml={2}
         >
           <FormControlLabel
-            control={<ExampleCheckbox />}
+            control={<FormCheckbox />}
             label={
               <Typography variant="body2" marginLeft="10px" mb={1}>
                 <label style={{ fontSize: "1rem" }}>Remember Me</label>
