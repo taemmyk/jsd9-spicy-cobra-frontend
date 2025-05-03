@@ -9,15 +9,19 @@ import {
   FormControl,
   IconButton,
   Box,
+  Paper,
   useTheme,
 } from "@mui/material";
 import ProductCard from "../components/products/ProductCard";
+import Heading from "../components/common/Heading";
 import SearchInput from "../components/common/SearchInput";
 import ProductsData from "../data/products.json";
 import GenresData from "../data/genre.json";
-import ClearIcon from '@mui/icons-material/Clear';
-import SearchIcon from '@mui/icons-material/Search';
-import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import ClearIcon from "@mui/icons-material/Clear";
+import SearchIcon from "@mui/icons-material/Search";
+import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
+import { motion, useAnimate } from "framer-motion";
+const MotionBox = motion.create(Box);
 const genres = GenresData.map((genre) => genre.genre_name);
 
 function Games() {
@@ -27,6 +31,11 @@ function Games() {
   const inputRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const [description, setDescription] = useState(
+    "Explore a wide variety of exciting games across different genres. Use the filters below to narrow down your search and discover your next favorite adventure!"
+  );
+  const [animateDescription, setAnimateDescription] = useState(false);
+  const [scope, animate] = useAnimate();
 
   const handleInputChange = (event) => {
     const newValue = event.target.value;
@@ -71,15 +80,43 @@ function Games() {
   }, [location.search]);
 
   const handleGenreChange = (event) => {
-    setSelectedGenre(event.target.value);
+    const newGenre = event.target.value;
+    setSelectedGenre(newGenre);
+    setAnimateDescription(true);
+
     const searchParams = new URLSearchParams(location.search);
-    if (event.target.value !== "View All") {
-      searchParams.set("genre", event.target.value);
+    if (newGenre !== "View All") {
+      searchParams.set("genre", newGenre);
     } else {
       searchParams.delete("genre");
     }
     navigate(`/games?${searchParams.toString()}`, { replace: true });
   };
+
+  useEffect(() => {
+    if (animateDescription) {
+      animate(
+        scope.current,
+        { y: [0, 40], opacity: [1, 0] },
+        { duration: 0.2 }
+      ).then(() => {
+        const selectedGenreData = GenresData.find(
+          (genre) => genre.genre_name === selectedGenre
+        );
+        setDescription(
+          selectedGenre === "View All"
+            ? "Explore a wide variety of exciting games across different genres. Use the filters below to narrow down your search and discover your next favorite adventure!"
+            : selectedGenreData?.description ||
+                `Information about the ${selectedGenre} genre will be displayed here.`
+        );
+        animate(
+          scope.current,
+          { y: [40, 0], opacity: [0, 1] },
+          { duration: 0.2 }
+        ).then(() => setAnimateDescription(false));
+      });
+    }
+  }, [animateDescription, selectedGenre, animate, scope]);
 
   const filteredProducts = useMemo(() => {
     if (selectedGenre === "View All") {
@@ -100,7 +137,6 @@ function Games() {
       selected={selectedGenre === value}
       sx={{
         backgroundColor: "transparent",
-        borderRadius: 0,
         boxShadow: "none",
       }}
     >
@@ -119,7 +155,7 @@ function Games() {
               color:
                 selectedGenre === value
                   ? theme.palette.accent.dark
-                  : theme.palette.primary.contrastText,
+                  : theme.palette.background.contrastText,
             },
           },
         }}
@@ -131,7 +167,7 @@ function Games() {
               color:
                 selectedGenre === value
                   ? theme.palette.accent.dark
-                  : theme.palette.background.default,
+                  : theme.palette.background.paper,
             }}
           />
           <Typography
@@ -152,65 +188,94 @@ function Games() {
   );
 
   return (
-    <Box sx={{ padding: 2 }}>
-      {/* Search Bar */}
+    <>
       <Box
         sx={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          gap: { xs: 1, md: 4 },
-          mb: 2,
+          paddingX: 2,
+          backgroundColor: theme.palette.background.paper,
         }}
       >
-        <SearchIcon
-          sx={{
-            width: { xs: 28, md: 40 },
-            height: { xs: 28, md: 40 },
-            color: theme.palette.secondary.light,
-          }}
-        />
-        <SearchInput
-          isSearchOpen={true}
-          searchText={searchText}
-          inputRef={inputRef}
-          handleInputChange={handleInputChange}
-          handleSearchSubmit={handleSearchSubmit}
-          sx={{ mx: 2, flexGrow: 1 }}
-        />
-        {searchText && (
-          <IconButton onClick={handleClearInput} sx={{ p: 1 }}>
-            <ClearIcon
-              sx={{
-                width: { xs: 28, md: 40 },
-                height: { xs: 28, md: 40 },
-                color: theme.palette.secondary.light,
-              }}
-            />
-          </IconButton>
-        )}
-      </Box>
-
-      {/* Genre Selector */}
-      <FormControl component="fieldset" fullWidth>
-        <RadioGroup
-          aria-label="Genre options"
-          name="gameGenre"
-          value={selectedGenre}
-          onChange={handleGenreChange}
+        <Paper elevation={3} />
+        <Heading section="Games" />
+        {/* Search Bar */}
+        <Box
           sx={{
             display: "flex",
             flexDirection: "row",
-            marginBottom: 2,
-            overflowX: "auto",
+            alignItems: "center",
+            gap: { xs: 1, md: 4 },
+            paddingTop: 2,
           }}
         >
-          <GenreSelectorCard value="View All" label="View All" />
-          {genres.map((genre) => (
-            <GenreSelectorCard key={genre} value={genre} label={genre} />
-          ))}
-        </RadioGroup>
-      </FormControl>
+          <SearchIcon
+            sx={{
+              width: { xs: 28, md: 40 },
+              height: { xs: 28, md: 40 },
+              color: theme.palette.secondary.light,
+            }}
+          />
+          <SearchInput
+            isSearchOpen={true}
+            searchText={searchText}
+            inputRef={inputRef}
+            handleInputChange={handleInputChange}
+            handleSearchSubmit={handleSearchSubmit}
+            sx={{ mx: 2, flexGrow: 1 }}
+          />
+          {searchText && (
+            <IconButton onClick={handleClearInput} sx={{ p: 1 }}>
+              <ClearIcon
+                sx={{
+                  width: { xs: 28, md: 40 },
+                  height: { xs: 28, md: 40 },
+                  color: theme.palette.secondary.light,
+                }}
+              />
+            </IconButton>
+          )}
+        </Box>
+
+        {/* Genre Selector */}
+        <FormControl component="fieldset" fullWidth>
+          <RadioGroup
+            aria-label="Genre options"
+            name="gameGenre"
+            value={selectedGenre}
+            onChange={handleGenreChange}
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              marginBottom: 2,
+              overflowX: "auto",
+            }}
+          >
+            <GenreSelectorCard value="View All" label="View All" />
+            {genres.map((genre) => (
+              <GenreSelectorCard key={genre} value={genre} label={genre} />
+            ))}
+          </RadioGroup>
+        </FormControl>
+        <MotionBox
+          ref={scope}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            width: "100%",
+            marginBottom: 2,
+          }}
+        >
+          <Typography
+            variant="body2"
+            sx={{
+              maxWidth: "60%",
+              textAlign: "center",
+              color: theme.palette.secondary.light,
+            }}
+          >
+            {description}
+          </Typography>
+        </MotionBox>
+      </Box>
 
       {/* Product Grid */}
       <Box
@@ -225,15 +290,14 @@ function Games() {
             xs: 2,
             md: 4,
           },
-          marginLeft: 4,
-          marginRight: 4,
+          margin: 4,
         }}
       >
         {filteredProducts.map((item) => (
           <ProductCard key={item.product_id} product={item} />
         ))}
       </Box>
-    </Box>
+    </>
   );
 }
 
