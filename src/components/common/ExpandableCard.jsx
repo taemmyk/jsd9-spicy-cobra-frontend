@@ -76,7 +76,7 @@ function ExpandableCard({ product, ratingValue, reviewContent }) {
     >
       <CardContent>
         <Grid container spacing={2}>
-          <Grid sx={{ display: { xs: "none", sm: "block" } }}>
+          <Grid>
             <CardMedia
               component="img"
               image={product.image_thumbnail}
@@ -107,7 +107,8 @@ function ExpandableCard({ product, ratingValue, reviewContent }) {
               variant="body2"
               sx={{ color: theme.palette.primary.contrastText }}
             >
-              <b>Transaction</b> {formatDateWithTime(transactionDatetimeRef.current)}
+              <b>Transaction</b>{" "}
+              {formatDateWithTime(transactionDatetimeRef.current)}
             </Typography>
           </Grid>
         </Grid>
