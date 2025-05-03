@@ -2,7 +2,7 @@ import React from "react";
 import { FormLabel, TextField, useTheme, FormControl } from "@mui/material";
 import PropTypes from "prop-types";
 
-const FormInput = ({
+const FormTextField = ({
   id,
   name,
   label,
@@ -46,7 +46,7 @@ const FormInput = ({
   );
 };
 
-FormInput.propTypes = {
+FormTextField.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
@@ -62,4 +62,4 @@ FormInput.propTypes = {
   rows: PropTypes.number,
 };
 
-export default FormInput;
+export default FormTextField;
