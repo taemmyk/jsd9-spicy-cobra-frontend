@@ -20,7 +20,7 @@ function SnackbarGeneric({
   };
 
   const messageStyles = {
-    marginLeft: icon ? 8 : 0, // เพิ่ม margin ซ้ายถ้ามี icon เพื่อเว้นระยะ
+    marginLeft: icon ? 8 : 0,
   };
 
   return (

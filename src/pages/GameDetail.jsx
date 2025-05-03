@@ -485,7 +485,7 @@ function GameDetail() {
                   fontFamily: "Roboto Condensed",
                 }}
               >
-                25th March 2025
+                25 March 2025
               </Typography>
             </Box>
           </Box>

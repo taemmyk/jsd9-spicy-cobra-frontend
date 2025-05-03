@@ -1,13 +1,11 @@
 import React, { useState, useCallback } from "react";
 import { CartContext } from "./CartContext";
 import SnackbarGeneric from "../common/SnackbarGeneric";
-import { useTheme } from "@mui/material/styles";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 
 export const CartProvider = ({ children }) => {
-  const theme = useTheme();
   const [cartItems, setCartItems] = useState([]);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
