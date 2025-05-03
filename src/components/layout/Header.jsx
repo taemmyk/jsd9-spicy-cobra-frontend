@@ -45,6 +45,7 @@ const Header = () => {
             }}
             alt="The house from the offer."
             src="./logo.png"
+            loading="lazy"
           />
           <Typography
             variant="h1"

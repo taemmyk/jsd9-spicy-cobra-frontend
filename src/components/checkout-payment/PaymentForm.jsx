@@ -332,12 +332,13 @@ function PaymentForm({ onPaymentTypeChange }) {
             <CardMedia
               component="img"
               height="auto"
-              image="https://placehold.co/200x200"
+              image="https://placehold.co/200x200/3E2F64/3E2F64"
               alt="QR Code"
               sx={{
-                width: "100%",
+                width: "50%",
                 objectFit: "cover",
               }}
+              loading="lazy"
             />
 
             <Box sx={{ display: "flex", gap: 1 }}></Box>

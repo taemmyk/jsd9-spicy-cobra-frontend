@@ -27,6 +27,7 @@ function SlidesPerViewAuto({ products }) {
               <img
                 src={product.image_thumbnail}
                 alt={product.title || `Product ${index + 1}`}
+                loading="lazy"
               />
             </Link>
           </SwiperSlide>

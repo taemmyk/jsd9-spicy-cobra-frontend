@@ -22,6 +22,7 @@ function OrderItemCard({ product }) {
           maxWidth: "150px",
           height: "auto",
         }}
+        loading="lazy"
       />
       <Box
         sx={{

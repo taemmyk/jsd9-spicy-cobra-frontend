@@ -82,6 +82,7 @@ function ExpandableCard({ product, ratingValue, reviewContent }) {
               image={product.image_thumbnail}
               alt={product.title}
               sx={{ height: "auto", maxWidth: "100%" }}
+              loading="lazy"
             />
           </Grid>
           <Grid>

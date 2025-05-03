@@ -28,7 +28,7 @@ export default function App() {
         {Array.from({ length: numberOfSlides }).map((_, index) => (
           <SwiperSlide key={index}>
             <Link to={`/games/6`}>
-              <img src={banners} alt="Bounty Brawl: Most Wanted" />
+              <img src={banners} alt="Bounty Brawl: Most Wanted" loading="lazy" />
             </Link>
           </SwiperSlide>
         ))}

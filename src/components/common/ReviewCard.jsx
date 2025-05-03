@@ -36,6 +36,7 @@ function ReviewCard({ product, ratingValue, reviewContent }) {
             height: "auto",
             maxWidth: { xs: "600px", md: "300px" },
           }}
+          loading="lazy"
         />
         <Box style={{ display: "flex", flexDirection: "column", flexGrow: 2 }}>
           <Typography

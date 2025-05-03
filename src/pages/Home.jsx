@@ -3,7 +3,6 @@ import {
   Box,
   Typography,
   Paper,
-  Grid,
   Card,
   CardMedia,
   CardContent,
@@ -132,6 +131,7 @@ const Home = () => {
                 image={newsItems[0].image}
                 alt={newsItems[0].alt}
                 sx={{ borderTopLeftRadius: 4, borderTopRightRadius: 4 }}
+                loading="lazy"
               />
               <Box
                 sx={{
@@ -194,6 +194,7 @@ const Home = () => {
                     height: "auto",
                     flexShrink: 0,
                   }}
+                  loading="lazy"
                 />
                 <CardContent
                   sx={{

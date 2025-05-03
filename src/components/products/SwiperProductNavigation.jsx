@@ -18,7 +18,7 @@ function SwiperProductNavigation({ product }) {
       <Swiper navigation={true} modules={[Navigation]} className="swiper-product">
         {imagesToShow.map((image, index) => (
           <SwiperSlide key={index}>
-            <img src={image} alt={`${product.title} ${index + 1}`} />
+            <img src={image} alt={`${product.title} ${index + 1}`} loading="lazy"/>
           </SwiperSlide>
         ))}
       </Swiper>

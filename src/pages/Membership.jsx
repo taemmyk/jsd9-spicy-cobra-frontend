@@ -140,6 +140,7 @@ function Membership() {
                     borderRadius: "50%",
                     mb: 2,
                   }}
+                  loading="lazy"
                 />
                 <AnimatePresence mode="wait">
                   <MotionBox

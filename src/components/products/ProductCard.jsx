@@ -63,6 +63,7 @@ function ProductCard({ product }) {
                   width: "100%",
                   objectFit: "cover",
                 }}
+                loading="lazy"
               />
               <Box
                 sx={{

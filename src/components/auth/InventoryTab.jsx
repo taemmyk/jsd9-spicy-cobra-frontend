@@ -303,6 +303,7 @@ export default function InventoryTab() {
                             "https://placehold.co/460x215/DBDBDB/DBDBDB"
                           }
                           alt={product.title}
+                          loading="lazy"
                         />
                       </CardActionArea>
                     </Card>
@@ -362,6 +363,7 @@ export default function InventoryTab() {
                             objectFit: "cover",
                             cursor: "pointer",
                           }}
+                          loading="lazy"
                           onClick={handleCardImageClick}
                         />
                         <input

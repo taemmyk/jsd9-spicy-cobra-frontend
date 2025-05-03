@@ -131,6 +131,7 @@ function DashboardTab() {
                     width: "100%",
                     objectFit: "cover",
                   }}
+                  loading="lazy"
                 />
               </Box>
               <CardContent

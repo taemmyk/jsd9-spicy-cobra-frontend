@@ -164,6 +164,7 @@ const About = () => {
                 image={CommunityItems[0].image}
                 alt={CommunityItems[0].alt}
                 sx={{ borderTopLeftRadius: 4, borderTopRightRadius: 4 }}
+                loading="lazy"
               />
 
               <CardContent
@@ -212,6 +213,7 @@ const About = () => {
                     height: "auto",
                     flexShrink: 0,
                   }}
+                  loading="lazy"
                 />
                 <CardContent
                   sx={{
