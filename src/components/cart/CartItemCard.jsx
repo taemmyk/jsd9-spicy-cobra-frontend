@@ -5,7 +5,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import calculateSalePrice from "../../utils/calculateSalePrice";
 import { motion } from "framer-motion";
 
-const MotionBox = motion(Box);
+const MotionBox = motion.create(Box);
 
 function CartItemCard({ product, onRemove }) {
   const theme = useTheme();

@@ -12,8 +12,8 @@ import {
   TableCell,
   TableRow,
   Paper,
-  useTheme,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { useParams, useNavigate } from "react-router-dom";
 import ButtonGeneric from "../components/common/ButtonGeneric";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
@@ -25,6 +25,9 @@ import { CartContext } from "../components/contexts/CartContext";
 import calculateSalePrice from "../utils/calculateSalePrice";
 import SwiperPerViewAuto from "../components/common/SwiperPerViewAuto";
 import { systemRequirements } from "../data/misc";
+import { motion } from "framer-motion";
+
+const MotionBox = motion.create(Box);
 
 function GameDetail() {
   const theme = useTheme();
@@ -32,7 +35,7 @@ function GameDetail() {
   const [gameData, setGameData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { addItem } = useContext(CartContext);
+  const { items, addItem } = useContext(CartContext);
   const navigate = useNavigate();
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -52,11 +55,21 @@ function GameDetail() {
     addItem(gameData);
   };
 
-  const handleBuyNow = () => {
-    addItem(gameData);
-    setTimeout(() => {
+  const handleBuyNow = async () => {
+    if (!gameData) return;
+
+    const isItemInCart = items.some(
+      (item) => item.product_id === gameData.product_id
+    );
+
+    if (isItemInCart) {
       navigate("/checkout");
-    }, 1000);
+    } else {
+      addItem(gameData);
+      setTimeout(() => {
+        navigate("/checkout");
+      }, 1000);
+    }
   };
 
   const formatCount = (count) => {
@@ -270,18 +283,22 @@ function GameDetail() {
                 justifyContent: "center",
               }}
             >
-              <ButtonGeneric
-                label="Buy Now"
-                sx={{
-                  backgroundColor: theme.palette.accent.emphasis,
-                  "&:hover": {
-                    bgcolor: theme.palette.accent.emphasisdark,
-                    color: theme.palette.primary.contrastText,
-                  },
-                }}
-                onClick={handleBuyNow}
-              />
-              <ButtonGeneric label="Add to Cart" onClick={handleAddToCart} />
+              <MotionBox whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
+                <ButtonGeneric
+                  label="Buy Now"
+                  sx={{
+                    backgroundColor: theme.palette.accent.emphasis,
+                    "&:hover": {
+                      bgcolor: theme.palette.accent.emphasisdark,
+                      color: theme.palette.primary.contrastText,
+                    },
+                  }}
+                  onClick={handleBuyNow}
+                />
+              </MotionBox>
+              <MotionBox whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
+                <ButtonGeneric label="Add to Cart" onClick={handleAddToCart} />
+              </MotionBox>
             </Box>
           </Box>
         </Box>
