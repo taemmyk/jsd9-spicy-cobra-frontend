@@ -10,7 +10,6 @@ import {
   Typography,
   Tooltip,
   useTheme,
-  styled,
   Rating,
 } from "@mui/material";
 import {
@@ -25,30 +24,6 @@ import {
   formatDateWithTime,
   generateDatetimeTransaction,
 } from "../../utils/getRandomDatetime";
-
-const ExpandMore = styled((props) => {
-  const { ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme }) => ({
-  marginLeft: "auto",
-  transition: theme.transitions.create("transform", {
-    duration: theme.transitions.duration.shortest,
-  }),
-  variants: [
-    {
-      props: ({ expand }) => !expand,
-      style: {
-        transform: "rotate(0deg)",
-      },
-    },
-    {
-      props: ({ expand }) => !!expand,
-      style: {
-        transform: "rotate(180deg)",
-      },
-    },
-  ],
-}));
 
 function ExpandableCard({ product, ratingValue, reviewContent }) {
   const theme = useTheme();
@@ -76,7 +51,7 @@ function ExpandableCard({ product, ratingValue, reviewContent }) {
     >
       <CardContent>
         <Grid container spacing={2}>
-          <Grid>
+          <Grid item>
             <CardMedia
               component="img"
               image={product.image_thumbnail}
@@ -85,7 +60,7 @@ function ExpandableCard({ product, ratingValue, reviewContent }) {
               loading="lazy"
             />
           </Grid>
-          <Grid>
+          <Grid item>
             <Typography
               variant="h5"
               sx={{ color: theme.palette.accent.default }}
@@ -97,6 +72,12 @@ function ExpandableCard({ product, ratingValue, reviewContent }) {
               sx={{ color: theme.palette.secondary.light }}
             >
               ฿{product.price}
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{ color: theme.palette.primary.contrastText }}
+            >
+              <b>Order No.</b> #1234567
             </Typography>
             <Typography
               variant="body2"
@@ -130,14 +111,20 @@ function ExpandableCard({ product, ratingValue, reviewContent }) {
             <ContactSupportIcon sx={{ color: theme.palette.secondary.light }} />
           </IconButton>
         </Tooltip>
-        <ExpandMore
-          expand={expanded.toString()}
+        <IconButton
           onClick={handleExpandClick}
           aria-expanded={expanded}
           aria-label="show more"
+          sx={{
+            marginLeft: "auto",
+            transition: theme.transitions.create("transform", {
+              duration: theme.transitions.duration.shortest,
+            }),
+            transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
+          }}
         >
           <ExpandMoreIcon sx={{ color: theme.palette.secondary.light }} />
-        </ExpandMore>
+        </IconButton>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>

@@ -1,8 +1,8 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import Heading from "../common/Heading";
-import productsData from "../../data/products.json";
 import ReviewCard from "../common/ReviewCard";
+import { reviewItems } from "../../data/misc";
 
 function CommunityTab() {
   return (
@@ -25,16 +25,14 @@ function CommunityTab() {
           }}
         >
           <Typography variant="h5">Your Reviews</Typography>
-          <ReviewCard
-            product={productsData[2]}
-            ratingValue={4.0}
-            reviewContent="Once you get past the initial awkwardness of the door-opening mechanics, this is actually a pretty scary game."
-          />
-          <ReviewCard
-            product={productsData[8]}
-            ratingValue={3.5}
-            reviewContent="Once you play it for 30 mins above and understand the mechanics of how to make your friend angry, this game is good. Give it a try with 1 or 2 of your friends (with a mic) in a public match!"
-          />
+          {reviewItems.map((review, index) => (
+            <ReviewCard
+              key={index}
+              product={review.product}
+              ratingValue={review.ratingValue}
+              reviewContent={review.reviewContent}
+            />
+          ))}
         </Box>
       </Box>
     </>

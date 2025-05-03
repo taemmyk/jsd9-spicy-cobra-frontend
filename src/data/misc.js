@@ -24,8 +24,7 @@ export const newsItems = [
     title: "Kick off 2025 with these game jams!",
     image: "https://img.itch.zone/aW1nLzE5MjY2NTI2LmpwZw==/original/jk0o3d.jpg",
     alt: "Pizza Doggy's Ham-Jam",
-    description:
-      "The new year brings a fresh wave of game jams!",
+    description: "The new year brings a fresh wave of game jams!",
   },
   {
     title: "'Consume Me' Wins Grand Prize, Nuovo Award at the 2025 IGF Awards",
@@ -76,8 +75,7 @@ export const CommunityItems = [
     image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSArdtA4eF04Lu64HSjD8B5UYJazoRgtsTmzw&s",
     alt: "Game Talent Showcase 2025",
-    description:
-      "Young Game Creators Apply Now!",
+    description: "Young Game Creators Apply Now!",
   },
   {
     title: "depa ESPORTS TOURNAMENT: Online Tournament - RoV",
@@ -86,5 +84,22 @@ export const CommunityItems = [
     alt: "depa ESPORTS TOURNAMENT: Online Tournament - RoV",
     description:
       "Esports dreamers, unite! Develop skills, compete in depa Regional Tournaments nationwide!",
+  },
+];
+
+import productsData from "../data/products.json";
+
+export const reviewItems = [
+  {
+    product: productsData[2],
+    ratingValue: 4.0,
+    reviewContent:
+      "Once you get past the initial awkwardness of the door-opening mechanics, this is actually a pretty scary game.",
+  },
+  {
+    product: productsData[8],
+    ratingValue: 3.5,
+    reviewContent:
+      "Once you play it for 30 mins above and understand the mechanics of how to make your friend angry, this game is good. Give it a try with 1 or 2 of your friends (with a mic) in a public match!",
   },
 ];
