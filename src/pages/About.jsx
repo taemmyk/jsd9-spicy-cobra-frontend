@@ -18,9 +18,24 @@ const About = () => {
   return (
     <>
       <Box
+        component="img"
+        src="https://gdconf.com/sites/default/files/Hero_04022025.png"
+        sx={{
+          width: "100%",
+          height: {
+            xs: "auto",
+            md: "50vh",
+          },
+          objectFit: "cover",
+          objectPosition: "center",
+        }}
+        loading="lazy"
+      />
+      <Box
         sx={{
           backgroundColor: theme.palette.background.paper,
           display: "flex",
+          flexDirection: {xs: "column", md: "row"},
           gap: 4,
           padding: 4,
         }}
@@ -48,7 +63,7 @@ const About = () => {
             flex: 1,
             display: "flex",
             alignItems: "center",
-            paddingX: 4,
+            padding: 4,
             borderRadius: 4,
           }}
         >
@@ -61,6 +76,7 @@ const About = () => {
       <Box
         sx={{
           display: "flex",
+          flexDirection: {xs: "column", md: "row"},
           gap: 4,
           padding: 4,
         }}

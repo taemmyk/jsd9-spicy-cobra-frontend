@@ -22,7 +22,21 @@ const Home = () => {
 
   return (
     <>
-      <Box sx={{ paddingBottom: 2 }}>
+      <Box
+        component="img"
+        src="https://www.spieltimes.io/wp-content/uploads/2024/08/The-Rise-of-Indie-Games-A-New-Era-in-Gaming-1024x576.webp"
+        sx={{
+          width: "100%",
+          height: {
+            xs: "auto",
+            md: "50vh",
+          },
+          objectFit: "cover",
+          objectPosition: "center",
+        }}
+        loading="lazy"
+      />
+      <Box sx={{ paddingY: 2 }}>
         <SwiperPerViewAuto products={recommendedGames} />
       </Box>
       <Box

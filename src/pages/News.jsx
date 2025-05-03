@@ -16,9 +16,24 @@ function News() {
   return (
     <>
       <Box
+        component="img"
+        src="https://gdconf.com/sites/default/files/styles/200x200/public/IGF%20juries%202%20image.png"
+        sx={{
+          width: "100%",
+          height: {
+            xs: "auto",
+            md: "50vh",
+          },
+          objectFit: "cover",
+          objectPosition: "center",
+        }}
+        loading="lazy"
+      />
+      <Box
         sx={{
           backgroundColor: theme.palette.background.paper,
           paddingBottom: 2,
+          paddingX: 2,
         }}
       >
         <Paper elevation={3} />

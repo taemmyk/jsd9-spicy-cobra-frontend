@@ -190,6 +190,20 @@ function Games() {
   return (
     <>
       <Box
+        component="img"
+        src="https://i.pcmag.com/imagery/roundups/025NJmKivEPIxXC9veZnSFP-6.fit_lim.size_1600x900.v1736540192.jpg"
+        sx={{
+          width: "100%",
+          height: {
+            xs: "auto",
+            md: "50vh",
+          },
+          objectFit: "cover",
+          objectPosition: "center",
+        }}
+        loading="lazy"
+      />
+      <Box
         sx={{
           paddingX: 2,
           backgroundColor: theme.palette.background.paper,
