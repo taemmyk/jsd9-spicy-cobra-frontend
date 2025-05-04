@@ -64,9 +64,9 @@ export const CartProvider = ({ children }) => {
   const clearCart = useCallback(() => {
     if (cartItems.length > 0) {
       setCartItems([]);
-      setSnackbarMessage("Cart cleared.");
-      setSnackbarIcon(<ProductionQuantityLimitsIcon />);
-      setSnackbarOpen(true);
+      // setSnackbarMessage("Cart cleared.");
+      // setSnackbarIcon(<ProductionQuantityLimitsIcon />);
+      // setSnackbarOpen(true);
     }
   }, [cartItems]);
 
