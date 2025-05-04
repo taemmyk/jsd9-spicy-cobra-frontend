@@ -31,8 +31,7 @@ function PaymentForm() {
 
   const handlePaymentTypeChange = (event) => {
     const value = event.target.value;
-    setPaymentType(value);
-    console.log(`PaymentForm ${paymentType}`); //TODO:
+    setPaymentType(value); //TODO:
   };
 
   const handleCardNumberChange = (event) => {
