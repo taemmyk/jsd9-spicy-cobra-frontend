@@ -51,7 +51,7 @@ function ExpandableCard({ product, ratingValue, reviewContent }) {
     >
       <CardContent>
         <Grid container spacing={2}>
-          <Grid item>
+          <Grid>
             <CardMedia
               component="img"
               image={product.image_thumbnail}
@@ -60,7 +60,7 @@ function ExpandableCard({ product, ratingValue, reviewContent }) {
               loading="lazy"
             />
           </Grid>
-          <Grid item>
+          <Grid>
             <Typography
               variant="h5"
               sx={{ color: theme.palette.accent.default }}

@@ -140,7 +140,7 @@ const SignupCard = () => {
 
         <ButtonGeneric
           label="Sign up"
-          type="submit"
+          to="/dashboard"
           sx={{ marginTop: 2, alignItems: "center" }}
         />
       </Box>
