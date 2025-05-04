@@ -13,7 +13,7 @@ import {
   Button,
   Typography,
   styled,
-  LinearProgress, // Import LinearProgress
+  LinearProgress,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import AddressForm from "./AddressForm";
@@ -30,7 +30,7 @@ const ColorlibStepIconRoot = styled("div")(({ theme, ownerState }) => ({
   backgroundColor: theme.palette.secondary.main,
   color: theme.palette.text.secondary,
   zIndex: 1,
-  fontFamily: "Roboto",
+  fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
   fontSize: "1.5rem",
   display: "flex",
   borderRadius: "50%",
@@ -64,7 +64,7 @@ function CheckoutStepper({ onStepChange }) {
   const [activeStep, setActiveStep] = useState(0);
   const { clearCart } = useContext(CartContext);
   const [open, setOpen] = useState(false);
-  const [progress, setProgress] = useState(0); // State สำหรับ LinearProgress
+  const [progress, setProgress] = useState(0);
   const [showButton, setShowButton] = useState(false);
   const progressRef = useRef(null);
   const previousFocusRef = useRef(null);
@@ -99,7 +99,7 @@ function CheckoutStepper({ onStepChange }) {
   const handleOpen = () => {
     previousFocusRef.current = document.activeElement;
     setOpen(true);
-    setProgress(0); // รีเซ็ต progress เมื่อเปิด Backdrop
+    setProgress(0);
     setShowButton(false);
 
     progressRef.current = setInterval(() => {
@@ -109,10 +109,10 @@ function CheckoutStepper({ onStepChange }) {
           setShowButton(true);
           return 100;
         }
-        const diff = Math.random() * 15; // ปรับความเร็วในการเพิ่ม progress
+        const diff = Math.random() * 15;
         return Math.min(oldProgress + diff, 100);
       });
-    }, 300); // ปรับความถี่ในการอัปเดต progress
+    }, 300);
   };
 
   const handleClose = () => {
@@ -134,7 +134,7 @@ function CheckoutStepper({ onStepChange }) {
 
   useEffect(() => {
     return () => {
-      clearInterval(progressRef.current); // Clear interval เมื่อ component unmount
+      clearInterval(progressRef.current);
     };
   }, []);
 
