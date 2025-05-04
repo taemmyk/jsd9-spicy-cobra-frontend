@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
-import { IconButton, Button, Typography, Box } from "@mui/material";
+import { IconButton, Button, Typography } from "@mui/material";
 import {
   ContactSupport as ContactSupportIcon,
   Newspaper as NewspaperIcon,
@@ -19,7 +19,7 @@ function ButtonNavbar({ path, label }) {
         return <LogoDevIcon sx={iconStyle} />;
       case "points":
         return <AutoAwesomeIcon sx={iconStyle} />;
-      case "genres":
+      case "games":
         return <FolderIcon sx={iconStyle} />;
       case "news":
         return <NewspaperIcon sx={iconStyle} />;

@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useTheme } from "@mui/material/styles";
 import {
   Box,
   Typography,
@@ -10,10 +9,12 @@ import {
   List,
   ListItem,
   ListItemText,
+  styled,
 } from "@mui/material";
-import YouTubeIcon from "@mui/icons-material/YouTube";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import { styled } from "@mui/material/styles";
+import { useTheme } from '@mui/material/styles';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import Logo from "../../assets/logo.png"
 
 function Footer({ onBackToTop }) {
   const theme = useTheme();
@@ -77,13 +78,14 @@ function Footer({ onBackToTop }) {
           >
             <Box
               component="img"
-              src="./logo.png"
+              src={Logo}
               alt="Profile"
               sx={{
                 width: { xs: 80, md: 160 },
                 height: { xs: 80, md: 160 },
                 borderRadius: "50%",
               }}
+              loading="lazy"
             />
             <Box
               sx={{

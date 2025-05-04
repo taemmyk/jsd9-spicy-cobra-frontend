@@ -19,7 +19,6 @@ function OrderItemReviewCard({ category, description, total }) {
           justifyItems: "center",
         }}
       >
-        
         <Typography variant="body3" fontWeight="semibold">
           {category}
         </Typography>

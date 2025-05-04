@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Card,
@@ -9,22 +9,24 @@ import {
   Typography,
   Avatar,
   Stack,
+  Rating,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
-import Rating from "@mui/material/Rating";
+import { useTheme } from '@mui/material/styles';
+import calculateSalePrice from "../../utils/calculateSalePrice";
 
-function ProductCard({ products }) {
+function ProductCard({ product }) {
   const theme = useTheme();
-  const currentPrice = Math.floor(
-    parseInt(products.price) *
-      ((100 - parseInt(products.discount_percentage)) / 100)
-  );
-  const [ratingValue] = useState(parseFloat(products.rating) || 0);
+  const currentPrice = product ? calculateSalePrice(product) : null;
+  const [ratingValue] = useState(parseFloat(product?.rating) || 0);
+
+  if (!product) {
+    return null;
+  }
 
   return (
     <>
       <Link
-        to={`/games/${products.product_id}`}
+        to={`/games/${product.product_id}`}
         style={{ textDecoration: "none" }}
       >
         <Card sx={{ borderRadius: 4 }}>
@@ -36,7 +38,7 @@ function ProductCard({ products }) {
                 flexDirection: "column",
               }}
             >
-              {products.discount_percentage > 0 && (
+              {product.discount_percentage > 0 && (
                 <Box
                   sx={{
                     position: "absolute",
@@ -48,19 +50,20 @@ function ProductCard({ products }) {
                   }}
                 >
                   <Typography variant="saleTag">
-                    {products.discount_percentage}%
+                    {product.discount_percentage}%
                   </Typography>
                 </Box>
               )}
               <CardMedia
                 component="img"
                 height="auto"
-                image={products.image_thumbnail}
-                alt={products.title}
+                image={product.image_thumbnail}
+                alt={product.title}
                 sx={{
                   width: "100%",
                   objectFit: "cover",
                 }}
+                loading="lazy"
               />
               <Box
                 sx={{
@@ -73,15 +76,19 @@ function ProductCard({ products }) {
                   padding: theme.spacing(1, 2),
                 }}
               >
-                {products.discount_percentage > 0 && (
-                  <Typography
-                    variant="strikePriceTag"
-                    sx={{ textDecoration: "line-through" }}
-                  >
-                    ฿{products.price}
-                  </Typography>
-                )}
-                <Typography variant="priceTag"> ฿{currentPrice}</Typography>
+                {product.discount_percentage > 0 &&
+                  product.price !== undefined && (
+                    <Typography
+                      variant="strikePriceTag"
+                      sx={{ textDecoration: "line-through" }}
+                    >
+                      ฿{product.price}
+                    </Typography>
+                  )}
+                <Typography variant="priceTag">
+                  {" "}
+                  ฿{currentPrice !== null ? currentPrice : "N/A"}
+                </Typography>
               </Box>
             </Box>
             <CardContent
@@ -89,6 +96,7 @@ function ProductCard({ products }) {
                 display: "flex",
                 justifyContent: "space-around",
                 backgroundColor: theme.palette.background.card,
+                maxHeight: 100,
               }}
             >
               <Stack
@@ -99,11 +107,11 @@ function ProductCard({ products }) {
                 }}
               >
                 <Avatar
-                  alt={products.developer}
-                  src={products.developer_avatar}
+                  alt={product.developer}
+                  src={product.developer_avatar}
                   sx={{ width: 48, height: 48, objectFit: "cover" }}
                 />
-                <Typography variant="body3">{products.developer}</Typography>
+                <Typography variant="body3">{product.developer}</Typography>
               </Stack>
               <Stack
                 sx={{
@@ -114,7 +122,7 @@ function ProductCard({ products }) {
               >
                 <Rating
                   name="half-rating-read"
-                  value={ratingValue}
+                  value={parseFloat(product?.rating) || 0}
                   precision={0.1}
                   readOnly
                 />
@@ -125,7 +133,7 @@ function ProductCard({ products }) {
                     display: { xs: "none", md: "block" },
                   }}
                 >
-                  {products.rating}
+                  {ratingValue.toFixed(1)}
                 </Typography>
               </Stack>
             </CardContent>

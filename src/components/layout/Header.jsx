@@ -1,68 +1,24 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Button,
-  Typography,
-  Box,
-  Badge,
-  List,
-  ListItem,
-} from "@mui/material";
-import ClearIcon from "@mui/icons-material/Clear";
+import { AppBar, Toolbar, IconButton, Typography, Box } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PersonIcon from "@mui/icons-material/Person";
+import Logo from "../../assets/logo.png"
 import ButtonNavbar from "../common/ButtonNavbar";
-import SearchInput from "../common/SearchInput";
-import Popover from "@mui/material/Popover";
-
-import Order from "../../pages/Order";
 import TemporaryDrawer from "../orders/TemporaryDrawer";
 
 const Header = () => {
   const theme = useTheme();
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchText, setSearchText] = useState("");
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const inputRef = useRef(null);
   const navigate = useNavigate();
-
-  const handleSearchToggle = () => {
-    setIsSearchOpen((prev) => !prev);
-  };
-
-  const handleInputChange = (event) => {
-    const newValue = event.target.value;
-    setSearchText(newValue);
-    navigate(`/search?search=${encodeURIComponent(newValue)}`, { replace: true });
-  };
-
-  const handleClearInput = () => {
-    setSearchText("");
-    navigate(`/search?search=`);
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-    setIsSearchOpen(false);
-  };
-
-  const handleSearchSubmit = (event) => {
-    event.preventDefault();
-    setIsSearchOpen(false);
-  };
-
-  useEffect(() => {
-    if (isSearchOpen && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [isSearchOpen]);
 
   const toggleCartDrawer = (newOpen) => () => {
     setIsCartOpen(newOpen);
+  };
+
+  const handleSearchClick = () => {
+    navigate("/games");
   };
 
   return (
@@ -89,7 +45,8 @@ const Header = () => {
               display: { xs: "flex", md: "none" },
             }}
             alt="The house from the offer."
-            src="./logo.png"
+            src={Logo}
+            loading="lazy"
           />
           <Typography
             variant="h1"
@@ -103,15 +60,6 @@ const Header = () => {
           </Typography>
         </Link>
 
-        <SearchInput
-          isSearchOpen={isSearchOpen}
-          searchText={searchText}
-          inputRef={inputRef}
-          handleInputChange={handleInputChange}
-          handleSearchSubmit={handleSearchSubmit}
-          sx={{ mx: 2 }}
-        />
-
         <Box
           sx={{
             display: "flex",
@@ -120,18 +68,7 @@ const Header = () => {
             gap: { xs: 1, md: 4 },
           }}
         >
-          {isSearchOpen && searchText && (
-            <IconButton onClick={handleClearInput} sx={{ p: 1 }}>
-              <ClearIcon
-                sx={{
-                  width: { xs: 28, md: 40 },
-                  height: { xs: 28, md: 40 },
-                  color: theme.palette.secondary.light,
-                }}
-              />
-            </IconButton>
-          )}
-          <IconButton onClick={handleSearchToggle} sx={{ p: 1 }}>
+          <IconButton onClick={handleSearchClick} sx={{ p: 1 }}>
             <SearchIcon
               sx={{
                 width: { xs: 28, md: 40 },
@@ -163,7 +100,7 @@ const Header = () => {
           alignItems: "center",
         }}
       >
-        <List
+        <Box
           sx={{
             display: "flex",
             justifyContent: "space-between",
@@ -171,19 +108,11 @@ const Header = () => {
             alignItems: "center",
           }}
         >
-          <ListItem>
-            <ButtonNavbar path="/about" label="about" />
-          </ListItem>
-          <ListItem>
-            <ButtonNavbar path="/news" label="news" />
-          </ListItem>
-          <ListItem>
-            <ButtonNavbar path="/games" label="games" />
-          </ListItem>
-          <ListItem>
-            <ButtonNavbar path="/devlogs" label="developer logs" />
-          </ListItem>
-        </List>
+          <ButtonNavbar path="/about" label="about" />
+          <ButtonNavbar path="/news" label="news" />
+          <ButtonNavbar path="/games" label="games" />
+          <ButtonNavbar path="/devlogs" label="developer logs" />
+        </Box>
       </Toolbar>
     </AppBar>
   );

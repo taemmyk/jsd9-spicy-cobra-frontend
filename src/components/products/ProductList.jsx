@@ -70,8 +70,8 @@ const ProductList = () => {
             marginRight: 4,
           }}
         >
-          {filteredProducts.map((game, index) => (
-            <ProductCard key={index} products={game} />
+          {filteredProducts.map((game) => (
+            <ProductCard key={game.product_id} product={game} />
           ))}
         </Box>
       ) : (

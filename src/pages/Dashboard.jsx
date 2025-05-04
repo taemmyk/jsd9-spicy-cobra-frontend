@@ -1,29 +1,30 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
-import { Box, IconButton, Button } from "@mui/material";
-import Card from "@mui/material/Card";
-import CardActionArea from "@mui/material/CardActionArea";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import { useTheme } from "@mui/material/styles";
-import ButtonGeneric from "../components/common/ButtonGeneric";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControl from "@mui/material/FormControl";
-
+import {
+  Box,
+  Typography,
+  Card,
+  CardActionArea,
+  CardContent,
+  RadioGroup,
+  FormControl,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from "@mui/material";
+import { useTheme } from '@mui/material/styles';
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import SummarizeIcon from "@mui/icons-material/Summarize";
 import PersonIcon from "@mui/icons-material/Person";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import InventoryIcon from "@mui/icons-material/Inventory";
-import LogoutIcon from "@mui/icons-material/Logout";
-
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-
 import DashboardTab from "../components/auth/DashboardTab";
+import OrdersTab from "../components/auth/OrdersTab";
+import CommunityTab from "../components/auth/CommunityTab";
+import ReportTab from "../components/auth/ReportTab";
+import InventoryTab from "../components/auth/InventoryTab";
+import ProfileTab from "../components/auth/ProfileTab";
 
 function Dashboard() {
   const theme = useTheme();
@@ -47,11 +48,11 @@ function Dashboard() {
 
     if (value === "dashboard") {
       return <DashboardIcon fontSize="small" sx={defaultIconSx} />;
-    } else if (value === "order") {
+    } else if (value === "orders") {
       return <ReceiptIcon fontSize="small" sx={defaultIconSx} />;
     } else if (value === "report") {
       return <SummarizeIcon fontSize="small" sx={defaultIconSx} />;
-    } else if (value === "customer") {
+    } else if (value === "profile") {
       return <PersonIcon fontSize="small" sx={defaultIconSx} />;
     } else if (value === "review") {
       return <RateReviewIcon fontSize="small" sx={defaultIconSx} />;
@@ -114,7 +115,7 @@ function Dashboard() {
                 selectedTab === value
                   ? theme.palette.secondary.light
                   : theme.palette.primary.contrastText,
-              ...customTypographySx, // Merge styles สำหรับ Typography
+              ...customTypographySx,
             }}
           >
             {label}
@@ -137,7 +138,7 @@ function Dashboard() {
           flexDirection: { xs: "column", md: "row" },
           justifyContent: "space-around",
           alignContent: "stretch",
-          minHeight: "800px", //! TO FIX
+          minHeight: "800px",
         }}
       >
         <Box
@@ -162,10 +163,11 @@ function Dashboard() {
                 }}
               >
                 <TabSelectorCard value="dashboard" label="Dashboard" />
-                <TabSelectorCard value="order" label="Orders" />
+                <TabSelectorCard value="orders" label="Orders" />
                 <TabSelectorCard value="review" label="Community" />
                 <TabSelectorCard value="inventory" label="Inventory" />
                 <TabSelectorCard value="report" label="Report" />
+                <TabSelectorCard value="profile" label="Profile" />
               </RadioGroup>
             </FormControl>
           </Box>
@@ -185,32 +187,21 @@ function Dashboard() {
                 id="panel1-header"
                 sx={{ backgroundColor: theme.palette.background.layout }}
               >
-                <TabSelectorCard
-                  value={selectedTab}
-                  label={
-                    {
-                      dashboard: "Dashboard",
-                      order: "Orders",
-                      review: "Community",
-                      inventory: "Inventory",
-                      report: "Report",
-                    }[selectedTab] || "Tab"
-                  }
+                <Typography
                   sx={{
-                    backgroundColor: theme.palette.background.layout,
+                    fontWeight: "500",
+                    paddingRight: 3,
+                    color: theme.palette.secondary.light,
+                    paddingX: 2,
                   }}
-                  actionAreaSx={{
-                    "&:hover": {
-                      backgroundColor: theme.palette.background.layout,
-                      "& .MuiTypography-root": {
-                        color: theme.palette.primary.contrastText,
-                      },
-                    },
-                  }}
-                  typographySx={{
-                    color: theme.palette.primary.contrastText,
-                  }}
-                />
+                >
+                  {displayTabIcon(selectedTab)}{" "}
+                  {selectedTab === "review"
+                    ? "Community"
+                    : selectedTab &&
+                      selectedTab.charAt(0).toUpperCase() +
+                        selectedTab.slice(1).toLowerCase()}
+                </Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <FormControl
@@ -228,59 +219,17 @@ function Dashboard() {
                       flexDirection: "column",
                     }}
                   >
-                    {Object.entries({
-                      dashboard: "Dashboard",
-                      order: "Orders",
-                      review: "Community",
-                      inventory: "Inventory",
-                      report: "Report",
-                    }).map(
-                      ([value, label]) =>
-                        value !== selectedTab && (
-                          <TabSelectorCard
-                            key={value}
-                            value={value}
-                            label={label}
-                          />
-                        )
-                    )}
+                    <TabSelectorCard value="dashboard" label="Dashboard" />
+                    <TabSelectorCard value="orders" label="Orders" />
+                    <TabSelectorCard value="review" label="Community" />
+                    <TabSelectorCard value="inventory" label="Inventory" />
+                    <TabSelectorCard value="report" label="Report" />
+                    <TabSelectorCard value="profile" label="Profile" />
                   </RadioGroup>
                 </FormControl>
               </AccordionDetails>
             </Accordion>
           </Box>
-
-          {/* Logout Button (Conditionally Rendered if Needed) */}
-          {/* <Link to="/" style={{ textDecoration: "none" }}>
-    <Button
-      variant="contained"
-      // onClick={handleTabChange}
-      sx={{
-        backgroundColor: theme.palette.negative.default,
-        color: theme.palette.primary.contrastText,
-        fontSize: "1.25rem",
-        fontWeight: "400",
-        px: 2,
-        py: 1,
-        borderRadius: 8,
-        boxShadow: 2,
-        transition: "all 0.2s ease",
-        "&:hover": {
-          bgcolor: theme.palette.negative.dark,
-          color: theme.palette.primary.contrastText,
-        },
-      }}
-    >
-      <LogoutIcon />
-      <Typography
-        sx={{
-          display: { xs: "none", md: "block" },
-        }}
-      >
-        Sign out
-      </Typography>
-    </Button>
-  </Link> */}
         </Box>
 
         <Box
@@ -296,6 +245,11 @@ function Dashboard() {
           }}
         >
           {selectedTab === "dashboard" && <DashboardTab />}
+          {selectedTab === "orders" && <OrdersTab />}
+          {selectedTab === "review" && <CommunityTab />}
+          {selectedTab === "report" && <ReportTab />}
+          {selectedTab === "inventory" && <InventoryTab />}
+          {selectedTab === "profile" && <ProfileTab />}
         </Box>
       </Box>
     </>

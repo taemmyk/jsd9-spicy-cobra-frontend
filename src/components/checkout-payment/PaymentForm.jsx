@@ -5,11 +5,8 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  Checkbox,
   FormControl,
   FormControlLabel,
-  FormLabel,
-  OutlinedInput,
   RadioGroup,
   Stack,
   Typography,
@@ -17,31 +14,8 @@ import {
 } from "@mui/material";
 import AccountBalanceRoundedIcon from "@mui/icons-material/AccountBalanceRounded";
 import CreditCardRoundedIcon from "@mui/icons-material/CreditCardRounded";
-
-const PaymentContainer = styled("div")(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "space-between",
-  width: "100%",
-  height: 375,
-  padding: theme.spacing(3),
-  borderRadius: `calc(${theme.shape.borderRadius}px + 4px)`,
-  border: "1px solid ",
-  borderColor: (theme.vars || theme).palette.divider,
-  background: theme.palette.background.card,
-  boxShadow: "0px 4px 8px hsla(210, 0%, 0%, 0.05)",
-  [theme.breakpoints.up("xs")]: {
-    height: 300,
-  },
-  [theme.breakpoints.up("sm")]: {
-    height: 350,
-  },
-  ...theme.applyStyles("dark", {
-    background:
-      "linear-gradient(to right bottom, hsla(220, 30%, 6%, 0.2) 25%, hsla(220, 20%, 25%, 0.2) 100%)",
-    boxShadow: "0px 4px 8px hsl(220, 35%, 0%)",
-  }),
-}));
+import FormTextField from "../common/FormTextField";
+import FormCheckbox from "../common/FormCheckbox";
 
 const FormGrid = styled("div")(() => ({
   display: "flex",
@@ -56,7 +30,9 @@ function PaymentForm() {
   const [expirationDate, setExpirationDate] = useState("");
 
   const handlePaymentTypeChange = (event) => {
-    setPaymentType(event.target.value);
+    const value = event.target.value;
+    setPaymentType(value);
+    console.log(`PaymentForm ${paymentType}`); //TODO:
   };
 
   const handleCardNumberChange = (event) => {
@@ -81,6 +57,7 @@ function PaymentForm() {
       setExpirationDate(formattedValue);
     }
   };
+
   return (
     <>
       <Stack spacing={{ xs: 3, sm: 6 }} useFlexGap sx={{ mt: 2 }}>
@@ -203,7 +180,15 @@ function PaymentForm() {
         </FormControl>
         {paymentType === "creditCard" && (
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-            <PaymentContainer>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                width: "100%",
+                background: theme.palette.background.paper,
+              }}
+            >
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <Typography variant="body1">Credit Card Detail</Typography>
                 <CreditCardRoundedIcon
@@ -215,116 +200,67 @@ function PaymentForm() {
                   display: "flex",
                   justifyContent: "space-between",
                   width: "100%",
+                  paddingX: 2,
                   gap: 2,
                 }}
               >
-                <FormGrid sx={{ flexGrow: 1 }}>
-                  <FormLabel
-                    htmlFor="card-number"
-                    required
-                    sx={{ color: theme.palette.secondary.light }}
-                  >
-                    Card number
-                  </FormLabel>
-                  <OutlinedInput
-                    id="card-number"
-                    autoComplete="card-number"
-                    placeholder="0000 0000 0000 0000"
-                    required
-                    size="small"
-                    value={cardNumber}
-                    onChange={handleCardNumberChange}
-                    sx={{
-                      backgroundColor: theme.palette.primary.contrastText,
-                      color: theme.palette.secondary.contrastText,
-                    }}
-                  />
-                </FormGrid>
-                <FormGrid sx={{ maxWidth: "20%" }}>
-                  <FormLabel
-                    htmlFor="cvv"
-                    required
-                    sx={{ color: theme.palette.secondary.light }}
-                  >
-                    CVV
-                  </FormLabel>
-                  <OutlinedInput
-                    id="cvv"
-                    autoComplete="CVV"
-                    placeholder="123"
-                    required
-                    size="small"
-                    value={cvv}
-                    onChange={handleCvvChange}
-                    sx={{
-                      backgroundColor: theme.palette.primary.contrastText,
-                      color: theme.palette.secondary.contrastText,
-                    }}
-                  />
-                </FormGrid>
-              </Box>
-              <Box sx={{ display: "flex", gap: 2 }}>
-                <FormGrid sx={{ flexGrow: 1 }}>
-                  <FormLabel
-                    htmlFor="card-name"
-                    required
-                    sx={{ color: theme.palette.secondary.light }}
-                  >
-                    Name
-                  </FormLabel>
-                  <OutlinedInput
-                    id="card-name"
-                    autoComplete="card-name"
-                    placeholder="John Smith"
-                    required
-                    size="small"
-                    sx={{
-                      backgroundColor: theme.palette.primary.contrastText,
-                      color: theme.palette.secondary.contrastText,
-                    }}
-                  />
-                </FormGrid>
-                <FormGrid sx={{ flexGrow: 1 }}>
-                  <FormLabel
-                    htmlFor="card-expiration"
-                    required
-                    sx={{ color: theme.palette.secondary.light }}
-                  >
-                    Expiration date
-                  </FormLabel>
-                  <OutlinedInput
-                    id="card-expiration"
-                    autoComplete="card-expiration"
-                    placeholder="MM/YY"
-                    required
-                    size="small"
-                    value={expirationDate}
-                    onChange={handleExpirationDateChange}
-                    sx={{
-                      backgroundColor: theme.palette.primary.contrastText,
-                      color: theme.palette.secondary.contrastText,
-                    }}
-                  />
-                </FormGrid>
-              </Box>
-            </PaymentContainer>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  name="saveCard"
-                  sx={{
-                    "& .MuiSvgIcon-root": {
-                      fontSize: 30,
-                    },
-                    color: theme.palette.primary.contrastText,
-                    "&.Mui-checked": {
-                      color: theme.palette.secondary.light,
-                    },
-                  }}
+                <FormTextField
+                  id="card-number"
+                  name="card-number"
+                  label="Card number"
+                  type="text"
+                  placeholder="0000 0000 0000 0000"
+                  autoComplete="card-number"
+                  required
+                  value={cardNumber}
+                  onChange={handleCardNumberChange}
+                  sx={{ flexGrow: 2 }}
                 />
-              }
-              label="Remember credit card details for next time"
-            />
+                <FormTextField
+                  id="ccv"
+                  name="ccv"
+                  label="CCV"
+                  type="text"
+                  placeholder="123"
+                  autoComplete="ccv"
+                  required
+                  value={cvv}
+                  onChange={handleCvvChange}
+                  sx={{ flexGrow: 1 }}
+                />
+              </Box>
+              <Stack direction="row" spacing={2} sx={{ paddingX: 2 }}>
+                <FormTextField
+                  id="card-name"
+                  name="card-name"
+                  label="Name"
+                  type="card"
+                  placeholder="John Smith"
+                  autoComplete="card-name"
+                  required
+                />
+                <FormTextField
+                  id="card-expiration"
+                  name="card-expiration"
+                  label="Expiration date"
+                  type="card-expiration"
+                  placeholder="MM/YY"
+                  autoComplete="card-expiration"
+                  required
+                  value={expirationDate}
+                  onChange={handleExpirationDateChange}
+                />
+              </Stack>
+              <FormControlLabel
+                control={<FormCheckbox />}
+                label={
+                  <Typography variant="body2" marginLeft={2} marginY={2}>
+                    Remember credit card details for next time
+                  </Typography>
+                }
+                sx={{ paddingX: 3 }}
+              />
+            </Box>
           </Box>
         )}
         {paymentType === "bankTransfer" && (
@@ -338,12 +274,13 @@ function PaymentForm() {
             <CardMedia
               component="img"
               height="auto"
-              image="https://placehold.co/200x200"
+              image="https://placehold.co/200x200/3E2F64/3E2F64"
               alt="QR Code"
               sx={{
-                width: "100%",
+                width: "50%",
                 objectFit: "cover",
               }}
+              loading="lazy"
             />
 
             <Box sx={{ display: "flex", gap: 1 }}></Box>

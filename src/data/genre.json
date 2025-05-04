@@ -1,0 +1,57 @@
+[
+    {
+        "genre_id": "1",
+        "genre_name": "Action",
+        "description": "Get ready for adrenaline-pumping Action! Test your reflexes and skills in intense combat, challenging platforming, or high-speed racing! Experience the thrill in every single moment! "
+    },
+    {
+        "genre_id": "2",
+        "genre_name": "Adventures",
+        "description": "Embark on grand Adventures! Become the hero and step into incredible worlds! Solve hidden puzzles, meet fascinating characters, and immerse yourself in stories full of mystery and discovery! A new journey awaits! "
+    },
+    {
+        "genre_id": "3",
+        "genre_name": "Casual",
+        "description": "Enjoy easy fun for everyone with Casual! Relax with simple and accessible gameplay anytime, anywhere! The rules are easy, but the fun is endless! Perfect for anyone looking for quick and relaxing entertainment! "
+    },
+    {
+        "genre_id": "4",
+        "genre_name": "Hack and slash",
+        "description": "Unleash your fury in Hack and slash! Cleave through hordes of enemies! Control powerful warriors and use incredible combat skills to defeat demonic legions! Collect valuable items and make your character stronger than ever! "
+    },
+    {
+        "genre_id": "5",
+        "genre_name": "Puzzle",
+        "description": "Challenge your mind with Puzzle! Test your wits and creativity! Solve intricate puzzles, plan your moves wisely, and unlock hidden secrets! Get ready to sharpen your intellect! "
+    },
+    {
+        "genre_id": "6",
+        "genre_name": "RPG",
+        "description": "Forge your legend in the world of RPG! Role-play as the character you desire! Develop skills, complete epic quests, and shape your destiny in a world full of stories and crucial decisions! "
+    },
+    {
+        "genre_id": "7",
+        "genre_name": "Roguelike",
+        "description": "Experience the thrill of survival in Rouguelike! Every playthrough is a new experience! Randomly generated levels and permanent death will test your adaptability! Prepare to face unpredictable challenges! "
+    },
+    {
+        "genre_id": "8",
+        "genre_name": "Shooter",
+        "description": "Enter the heat of battle in Shooter! Aim and fire! Experience intense combat with a variety of weapons in a realistic perspective! Test your accuracy and tactical skills to emerge victorious! "
+    },
+    {
+        "genre_id": "9",
+        "genre_name": "Simulation",
+        "description": "Create your dream world in Simulation! Freely replicate real-life or fantastical scenarios! Build cities, manage businesses, or control vehicles in a virtual world where anything is possible! Unleash your imagination! "
+    },
+    {
+        "genre_id": "10",
+        "genre_name": "Strategy",
+        "description": "Strategize your way to victory in Strategy! Use tactical thinking and cunning to command! Plan your battles, manage resources, and lead your forces to triumph over opponents! Every decision matters! "
+    },
+    {
+        "genre_id": "11",
+        "genre_name": "Survival",
+        "description": "Survive against all odds in Survival! Face the harshness of nature and surrounding threats! Find food, build shelter, and fight for your life in a dangerous world! How long can you last?"
+    }
+]

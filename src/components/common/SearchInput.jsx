@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
-import { Box, InputBase, useTheme } from '@mui/material';
+import { Box, InputBase } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 
 const SearchInput = ({
@@ -15,9 +16,9 @@ const SearchInput = ({
   const defaultSx = {
     flexGrow: 1,
     color: 'inherit',
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: theme.palette.secondary.light,
     borderRadius: 8,
-    px: 1,
+    paddingX: 1,
   };
 
   const combinedSx = { ...defaultSx, ...customSx };

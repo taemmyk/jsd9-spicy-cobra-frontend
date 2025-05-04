@@ -1,28 +1,33 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Box,
   Typography,
-  Select,
   Avatar,
   Stack,
   useMediaQuery,
   Tooltip,
   Card,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  Paper,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { useParams, useNavigate } from "react-router-dom";
 import ButtonGeneric from "../components/common/ButtonGeneric";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import SwiperProductNavigation from "../components/products/SwiperProductNavigation";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import products from "../data/products.json";
 import Heading from "../components/common/Heading";
-import ProductCard from "../components/products/ProductCard";
+import { CartContext } from "../components/contexts/CartContext";
+import calculateSalePrice from "../utils/calculateSalePrice";
+import SwiperPerViewAuto from "../components/common/SwiperPerViewAuto";
+import { systemRequirements } from "../data/misc";
+import { motion } from "framer-motion";
+
+const MotionBox = motion.create(Box);
 
 function GameDetail() {
   const theme = useTheme();
@@ -30,6 +35,8 @@ function GameDetail() {
   const [gameData, setGameData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { items, addItem } = useContext(CartContext);
+  const navigate = useNavigate();
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [thumbsupCount, setThumbsupCount] = useState(
@@ -39,9 +46,31 @@ function GameDetail() {
     Math.floor(thumbsupCount * Math.random() * 0.1)
   );
 
-  const recommendedGames = [...products]
+  const recommendedGames = products
+    .filter((product) => product.product_id !== gameId)
     .sort(() => Math.random() - 0.5)
     .slice(0, 3);
+
+  const handleAddToCart = () => {
+    addItem(gameData);
+  };
+
+  const handleBuyNow = async () => {
+    if (!gameData) return;
+
+    const isItemInCart = items.some(
+      (item) => item.product_id === gameData.product_id
+    );
+
+    if (isItemInCart) {
+      navigate("/checkout");
+    } else {
+      addItem(gameData);
+      setTimeout(() => {
+        navigate("/checkout");
+      }, 1000);
+    }
+  };
 
   const formatCount = (count) => {
     if (isSmallScreen && count >= 1000) {
@@ -58,16 +87,7 @@ function GameDetail() {
     setThumbsdownCount((prevCount) => prevCount + 1);
   };
 
-  const systemRequirementMock = [
-    { hardware: "OS", data: "Windows 10/11" },
-    { hardware: "Processor", data: "Intel i5 10400, AMD Ryzen 5 3600" },
-    { hardware: "Memory", data: "8 GB RAM" },
-    {
-      hardware: "Graphics",
-      data: "NVIDIA RTX 2060 (6G VRAM), AMD Radeon RX 5600 XT (6G VRAM)",
-    },
-    { hardware: "Storage", data: "20 GB available space" },
-  ];
+  const systemRequirementMock = systemRequirements();
 
   useEffect(() => {
     try {
@@ -225,11 +245,7 @@ function GameDetail() {
                     variant="body1"
                     sx={{ color: theme.palette.secondary.light }}
                   >
-                    ฿
-                    {Math.floor(
-                      parseInt(gameData.price) *
-                        ((100 - parseInt(gameData.discount_percentage)) / 100)
-                    )}
+                    ฿{calculateSalePrice(gameData)}
                   </Typography>
                   <Typography
                     variant="body1"
@@ -267,17 +283,22 @@ function GameDetail() {
                 justifyContent: "center",
               }}
             >
-              <ButtonGeneric
-                label="Buy Now"
-                sx={{
-                  backgroundColor: theme.palette.accent.emphasis,
-                  "&:hover": {
-                    bgcolor: theme.palette.accent.emphasisdark,
-                    color: theme.palette.primary.contrastText,
-                  },
-                }}
-              />
-              <ButtonGeneric label="Add to Cart" />
+              <MotionBox whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
+                <ButtonGeneric
+                  label="Buy Now"
+                  sx={{
+                    backgroundColor: theme.palette.accent.emphasis,
+                    "&:hover": {
+                      bgcolor: theme.palette.accent.emphasisdark,
+                      color: theme.palette.primary.contrastText,
+                    },
+                  }}
+                  onClick={handleBuyNow}
+                />
+              </MotionBox>
+              <MotionBox whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
+                <ButtonGeneric label="Add to Cart" onClick={handleAddToCart} />
+              </MotionBox>
             </Box>
           </Box>
         </Box>
@@ -464,7 +485,7 @@ function GameDetail() {
                   fontFamily: "Roboto Condensed",
                 }}
               >
-                25th March 2025
+                25 March 2025
               </Typography>
             </Box>
           </Box>
@@ -541,25 +562,8 @@ function GameDetail() {
         <Paper elevation={3} />
         <Heading section="You may also like" />
 
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: {
-              xs: "repeat(1, 1fr)",
-              sm: "repeat(2, 1fr)",
-              md: "repeat(3, 1fr)",
-            },
-            gap: {
-              xs: 2,
-              md: 4,
-            },
-            marginLeft: 4,
-            marginRight: 4,
-          }}
-        >
-          {recommendedGames.map((product, index) => (
-            <ProductCard key={index} products={product} />
-          ))}
+        <Box sx={{ paddingBottom: 2, paddingX: 4 }}>
+          <SwiperPerViewAuto products={recommendedGames} />
         </Box>
       </Box>
     </>
