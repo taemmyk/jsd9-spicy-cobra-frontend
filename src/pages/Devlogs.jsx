@@ -1,11 +1,6 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Paper,
-  FormControl,
-  RadioGroup,
-} from "@mui/material";
-import { useTheme } from '@mui/material/styles';
+import { Box, Paper, FormControl, RadioGroup, Container } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import Heading from "../components/common/Heading";
 import DevLogCard from "../components/common/DevLogCard";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
@@ -32,56 +27,66 @@ function Devlogs() {
 
   return (
     <>
+      <Box sx={{ backgroundColor: theme.palette.background.paper }}>
+        <Container maxWidth="xl">
+          <Box
+            component="img"
+            src="https://gdconf.com/sites/default/files/Screenshot%202025-01-16%20at%209.54.22%E2%80%AFAM.png"
+            sx={{
+              width: "100%",
+              height: {
+                xs: "auto",
+                md: "50vh",
+              },
+              objectFit: "cover",
+              objectPosition: "center",
+            }}
+            loading="lazy"
+          />
+        </Container>
+      </Box>
+
       <Box
-        component="img"
-        src="https://gdconf.com/sites/default/files/Screenshot%202025-01-16%20at%209.54.22%E2%80%AFAM.png"
         sx={{
-          width: "100%",
-          height: {
-            xs: "auto",
-            md: "50vh",
-          },
-          objectFit: "cover",
-          objectPosition: "center",
-        }}
-        loading="lazy"
-      />
-      <Box
-        sx={{
-          paddingX: 2,
           backgroundColor: theme.palette.background.paper,
         }}
       >
         <Paper elevation={3} />
-        <Heading section="Developer Logs" />
-        <FormControl component="fieldset" fullWidth>
-          <RadioGroup
-            aria-label="Tag options"
-            name="devlogTag"
-            value={selectedTag}
-            onChange={handleTagChange}
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              marginBottom: 2,
-              overflowX: "auto",
-            }}
-          >
-            {tags.map((tag) => (
-              <SelectorCard
-                key={tag}
-                value={tag.toLowerCase().replace(/ /g, "-")}
-                label={tag}
-                selectedType={selectedTag}
-                handleTypeChange={handleTagChange}
-                icon={LocalOfferIcon}
-                selectedIconColor={theme.palette.accent.emphasis}
-                selectedTextColor={theme.palette.accent.emphasis}
-              />
-            ))}
-          </RadioGroup>
-        </FormControl>
+        <Container maxWidth="xl">
+          <Box sx={{ marginX: 2 }}>
+            <Heading section="Developer Logs" />
+            <FormControl component="fieldset" fullWidth>
+              <RadioGroup
+                aria-label="Tag options"
+                name="devlogTag"
+                value={selectedTag}
+                onChange={handleTagChange}
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  marginBottom: 2,
+                  overflowX: "auto",
+                }}
+              >
+                {tags.map((tag) => (
+                  <SelectorCard
+                    key={tag}
+                    value={tag.toLowerCase().replace(/ /g, "-")}
+                    label={tag}
+                    selectedType={selectedTag}
+                    handleTypeChange={handleTagChange}
+                    icon={LocalOfferIcon}
+                    selectedIconColor={theme.palette.accent.emphasis}
+                    selectedTextColor={theme.palette.accent.emphasis}
+                  />
+                ))}
+              </RadioGroup>
+            </FormControl>
+          </Box>
+        </Container>
       </Box>
+
+      <Container maxWidth="xl">
       <Box
         sx={{
           display: "grid",
@@ -109,6 +114,7 @@ function Devlogs() {
             <DevLogCard key={index} logItem={item} />
           ))}
       </Box>
+      </Container>
     </>
   );
 }

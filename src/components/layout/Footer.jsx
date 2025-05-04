@@ -3,18 +3,19 @@ import { Link } from "react-router-dom";
 import {
   Box,
   Typography,
-  Divider,
   SvgIcon,
   IconButton,
   List,
   ListItem,
   ListItemText,
   styled,
+  Container,
 } from "@mui/material";
-import { useTheme } from '@mui/material/styles';
-import YouTubeIcon from '@mui/icons-material/YouTube';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import Logo from "../../assets/logo.png"
+import { useTheme } from "@mui/material/styles";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import DividerGeneric from "../common/DividerGeneric"
+import Logo from "../../assets/logo.png";
 
 function Footer({ onBackToTop }) {
   const theme = useTheme();
@@ -34,6 +35,7 @@ function Footer({ onBackToTop }) {
           paddingX: 4,
         }}
       >
+        <Container maxWidth="xl">
         <Box
           sx={{
             display: "flex",
@@ -200,11 +202,11 @@ function Footer({ onBackToTop }) {
             </List>
           </Box>
         </Box>
-        <Divider
+        <DividerGeneric
           sx={{
             borderBottomWidth: 1,
             borderColor: theme.palette.accent.dark,
-            mx: { xs: 1, md: 4 },
+            marginX: { xs: 1, md: 4 },
           }}
         />
         <Box
@@ -232,6 +234,7 @@ function Footer({ onBackToTop }) {
         >
           © 2025 All Rights Reserved
         </Typography>
+        </Container>
       </Box>
     </>
   );

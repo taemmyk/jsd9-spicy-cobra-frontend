@@ -10,8 +10,9 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Container,
 } from "@mui/material";
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from "@mui/material/styles";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ReceiptIcon from "@mui/icons-material/Receipt";
@@ -134,80 +135,35 @@ function Dashboard() {
     <>
       <Box
         sx={{
-          display: "flex",
-          flexDirection: { xs: "column", md: "row" },
-          justifyContent: "space-around",
-          alignContent: "stretch",
-          minHeight: "800px",
+          background: `linear-gradient(to right, ${theme.palette.background.layout} 50%, ${theme.palette.background.paper} 50%)`,
+          width: "100%",
+          height: "100vh",
         }}
       >
-        <Box
-          sx={{
-            flex: { xs: 0, md: 1 },
-            display: "flex",
-            flexDirection: "column",
-            backgroundColor: theme.palette.background.layout,
-          }}
-        >
-          {/* Desktop View */}
-          <Box sx={{ display: { xs: "none", md: "block" } }}>
-            <FormControl component="fieldset" fullWidth sx={{ height: "100%" }}>
-              <RadioGroup
-                aria-label="Dashboard options"
-                name="dashboardTab"
-                value={selectedTab}
-                onChange={handleTabChange}
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
-                <TabSelectorCard value="dashboard" label="Dashboard" />
-                <TabSelectorCard value="orders" label="Orders" />
-                <TabSelectorCard value="review" label="Community" />
-                <TabSelectorCard value="inventory" label="Inventory" />
-                <TabSelectorCard value="report" label="Report" />
-                <TabSelectorCard value="profile" label="Profile" />
-              </RadioGroup>
-            </FormControl>
-          </Box>
-
-          {/* Mobile View */}
-          <Box sx={{ display: { xs: "block", md: "none" } }}>
-            <Accordion
-              sx={{ backgroundColor: theme.palette.background.layout }}
+        <Container maxWidth="xl">
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", md: "row" },
+              justifyContent: "space-around",
+              alignContent: "stretch",
+              minHeight: "800px",
+            }}
+          >
+            <Box
+              sx={{
+                flex: { xs: 0, md: 1 },
+                display: "flex",
+                flexDirection: "column",
+                backgroundColor: theme.palette.background.layout,
+              }}
             >
-              <AccordionSummary
-                expandIcon={
-                  <ArrowDownwardIcon
-                    sx={{ color: theme.palette.secondary.light }}
-                  />
-                }
-                aria-controls="panel1-content"
-                id="panel1-header"
-                sx={{ backgroundColor: theme.palette.background.layout }}
-              >
-                <Typography
-                  sx={{
-                    fontWeight: "500",
-                    paddingRight: 3,
-                    color: theme.palette.secondary.light,
-                    paddingX: 2,
-                  }}
-                >
-                  {displayTabIcon(selectedTab)}{" "}
-                  {selectedTab === "review"
-                    ? "Community"
-                    : selectedTab &&
-                      selectedTab.charAt(0).toUpperCase() +
-                        selectedTab.slice(1).toLowerCase()}
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
+              {/* Desktop View */}
+              <Box sx={{ display: { xs: "none", md: "block" } }}>
                 <FormControl
                   component="fieldset"
                   fullWidth
-                  sx={{ height: "100%" }}
+                  sx={{ height: "100vh" }}
                 >
                   <RadioGroup
                     aria-label="Dashboard options"
@@ -227,30 +183,89 @@ function Dashboard() {
                     <TabSelectorCard value="profile" label="Profile" />
                   </RadioGroup>
                 </FormControl>
-              </AccordionDetails>
-            </Accordion>
-          </Box>
-        </Box>
+              </Box>
 
-        <Box
-          sx={{
-            flex: 5,
-            display: "flex",
-            flexDirection: "row",
-            backgroundColor: theme.palette.background.paper,
-            borderTopRightRadius: 4,
-            borderBottomRightRadius: 4,
-            width: "100%",
-            height: "100%",
-          }}
-        >
-          {selectedTab === "dashboard" && <DashboardTab />}
-          {selectedTab === "orders" && <OrdersTab />}
-          {selectedTab === "review" && <CommunityTab />}
-          {selectedTab === "report" && <ReportTab />}
-          {selectedTab === "inventory" && <InventoryTab />}
-          {selectedTab === "profile" && <ProfileTab />}
-        </Box>
+              {/* Mobile View */}
+              <Box sx={{ display: { xs: "block", md: "none" } }}>
+                <Accordion
+                  sx={{ backgroundColor: theme.palette.background.layout }}
+                >
+                  <AccordionSummary
+                    expandIcon={
+                      <ArrowDownwardIcon
+                        sx={{ color: theme.palette.secondary.light }}
+                      />
+                    }
+                    aria-controls="panel1-content"
+                    id="panel1-header"
+                    sx={{ backgroundColor: theme.palette.background.layout }}
+                  >
+                    <Typography
+                      sx={{
+                        fontWeight: "500",
+                        paddingRight: 3,
+                        color: theme.palette.secondary.light,
+                        paddingX: 2,
+                      }}
+                    >
+                      {displayTabIcon(selectedTab)}{" "}
+                      {selectedTab === "review"
+                        ? "Community"
+                        : selectedTab &&
+                          selectedTab.charAt(0).toUpperCase() +
+                            selectedTab.slice(1).toLowerCase()}
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <FormControl
+                      component="fieldset"
+                      fullWidth
+                      sx={{ height: "100%" }}
+                    >
+                      <RadioGroup
+                        aria-label="Dashboard options"
+                        name="dashboardTab"
+                        value={selectedTab}
+                        onChange={handleTabChange}
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <TabSelectorCard value="dashboard" label="Dashboard" />
+                        <TabSelectorCard value="orders" label="Orders" />
+                        <TabSelectorCard value="review" label="Community" />
+                        <TabSelectorCard value="inventory" label="Inventory" />
+                        <TabSelectorCard value="report" label="Report" />
+                        <TabSelectorCard value="profile" label="Profile" />
+                      </RadioGroup>
+                    </FormControl>
+                  </AccordionDetails>
+                </Accordion>
+              </Box>
+            </Box>
+
+            <Box
+              sx={{
+                flex: 5,
+                display: "flex",
+                flexDirection: "row",
+                backgroundColor: theme.palette.background.paper,
+                borderTopRightRadius: 4,
+                borderBottomRightRadius: 4,
+                width: "100%",
+                height: "100vh",
+              }}
+            >
+              {selectedTab === "dashboard" && <DashboardTab />}
+              {selectedTab === "orders" && <OrdersTab />}
+              {selectedTab === "review" && <CommunityTab />}
+              {selectedTab === "report" && <ReportTab />}
+              {selectedTab === "inventory" && <InventoryTab />}
+              {selectedTab === "profile" && <ProfileTab />}
+            </Box>
+          </Box>
+        </Container>
       </Box>
     </>
   );
