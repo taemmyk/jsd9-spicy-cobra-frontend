@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  useTheme,
   Card,
   CardMedia,
   CardContent,
@@ -8,6 +7,7 @@ import {
   Box,
   Rating,
 } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
 import StarIcon from "@mui/icons-material/Star";
 
 function ReviewCard({ product, ratingValue, reviewContent }) {

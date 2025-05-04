@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+  Fragment,
+} from "react";
 import {
   Box,
   Stepper,
@@ -6,9 +12,10 @@ import {
   StepLabel,
   Button,
   Typography,
-  useTheme,
   styled,
+  LinearProgress, // Import LinearProgress
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import AddressForm from "./AddressForm";
 import PaymentForm from "./PaymentForm";
 import ButtonGeneric from "../common/ButtonGeneric";
@@ -16,7 +23,6 @@ import ReviewOrderForm from "./ReviewOrderForm";
 
 import { CartContext } from "../contexts/CartContext";
 import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
 
 const steps = ["Your address", "Payment details", "Review you order"];
 
@@ -53,27 +59,19 @@ function ColorlibStepIcon(props) {
   );
 }
 
-function CheckoutStepper({ onStepChange, onPaymentTypeChange }) {
+function CheckoutStepper({ onStepChange }) {
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
   const { clearCart } = useContext(CartContext);
   const [open, setOpen] = useState(false);
-  const [countdown, setCountdown] = useState(5);
+  const [progress, setProgress] = useState(0); // State สำหรับ LinearProgress
   const [showButton, setShowButton] = useState(false);
-  const countdownRef = useRef(null);
-  const [paymentType, setPaymentType] = useState("");
-
-  const handlePaymentTypeUpdated = (type) => {
-    console.log("handlePaymentTypeUpdated called with:", type);
-    setPaymentType(type);
-    console.log("paymentType state in CheckoutStepper:", paymentType);
-    if (onPaymentTypeChange) {
-      onPaymentTypeChange(type);
-    }
-  };
+  const progressRef = useRef(null);
+  const previousFocusRef = useRef(null);
 
   const handleNext = () => {
     if (activeStep === 2) {
+      previousFocusRef.current = document.activeElement;
       handleOpen();
       return;
     } else {
@@ -99,22 +97,34 @@ function CheckoutStepper({ onStepChange, onPaymentTypeChange }) {
   };
 
   const handleOpen = () => {
+    previousFocusRef.current = document.activeElement;
     setOpen(true);
-    setCountdown(3);
+    setProgress(0); // รีเซ็ต progress เมื่อเปิด Backdrop
     setShowButton(false);
 
-    countdownRef.current = setInterval(() => {
-      setCountdown((prev) => prev - 1);
-    }, 1000);
+    progressRef.current = setInterval(() => {
+      setProgress((oldProgress) => {
+        if (oldProgress === 100) {
+          clearInterval(progressRef.current);
+          setShowButton(true);
+          return 100;
+        }
+        const diff = Math.random() * 15; // ปรับความเร็วในการเพิ่ม progress
+        return Math.min(oldProgress + diff, 100);
+      });
+    }, 300); // ปรับความถี่ในการอัปเดต progress
   };
 
   const handleClose = () => {
     setOpen(false);
-    clearInterval(countdownRef.current);
+    clearInterval(progressRef.current);
     const nextStep = activeStep + 1;
     setActiveStep(nextStep);
     if (onStepChange) {
       onStepChange(nextStep);
+    }
+    if (previousFocusRef.current) {
+      previousFocusRef.current.focus();
     }
   };
 
@@ -123,11 +133,10 @@ function CheckoutStepper({ onStepChange, onPaymentTypeChange }) {
   };
 
   useEffect(() => {
-    if (countdown === 0) {
-      clearInterval(countdownRef.current);
-      setShowButton(true);
-    }
-  }, [countdown]);
+    return () => {
+      clearInterval(progressRef.current); // Clear interval เมื่อ component unmount
+    };
+  }, []);
 
   return (
     <Box sx={{ width: "100%", color: theme.palette.primary.contrastText }}>
@@ -148,7 +157,7 @@ function CheckoutStepper({ onStepChange, onPaymentTypeChange }) {
         ))}
       </Stepper>
       {activeStep === steps.length ? (
-        <React.Fragment>
+        <Fragment>
           <Typography variant="h5">Thank you for your order!</Typography>
           <Typography variant="body1">
             Your order number is &nbsp;#140396. We have emailed your order
@@ -162,14 +171,12 @@ function CheckoutStepper({ onStepChange, onPaymentTypeChange }) {
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Box sx={{ flex: "1 1 auto" }} />
           </Box>
-        </React.Fragment>
+        </Fragment>
       ) : (
-        <React.Fragment>
+        <Fragment>
           {activeStep === 0 && <AddressForm />}
-          {activeStep === 1 && (
-            <PaymentForm onPaymentTypeChange={handlePaymentTypeUpdated} />
-          )}
-          {activeStep === 2 && <ReviewOrderForm paymentType={paymentType} />}
+          {activeStep === 1 && <PaymentForm />}
+          {activeStep === 2 && <ReviewOrderForm />}
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             {activeStep > 0 && (
               <ButtonGeneric label="Back" onClick={handleBack} />
@@ -182,7 +189,7 @@ function CheckoutStepper({ onStepChange, onPaymentTypeChange }) {
               onClick={handleNext}
             />
           </Box>
-        </React.Fragment>
+        </Fragment>
       )}
       <Backdrop
         sx={(theme) => ({
@@ -196,41 +203,54 @@ function CheckoutStepper({ onStepChange, onPaymentTypeChange }) {
         })}
         open={open}
         aria-hidden={!open}
+        onClick={handleClose}
       >
-        {!showButton ? (
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <CircularProgress color="inherit" />
-            <Typography variant="body1">
-              Transaction initialized... {countdown}s
-            </Typography>
-          </Box>
-        ) : (
-          <>
-            <Typography variant="body1">Payment completed</Typography>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleContinue}
-              sx={{
-                fontSize: { xs: "1rem", md: "1.25rem" },
-                fontWeight: "400",
-                paddingX: { xs: 1, md: 2 },
-                paddingY: { xs: 0, md: 1 },
-                borderRadius: 8,
-                boxShadow: 2,
-                whiteSpace: "nowrap",
-              }}
-            >
-              Back to Store
-            </Button>
-          </>
-        )}
+        <Box
+          sx={{
+            width: "80%",
+            maxWidth: 400,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          {!showButton ? (
+            <>
+              <LinearProgress
+                variant="determinate"
+                value={progress}
+                color="inherit"
+                sx={{ width: "100%" }}
+              />
+              <Typography variant="body2" sx={{ mt: 1, color: "inherit" }}>
+                Processing transaction...
+              </Typography>
+            </>
+          ) : (
+            <>
+              <Typography variant="body1" sx={{ color: "inherit", mb: 2 }}>
+                Payment completed
+              </Typography>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleContinue}
+                sx={{
+                  fontSize: { xs: "1rem", md: "1.25rem" },
+                  fontWeight: "400",
+                  paddingX: { xs: 1, md: 2 },
+                  paddingY: { xs: 0, md: 1 },
+                  borderRadius: 8,
+                  boxShadow: 2,
+                  whiteSpace: "nowrap",
+                  backgroundColor: theme.palette.secondary.dark,
+                }}
+              >
+                Back to Store
+              </Button>
+            </>
+          )}
+        </Box>
       </Backdrop>
     </Box>
   );

@@ -9,9 +9,9 @@ import {
   IconButton,
   Typography,
   Tooltip,
-  useTheme,
   Rating,
 } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
 import {
   ContactSupport as ContactSupportIcon,
   CloudDownload as CloudDownloadIcon,

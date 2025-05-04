@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
-import { Box, Typography, Divider, useTheme } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
 import OrderItemReviewCard from "./OrderItemReviewCard";
 import { CartContext } from "../contexts/CartContext";
 import calculateSalePrice from "../../utils/calculateSalePrice";
 import DividerGeneric from "../common/DividerGeneric"
 
-function ReviewOrderForm({ paymentType }) {
+function ReviewOrderForm() {
   const theme = useTheme();
   const { items } = useContext(CartContext);
 

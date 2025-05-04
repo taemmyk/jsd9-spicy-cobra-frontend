@@ -15,8 +15,9 @@ import {
   Button,
   IconButton,
   Avatar,
+  useMediaQuery,
 } from "@mui/material";
-import { useMediaQuery, useTheme } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
 import CloseIcon from "@mui/icons-material/Close";
 import Alert from "@mui/material/Alert";

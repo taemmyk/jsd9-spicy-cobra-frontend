@@ -1,5 +1,6 @@
 import React from "react";
-import { FormLabel, TextField, useTheme, FormControl } from "@mui/material";
+import { FormLabel, TextField, FormControl } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
 import PropTypes from "prop-types";
 
 const FormTextField = ({
@@ -19,7 +20,7 @@ const FormTextField = ({
 }) => {
   const theme = useTheme();
   return (
-    <FormControl fullWidth margin="normal" variant="outlined">
+    <FormControl fullWidth margin="normal" variant="outlined" sx={{ flexGrow: sx?.flexGrow }}>
       <FormLabel
         htmlFor={id}
         required={required}

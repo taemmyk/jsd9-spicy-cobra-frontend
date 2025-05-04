@@ -1,180 +1,104 @@
 import React from "react";
 import {
-  Grid,
-  FormLabel,
-  OutlinedInput,
   FormControlLabel,
-  Checkbox,
-  styled,
-  useTheme,
+  Box,
+  Stack,
+  Typography,
 } from "@mui/material";
-import PropTypes from "prop-types";
-
-const FormGrid = styled(Grid)(() => ({
-  display: "flex",
-  flexDirection: "column",
-}));
-
-const FormInput = ({
-  id,
-  name,
-  label,
-  type,
-  placeholder,
-  autoComplete,
-  required,
-  sx,
-  size = "small",
-  gridSize = { xs: 6 },
-}) => {
-  const theme = useTheme();
-  return (
-    <FormGrid size={gridSize}>
-      <FormLabel
-        htmlFor={id}
-        required={required}
-        sx={{ color: theme.palette.secondary.light }}
-      >
-        {label}
-      </FormLabel>
-      <OutlinedInput
-        id={id}
-        name={name}
-        type={type}
-        placeholder={placeholder}
-        autoComplete={autoComplete}
-        required={required}
-        size={size}
-        sx={{ backgroundColor: theme.palette.primary.contrastText, ...sx }}
-      />
-    </FormGrid>
-  );
-};
-
-FormInput.propTypes = {
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  type: PropTypes.string,
-  placeholder: PropTypes.string,
-  autoComplete: PropTypes.string,
-  required: PropTypes.bool,
-  sx: PropTypes.object,
-  size: PropTypes.oneOf(["small", "medium"]),
-  gridSize: PropTypes.object,
-};
+import FormTextField from "../common/FormTextField";
+import FormCheckbox from "../common/FormCheckbox";
 
 export default function AddressForm() {
-  const theme = useTheme();
   return (
     <>
-      <Grid container spacing={3} sx={{ mt: 2 }}>
-        <FormInput
-          id="first-name"
-          name="first-name"
-          label="First name"
-          type="text"
-          placeholder="John"
-          autoComplete="given-name"
-          required
-          size="small"
-          gridSize={{ xs: 12, md: 6 }}
-        />
-        <FormInput
-          id="last-name"
-          name="last-name"
-          label="Last name"
-          type="last-name"
-          placeholder="Snow"
-          autoComplete="last name"
-          required
-          size="small"
-          gridSize={{ xs: 12, md: 6 }}
-        />
-        <FormInput
+      <Box>
+        <Stack direction="row" spacing={2}>
+          <FormTextField
+            id="first-name"
+            name="first-name"
+            label="First name"
+            type="text"
+            placeholder="John"
+            autoComplete="given-name"
+            required
+          />
+          <FormTextField
+            id="last-name"
+            name="last-name"
+            label="Last name"
+            type="text"
+            placeholder="Snow"
+            required
+          />
+        </Stack>
+        <FormTextField
           id="address1"
           name="address1"
-          type="address1"
           label="Address Line 1"
+          type="address1"
           placeholder="Street name and number"
           autoComplete="receipt address-line1"
           required
-          size="small"
-          gridSize={{ xs: 12 }}
         />
-        <FormInput
+        <FormTextField
           id="address2"
           name="address2"
-          type="address2"
           label="Address Line 2"
+          type="address2"
           placeholder="Apartment, suite, unit, etc. (optional)"
           autoComplete="receipt address-line2"
-          size="small"
-          gridSize={{ xs: 12 }}
-        />
-
-        <FormInput
-          id="city"
-          name="city"
-          type="city"
-          label="City"
-          placeholder="New York"
-          autoComplete="City"
           required
-          size="small"
         />
-        <FormInput
-          id="state"
-          name="state"
-          type="state"
-          label="State"
-          placeholder="NY"
-          autoComplete="State"
-          required
-          size="small"
-        />
-        <FormInput
-          id="zip"
-          name="zip"
-          type="zip"
-          label="Zip / Postal code"
-          placeholder="12345"
-          autoComplete="postal-code"
-          required
-          size="small"
-        />
-        <FormInput
-          id="country"
-          name="country"
-          type="country"
-          label="Country"
-          placeholder="United States"
-          autoComplete="shipping country"
-          required
-          size="small"
-        />
-        <FormGrid size={{ xs: 12 }}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                name="saveAddress"
-                value="yes"
-                color="secondary"
-                sx={{
-                  "& .MuiSvgIcon-root": {
-                    fontSize: 30,
-                  },
-                  color: theme.palette.primary.contrastText,
-                  "&.Mui-checked": {
-                    color: theme.palette.secondary.light,
-                  },
-                }}
-              />
-            }
-            label="Use this address for payment details"
+        <Stack direction="row" spacing={2} sx={{marginTop: 2}}>
+          <FormTextField
+            id="city"
+            name="city"
+            label="City"
+            type="city"
+            placeholder="New York"
+            autoComplete="city"
+            required
           />
-        </FormGrid>
-      </Grid>
+          <FormTextField
+            id="state"
+            name="state"
+            label="State"
+            type="text"
+            placeholder="NY"
+            autoComplete="state"
+            required
+          />
+        </Stack>
+        <Stack direction="row" spacing={2} sx={{marginTop: 2}}>
+          <FormTextField
+            id="zip"
+            name="zip"
+            label="Zip / Postal code"
+            type="zip"
+            placeholder="12345"
+            autoComplete="postal-code"
+            required
+          />
+          <FormTextField
+            id="country"
+            name="country"
+            label="State"
+            type="country"
+            placeholder="United States"
+            autoComplete="shipping country"
+            required
+          />
+        </Stack>
+      </Box>
+      <FormControlLabel
+        control={<FormCheckbox />}
+        label={
+          <Typography variant="body2" marginLeft={2} marginY={2}>
+            Save this address as your primary address
+          </Typography>
+        }
+        sx={{ paddingX: 1 }}
+      />
     </>
   );
 }

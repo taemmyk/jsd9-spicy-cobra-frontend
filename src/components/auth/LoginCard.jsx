@@ -4,8 +4,8 @@ import {
   Box,
   Typography,
   FormControlLabel,
-  useTheme,
 } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
 import EmailIcon from "@mui/icons-material/Email";
 import FormCheckbox from "../common/FormCheckbox";
 import ButtonGeneric from "../common/ButtonGeneric";

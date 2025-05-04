@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
   Typography,
-  useTheme,
   Card,
   CardActionArea,
   CardContent,
@@ -12,6 +11,7 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ReceiptIcon from "@mui/icons-material/Receipt";

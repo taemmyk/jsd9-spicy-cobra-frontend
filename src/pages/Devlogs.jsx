@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import {
   Box,
-  Typography,
   Paper,
   FormControl,
   RadioGroup,
-  useTheme,
 } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
 import Heading from "../components/common/Heading";
 import DevLogCard from "../components/common/DevLogCard";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";

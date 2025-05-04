@@ -6,8 +6,8 @@ import {
   Card,
   CardMedia,
   CardContent,
-  useTheme,
 } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
 import Heading from "../components/common/Heading";
 import { newsItems } from "../data/misc";
 

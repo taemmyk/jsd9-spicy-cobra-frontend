@@ -1,5 +1,6 @@
 import React from "react";
-import { Checkbox, useTheme } from "@mui/material";
+import { Checkbox } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
 import PropTypes from "prop-types";
 
 function FormCheckbox({ checked, onChange, name, ...rest }) {

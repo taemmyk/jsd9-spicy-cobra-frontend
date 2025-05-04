@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState } from "react";
 import {
   Container,
   Button,
@@ -6,8 +6,8 @@ import {
   Typography,
   IconButton,
   Paper,
-  useTheme,
 } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom";
 import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import cobraBg from "../assets/Cobra.png";

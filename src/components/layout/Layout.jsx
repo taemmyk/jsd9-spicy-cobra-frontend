@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import { Box, useTheme } from "@mui/material";
+import { Box } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
 import Header from "./Header";
 import Footer from "./Footer";
 

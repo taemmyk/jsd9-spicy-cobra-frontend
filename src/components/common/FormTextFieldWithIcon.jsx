@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import {
   FormLabel,
   OutlinedInput,
-  useTheme,
   FormControl,
   InputAdornment,
   IconButton,
 } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
 import PropTypes from "prop-types";
 import LockOutlineIcon from "@mui/icons-material/LockOutline";
 import LockOpenIcon from "@mui/icons-material/LockOpen";

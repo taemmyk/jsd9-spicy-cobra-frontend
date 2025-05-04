@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button, useTheme } from "@mui/material";
+import { Button } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
 import { Link } from "react-router-dom";
 
 function ButtonGeneric({ label, onClick, disabled, to, sx: customSx }) {

@@ -3,8 +3,8 @@ import {
   FormLabel,
   Select,
   FormControl,
-  useTheme,
 } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
 import PropTypes from "prop-types";
 
 const FormSelect = ({

@@ -1,17 +1,14 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
-  Card,
-  CardActionArea,
-  CardContent,
   Typography,
   RadioGroup,
   FormControl,
   IconButton,
   Box,
   Paper,
-  useTheme,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import ProductCard from "../components/products/ProductCard";
 import Heading from "../components/common/Heading";
 import SearchInput from "../components/common/SearchInput";
@@ -19,8 +16,9 @@ import ProductsData from "../data/products.json";
 import GenresData from "../data/genre.json";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
-import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
+import SelectorCard from "../components/common/SelectorCard";
 import { motion, useAnimate } from "framer-motion";
+
 const MotionBox = motion.create(Box);
 const genres = GenresData.map((genre) => genre.genre_name);
 
@@ -131,61 +129,6 @@ function Games() {
       );
     });
   }, [selectedGenre]);
-
-  const GenreSelectorCard = ({ value, label }) => (
-    <Card
-      selected={selectedGenre === value}
-      sx={{
-        backgroundColor: "transparent",
-        boxShadow: "none",
-      }}
-    >
-      <CardActionArea
-        onClick={() => handleGenreChange({ target: { value } })}
-        sx={{
-          "&:hover": {
-            "& .MuiTypography-root": {
-              color:
-                selectedGenre === value
-                  ? theme.palette.accent.dark
-                  : theme.palette.primary.contrastText,
-              fontWeight: "500",
-            },
-            "& svg": {
-              color:
-                selectedGenre === value
-                  ? theme.palette.accent.dark
-                  : theme.palette.background.contrastText,
-            },
-          },
-        }}
-      >
-        <CardContent sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <SportsEsportsIcon
-            fontSize="small"
-            sx={{
-              color:
-                selectedGenre === value
-                  ? theme.palette.accent.dark
-                  : theme.palette.background.paper,
-            }}
-          />
-          <Typography
-            sx={{
-              fontWeight: selectedGenre === value ? "500" : "400",
-              paddingRight: 3,
-              color:
-                selectedGenre === value
-                  ? theme.palette.accent.dark
-                  : theme.palette.primary.contrastText,
-            }}
-          >
-            {label}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
-  );
 
   return (
     <>
@@ -310,9 +253,21 @@ function Games() {
               overflowX: "auto",
             }}
           >
-            <GenreSelectorCard value="View All" label="View All" />
+            <SelectorCard
+              key="View All"
+              value="View All"
+              label="View All"
+              selectedType={selectedGenre}
+              handleTypeChange={handleGenreChange}
+            />
             {genres.map((genre) => (
-              <GenreSelectorCard key={genre} value={genre} label={genre} />
+              <SelectorCard
+                key={genre}
+                value={genre.toLowerCase().replace(/ /g, "-")}
+                label={genre}
+                selectedType={selectedGenre}
+                handleTypeChange={handleGenreChange}
+              />
             ))}
           </RadioGroup>
         </FormControl>

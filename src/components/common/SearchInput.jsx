@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
-import { Box, InputBase, useTheme } from '@mui/material';
+import { Box, InputBase } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 
 const SearchInput = ({

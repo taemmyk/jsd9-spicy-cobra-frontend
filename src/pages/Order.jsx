@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
-import { Box, Typography, Button, useTheme } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
 import { Link } from "react-router-dom";
 import { CartContext } from "../components/contexts/CartContext";
 import Heading from "../components/common/Heading";

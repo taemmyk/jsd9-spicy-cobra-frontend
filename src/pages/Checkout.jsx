@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, useTheme } from "@mui/material";
-
+import { Box } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
 import Heading from "../components/common/Heading";
 import OrderItemCard from "../components/orders/OrderItemCard";
 import CheckoutStepper from "../components/checkout-payment/CheckoutStepper";
@@ -29,12 +29,6 @@ function Checkout() {
 
   const handleStepChange = (step) => {
     setCurrentCheckoutStep(step);
-  };
-
-  const handlePaymentTypeChangeInParent = (type) => {
-    setPaymentMethod(type);
-    console.log("Payment type updated in CheckoutPage:", type);
-    // คุณสามารถทำอย่างอื่นกับค่านี้ได้ที่นี่
   };
 
   return (
@@ -142,7 +136,7 @@ function Checkout() {
         }}
       >
         <Box>
-          <CheckoutStepper onStepChange={handleStepChange} onPaymentTypeChange={handlePaymentTypeChangeInParent} />
+          <CheckoutStepper onStepChange={handleStepChange}/>
         </Box>
       </Box>
     </Box>

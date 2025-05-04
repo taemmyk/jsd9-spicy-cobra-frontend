@@ -9,9 +9,9 @@ import {
   List,
   ListItem,
   ListItemText,
-  useTheme,
   styled,
 } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import Logo from "../../assets/logo.png"

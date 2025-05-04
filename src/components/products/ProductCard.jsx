@@ -9,9 +9,9 @@ import {
   Typography,
   Avatar,
   Stack,
-  useTheme,
   Rating,
 } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
 import calculateSalePrice from "../../utils/calculateSalePrice";
 
 function ProductCard({ product }) {
