@@ -42,8 +42,6 @@ const SignupCard = () => {
       setPasswordMatchError("Passwords do not match");
       return;
     }
-    // Proceed with signup logic
-    console.log("Signup submitted");
   };
 
   return (
