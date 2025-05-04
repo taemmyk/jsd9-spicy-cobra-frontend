@@ -105,7 +105,7 @@ function Games() {
           selectedGenre === "View All"
             ? "Explore a wide variety of exciting games across different genres. Use the filters below to narrow down your search and discover your next favorite adventure!"
             : selectedGenreData?.description ||
-                `Information about the ${selectedGenre} genre will be displayed here.`
+              `Information about the ${selectedGenre} genre will be displayed here.`
         );
         animate(
           scope.current,
@@ -120,12 +120,11 @@ function Games() {
     if (selectedGenre === "View All") {
       return ProductsData;
     }
-    const lowerSelectedGenre = selectedGenre.toLowerCase();
     return ProductsData.filter((product) => {
       return (
-        product.genre_id_1?.toLowerCase() === lowerSelectedGenre ||
-        product.genre_id_2?.toLowerCase() === lowerSelectedGenre ||
-        product.genre_id_3?.toLowerCase() === lowerSelectedGenre
+        product.genre_id_1 === selectedGenre ||
+        product.genre_id_2 === selectedGenre ||
+        product.genre_id_3 === selectedGenre
       );
     });
   }, [selectedGenre]);
@@ -263,7 +262,7 @@ function Games() {
             {genres.map((genre) => (
               <SelectorCard
                 key={genre}
-                value={genre.toLowerCase().replace(/ /g, "-")}
+                value={genre} // ใช้ชื่อ genre ตรงๆ เป็น value
                 label={genre}
                 selectedType={selectedGenre}
                 handleTypeChange={handleGenreChange}
