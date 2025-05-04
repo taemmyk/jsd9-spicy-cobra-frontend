@@ -30,7 +30,7 @@ function Games() {
   const navigate = useNavigate();
   const location = useLocation();
   const [description, setDescription] = useState(
-    "Explore a wide variety of exciting games across different genres. Use the filters below to narrow down your search and discover your next favorite adventure!"
+    "Explore a wide variety of your next favorite games across different genres!"
   );
   const [animateDescription, setAnimateDescription] = useState(false);
   const [scope, animate] = useAnimate();
@@ -103,7 +103,7 @@ function Games() {
         );
         setDescription(
           selectedGenre === "View All"
-            ? "Explore a wide variety of exciting games across different genres. Use the filters below to narrow down your search and discover your next favorite adventure!"
+            ? "Explore a wide variety of your next favorite games across different genres!"
             : selectedGenreData?.description ||
               `Information about the ${selectedGenre} genre will be displayed here.`
         );
@@ -262,7 +262,7 @@ function Games() {
             {genres.map((genre) => (
               <SelectorCard
                 key={genre}
-                value={genre} // ใช้ชื่อ genre ตรงๆ เป็น value
+                value={genre}
                 label={genre}
                 selectedType={selectedGenre}
                 handleTypeChange={handleGenreChange}
