@@ -4,6 +4,7 @@ import { useTheme } from "@mui/material/styles";
 import { AppBar, Toolbar, IconButton, Typography, Box } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonIcon from "@mui/icons-material/Person";
+import Logo from "../../assets/logo.png"
 import ButtonNavbar from "../common/ButtonNavbar";
 import TemporaryDrawer from "../orders/TemporaryDrawer";
 
@@ -44,7 +45,7 @@ const Header = () => {
               display: { xs: "flex", md: "none" },
             }}
             alt="The house from the offer."
-            src="./logo.png"
+            src={Logo}
             loading="lazy"
           />
           <Typography

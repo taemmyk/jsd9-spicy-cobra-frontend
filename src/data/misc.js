@@ -53,7 +53,7 @@ export const missionKeypoints = [
   { text: "Expand Reach to Investors" },
 ];
 
-export const CommunityItems = [
+export const communityItems = [
   {
     title: "gamescom asia x Thailand Game Show",
     image:

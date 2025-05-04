@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect, useRef } from "react";
 import {
   Box,
   Typography,
@@ -13,6 +14,7 @@ import theme from "../theme";
 import SwiperPerViewAuto from "../components/common/SwiperPerViewAuto";
 import SwiperAutoplay from "../components/common/SwiperAutoplay";
 import SwiperGrid from "../components/common/SwiperGrid";
+import { animate, stagger } from "motion";
 
 import products from "../data/products.json";
 import { newsItems } from "../data/misc";
@@ -20,12 +22,85 @@ import { newsItems } from "../data/misc";
 const Home = () => {
   const recommendedGames = products.slice(0, 5);
 
+  const textRef = useRef([]);
+  const text1 = `Unleash your indie game. Limitless creativity`;
+
+  useEffect(() => {
+    const elements = textRef.current.filter(Boolean);
+    if (elements.length > 0) {
+      animate(
+        elements,
+        { opacity: [0, 1], y: [10, 0] },
+        {
+          type: "spring",
+          duration: 2,
+          bounce: 0,
+          delay: stagger(0.05),
+        }
+      );
+    }
+  }, []);
+
+  const splitWords = (text, ref) => {
+    const sentences = text.split(". ").filter(Boolean);
+
+    return sentences.map((sentence, sIndex) => (
+      <Box
+        key={`sentence-${sIndex}`}
+        sx={{ display: "block", textAlign: "center" }}
+      >
+        {sentence.split(" ").map((word, wIndex) => {
+          const index = sIndex * 100 + wIndex;
+
+          let style = {
+            display: "inline-block",
+            willChange: "transform, opacity",
+            marginRight: "12px",
+            whiteSpace: "pre",
+          };
+
+          if (word === "Unleash") {
+            style.color = "#00FFB3";
+            style.fontWeight = "black";
+          }
+
+          if (["indie", "game"].includes(word)) {
+            style.fontFamily = '"Orbitron", "Roboto", "Helvetica", "Arial", sans-serif',
+            style.color = "#00FF7F";
+            style.textShadow = "1px 1px 4px rgba(0,255,127,1)";
+            style.textTransform = "uppercase";
+          }
+
+          if (word === "Limitless") {
+            style.letterSpacing = "1rem";
+            style.textTransform = "uppercase";
+          }
+
+          if (word === "creativity") {
+            style.textDecoration = "underline wavy";
+            style.textDecorationColor = "#FFC300";
+            style.color = "#FFC300";
+          }
+
+          return (
+            <span
+              key={`word-${index}`}
+              ref={(el) => (ref.current[index] = el)}
+              style={style}
+            >
+              {word}
+            </span>
+          );
+        })}
+      </Box>
+    ));
+  };
+
   return (
     <>
       <Box
-        component="img"
-        src="https://www.spieltimes.io/wp-content/uploads/2024/08/The-Rise-of-Indie-Games-A-New-Era-in-Gaming-1024x576.webp"
         sx={{
+          position: "relative",
           width: "100%",
           height: {
             xs: "auto",
@@ -34,8 +109,47 @@ const Home = () => {
           objectFit: "cover",
           objectPosition: "center",
         }}
-        loading="lazy"
-      />
+      >
+        <Box
+          component="img"
+          src="https://www.spieltimes.io/wp-content/uploads/2024/08/The-Rise-of-Indie-Games-A-New-Era-in-Gaming-1024x576.webp"
+          sx={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "center",
+          }}
+          loading="lazy"
+        />
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(103, 78, 167, 0.8)",
+            zIndex: 1,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            variant="h5"
+            component="div"
+            sx={{
+              color: theme.palette.primary.contrastText,
+              fontSize: { xs: "1.5rem", sm: "2.5rem", md: "3.5rem" },
+              fontWeight: "600",
+            }}
+          >
+            {splitWords(text1, textRef)}
+          </Typography>
+        </Box>
+      </Box>
+
       <Box sx={{ paddingY: 2 }}>
         <SwiperPerViewAuto products={recommendedGames} />
       </Box>

@@ -16,9 +16,8 @@ function News() {
   return (
     <>
       <Box
-        component="img"
-        src="https://gdconf.com/sites/default/files/styles/200x200/public/IGF%20juries%202%20image.png"
         sx={{
+          position: "relative",
           width: "100%",
           height: {
             xs: "auto",
@@ -27,8 +26,31 @@ function News() {
           objectFit: "cover",
           objectPosition: "center",
         }}
-        loading="lazy"
-      />
+      >
+        <Box
+          component="img"
+          src="https://gdconf.com/sites/default/files/styles/200x200/public/IGF%20juries%202%20image.png"
+          sx={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "center",
+          }}
+          loading="lazy"
+        />
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(103, 78, 167, 0.4)",
+            zIndex: 1,
+          }}
+        />
+      </Box>
+
       <Box
         sx={{
           backgroundColor: theme.palette.background.paper,
@@ -58,7 +80,7 @@ function News() {
                 sx={{
                   borderRadius: 4,
                   display: "flex",
-                  flexDirection: "row",
+                  flexDirection: { xs: "column", md: "row" },
                   gap: 2,
                   flexGrow: 1,
                   backgroundColor: theme.palette.background.card,
@@ -71,7 +93,7 @@ function News() {
                   alt={item.alt}
                   sx={{
                     borderRadius: 4,
-                    maxWidth: "45%",
+                    maxWidth: { xs: "100%", md: "45%" },
                     height: "auto",
                     flexShrink: 0,
                   }}

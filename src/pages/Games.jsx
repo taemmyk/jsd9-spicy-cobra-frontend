@@ -190,9 +190,8 @@ function Games() {
   return (
     <>
       <Box
-        component="img"
-        src="https://i.pcmag.com/imagery/roundups/025NJmKivEPIxXC9veZnSFP-6.fit_lim.size_1600x900.v1736540192.jpg"
         sx={{
+          position: "relative",
           width: "100%",
           height: {
             xs: "auto",
@@ -201,8 +200,56 @@ function Games() {
           objectFit: "cover",
           objectPosition: "center",
         }}
-        loading="lazy"
-      />
+      >
+        <Box
+          component="img"
+          src="https://i.pcmag.com/imagery/roundups/025NJmKivEPIxXC9veZnSFP-6.fit_lim.size_1600x900.v1736540192.jpg"
+          sx={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "center",
+          }}
+          loading="lazy"
+        />
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(30, 27, 45, 0.8)",
+            zIndex: 1,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <MotionBox
+            ref={scope}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              width: "100%",
+              marginBottom: 2,
+            }}
+          >
+            <Typography
+              variant="body1"
+              sx={{
+                fontSize: { xs: "1rem", sm: "1.5rem", md: "2rem" },
+                maxWidth: "60%",
+                textAlign: "center",
+                color: theme.palette.secondary.light,
+              }}
+            >
+              {description}
+            </Typography>
+          </MotionBox>
+        </Box>
+      </Box>
+
       <Box
         sx={{
           paddingX: 2,
@@ -269,26 +316,6 @@ function Games() {
             ))}
           </RadioGroup>
         </FormControl>
-        <MotionBox
-          ref={scope}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            width: "100%",
-            marginBottom: 2,
-          }}
-        >
-          <Typography
-            variant="body2"
-            sx={{
-              maxWidth: "60%",
-              textAlign: "center",
-              color: theme.palette.secondary.light,
-            }}
-          >
-            {description}
-          </Typography>
-        </MotionBox>
       </Box>
 
       {/* Product Grid */}

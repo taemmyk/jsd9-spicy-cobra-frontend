@@ -11,16 +11,16 @@ import {
 import { useTheme } from "@mui/material/styles";
 
 import Heading from "../components/common/Heading";
-import { missionKeypoints, CommunityItems } from "../data/misc";
+import { missionKeypoints, communityItems } from "../data/misc";
+import Logo from "../assets/logo.png"
 
 const About = () => {
   const theme = useTheme();
   return (
     <>
       <Box
-        component="img"
-        src="https://gdconf.com/sites/default/files/Hero_04022025.png"
         sx={{
+          position: "relative",
           width: "100%",
           height: {
             xs: "auto",
@@ -29,13 +29,50 @@ const About = () => {
           objectFit: "cover",
           objectPosition: "center",
         }}
-        loading="lazy"
-      />
+      >
+        <Box
+          component="img"
+          src="https://gdconf.com/sites/default/files/Hero_04022025.png"
+          sx={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "center",
+          }}
+          loading="lazy"
+        />
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(103, 78, 167, 0.3)",
+            zIndex: 1,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Box
+          component="img"
+          src={Logo}
+          sx={{
+            width: {xs: "20%", sm: "15%", md:"10%"},
+            height: "auto",
+            objectFit: "cover",
+            objectPosition: "center",
+          }}
+          loading="lazy"
+        />
+        </Box>
+      </Box>
       <Box
         sx={{
           backgroundColor: theme.palette.background.paper,
           display: "flex",
-          flexDirection: {xs: "column", md: "row"},
+          flexDirection: { xs: "column", md: "row" },
           gap: 4,
           padding: 4,
         }}
@@ -76,7 +113,7 @@ const About = () => {
       <Box
         sx={{
           display: "flex",
-          flexDirection: {xs: "column", md: "row"},
+          flexDirection: { xs: "column", md: "row" },
           gap: 4,
           padding: 4,
         }}
@@ -177,8 +214,8 @@ const About = () => {
             >
               <CardMedia
                 component="img"
-                image={CommunityItems[0].image}
-                alt={CommunityItems[0].alt}
+                image={communityItems[0].image}
+                alt={communityItems[0].alt}
                 sx={{ borderTopLeftRadius: 4, borderTopRightRadius: 4 }}
                 loading="lazy"
               />
@@ -196,10 +233,10 @@ const About = () => {
                   variant="body1"
                   sx={{ color: theme.palette.secondary.light }}
                 >
-                  {CommunityItems[0].title}
+                  {communityItems[0].title}
                 </Typography>
                 <Typography variant="body2">
-                  {CommunityItems[0].description}
+                  {communityItems[0].description}
                 </Typography>
               </CardContent>
             </Card>
@@ -207,7 +244,7 @@ const About = () => {
           <Box
             sx={{ flex: 2, display: "flex", flexDirection: "column", gap: 2 }}
           >
-            {CommunityItems.slice(1).map((item, index) => (
+            {communityItems.slice(1).map((item, index) => (
               <Card
                 key={index}
                 sx={{
