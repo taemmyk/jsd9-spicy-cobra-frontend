@@ -7,6 +7,7 @@ import {
   IconButton,
   Box,
   Paper,
+  Container,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import ProductCard from "../components/products/ProductCard";
@@ -105,7 +106,7 @@ function Games() {
           selectedGenre === "View All"
             ? "Explore a wide variety of your next favorite games across different genres!"
             : selectedGenreData?.description ||
-              `Information about the ${selectedGenre} genre will be displayed here.`
+                `Information about the ${selectedGenre} genre will be displayed here.`
         );
         animate(
           scope.current,
@@ -131,167 +132,175 @@ function Games() {
 
   return (
     <>
-      <Box
-        sx={{
-          position: "relative",
-          width: "100%",
-          height: {
-            xs: "auto",
-            md: "50vh",
-          },
-          objectFit: "cover",
-          objectPosition: "center",
-        }}
-      >
-        <Box
-          component="img"
-          src="https://i.pcmag.com/imagery/roundups/025NJmKivEPIxXC9veZnSFP-6.fit_lim.size_1600x900.v1736540192.jpg"
-          sx={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            objectPosition: "center",
-          }}
-          loading="lazy"
-        />
-        <Box
-          sx={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(30, 27, 45, 0.8)",
-            zIndex: 1,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <MotionBox
-            ref={scope}
+      <Box sx={{ backgroundColor: theme.palette.background.card }}>
+        <Container maxWidth="xl">
+          <Box
             sx={{
-              display: "flex",
-              justifyContent: "center",
+              position: "relative",
               width: "100%",
-              marginBottom: 2,
+              height: {
+                xs: "auto",
+                md: "50vh",
+              },
+              objectFit: "cover",
+              objectPosition: "center",
             }}
           >
-            <Typography
-              variant="body1"
+            <Box
+              component="img"
+              src="https://i.pcmag.com/imagery/roundups/025NJmKivEPIxXC9veZnSFP-6.fit_lim.size_1600x900.v1736540192.jpg"
               sx={{
-                fontSize: { xs: "1rem", sm: "1.5rem", md: "2rem" },
-                maxWidth: "60%",
-                textAlign: "center",
-                color: theme.palette.secondary.light,
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                objectPosition: "center",
+              }}
+              loading="lazy"
+            />
+            <Box
+              sx={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                backgroundColor: "rgba(30, 27, 45, 0.8)",
+                zIndex: 1,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              {description}
-            </Typography>
-          </MotionBox>
-        </Box>
+              <MotionBox
+                ref={scope}
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  width: "100%",
+                  marginBottom: 2,
+                }}
+              >
+                <Typography
+                  variant="body1"
+                  sx={{
+                    fontSize: { xs: "1rem", sm: "1.5rem", md: "2rem" },
+                    maxWidth: "60%",
+                    textAlign: "center",
+                    color: theme.palette.secondary.light,
+                  }}
+                >
+                  {description}
+                </Typography>
+              </MotionBox>
+            </Box>
+          </Box>
+        </Container>
       </Box>
 
-      <Box
-        sx={{
-          paddingX: 2,
-          backgroundColor: theme.palette.background.paper,
-        }}
-      >
-        <Paper elevation={3} />
-        <Heading section="Games" />
-        {/* Search Bar */}
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            gap: { xs: 1, md: 4 },
-            paddingTop: 2,
-          }}
-        >
-          <SearchIcon
+      <Box sx={{ backgroundColor: theme.palette.background.paper }}>
+        <Container maxWidth="xl">
+          <Box
             sx={{
-              width: { xs: 28, md: 40 },
-              height: { xs: 28, md: 40 },
-              color: theme.palette.secondary.light,
+              paddingX: 2,
             }}
-          />
-          <SearchInput
-            isSearchOpen={true}
-            searchText={searchText}
-            inputRef={inputRef}
-            handleInputChange={handleInputChange}
-            handleSearchSubmit={handleSearchSubmit}
-            sx={{ mx: 2, flexGrow: 1 }}
-          />
-          {searchText && (
-            <IconButton onClick={handleClearInput} sx={{ p: 1 }}>
-              <ClearIcon
+          >
+            <Paper elevation={3} />
+            <Heading section="Games" />
+            {/* Search Bar */}
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                gap: { xs: 1, md: 4 },
+                paddingTop: 2,
+              }}
+            >
+              <SearchIcon
                 sx={{
                   width: { xs: 28, md: 40 },
                   height: { xs: 28, md: 40 },
                   color: theme.palette.secondary.light,
                 }}
               />
-            </IconButton>
-          )}
-        </Box>
-
-        {/* Genre Selector */}
-        <FormControl component="fieldset" fullWidth>
-          <RadioGroup
-            aria-label="Genre options"
-            name="gameGenre"
-            value={selectedGenre}
-            onChange={handleGenreChange}
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              marginBottom: 2,
-              overflowX: "auto",
-            }}
-          >
-            <SelectorCard
-              key="View All"
-              value="View All"
-              label="View All"
-              selectedType={selectedGenre}
-              handleTypeChange={handleGenreChange}
-            />
-            {genres.map((genre) => (
-              <SelectorCard
-                key={genre}
-                value={genre}
-                label={genre}
-                selectedType={selectedGenre}
-                handleTypeChange={handleGenreChange}
+              <SearchInput
+                isSearchOpen={true}
+                searchText={searchText}
+                inputRef={inputRef}
+                handleInputChange={handleInputChange}
+                handleSearchSubmit={handleSearchSubmit}
+                sx={{ mx: 2, flexGrow: 1 }}
               />
-            ))}
-          </RadioGroup>
-        </FormControl>
-      </Box>
+              {searchText && (
+                <IconButton onClick={handleClearInput} sx={{ p: 1 }}>
+                  <ClearIcon
+                    sx={{
+                      width: { xs: 28, md: 40 },
+                      height: { xs: 28, md: 40 },
+                      color: theme.palette.secondary.light,
+                    }}
+                  />
+                </IconButton>
+              )}
+            </Box>
 
-      {/* Product Grid */}
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: {
-            xs: "repeat(1, 1fr)",
-            sm: "repeat(2, 1fr)",
-            md: "repeat(3, 1fr)",
-          },
-          gap: {
-            xs: 2,
-            md: 4,
-          },
-          margin: 4,
-        }}
-      >
-        {filteredProducts.map((item) => (
-          <ProductCard key={item.product_id} product={item} />
-        ))}
+            {/* Genre Selector */}
+            <FormControl component="fieldset" fullWidth>
+              <RadioGroup
+                aria-label="Genre options"
+                name="gameGenre"
+                value={selectedGenre}
+                onChange={handleGenreChange}
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  marginBottom: 2,
+                  overflowX: "auto",
+                }}
+              >
+                <SelectorCard
+                  key="View All"
+                  value="View All"
+                  label="View All"
+                  selectedType={selectedGenre}
+                  handleTypeChange={handleGenreChange}
+                />
+                {genres.map((genre) => (
+                  <SelectorCard
+                    key={genre}
+                    value={genre}
+                    label={genre}
+                    selectedType={selectedGenre}
+                    handleTypeChange={handleGenreChange}
+                  />
+                ))}
+              </RadioGroup>
+            </FormControl>
+          </Box>
+        </Container>
       </Box>
+      {/* Product Grid */}
+      <Container maxWidth="xl">
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: {
+              xs: "repeat(1, 1fr)",
+              sm: "repeat(2, 1fr)",
+              md: "repeat(3, 1fr)",
+            },
+            gap: {
+              xs: 2,
+              md: 4,
+            },
+            margin: 4,
+          }}
+        >
+          {filteredProducts.map((item) => (
+            <ProductCard key={item.product_id} product={item} />
+          ))}
+        </Box>
+      </Container>
     </>
   );
 }

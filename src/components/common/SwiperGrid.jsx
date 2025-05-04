@@ -18,12 +18,26 @@ export default function App({ products }) {
         breakpoints={{
           0: {
             slidesPerView: 1,
+            grid: {
+              rows: 2,
+              fill: "row",
+            },
           },
-          768: {
+          600: {
+            slidesPerView: 2,
+            grid: {
+              rows: 2,
+              fill: "row",
+            },
+          },
+          960: {
             slidesPerView: 3,
+            grid: {
+              rows: 2,
+              fill: "row",
+            },
           },
         }}
-        grid={{ rows: 2, fill: "row" }}
         spaceBetween={30}
         pagination={{
           clickable: true,

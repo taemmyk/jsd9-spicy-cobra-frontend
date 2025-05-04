@@ -7,6 +7,7 @@ import {
   Card,
   CardMedia,
   CardContent,
+  Container,
 } from "@mui/material";
 import Heading from "../components/common/Heading";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
@@ -65,8 +66,9 @@ const Home = () => {
           }
 
           if (["indie", "game"].includes(word)) {
-            style.fontFamily = '"Orbitron", "Roboto", "Helvetica", "Arial", sans-serif',
-            style.color = "#00FF7F";
+            (style.fontFamily =
+              '"Orbitron", "Roboto", "Helvetica", "Arial", sans-serif'),
+              (style.color = "#00FF7F");
             style.textShadow = "1px 1px 4px rgba(0,255,127,1)";
             style.textTransform = "uppercase";
           }
@@ -98,79 +100,89 @@ const Home = () => {
 
   return (
     <>
-      <Box
-        sx={{
-          position: "relative",
-          width: "100%",
-          height: {
-            xs: "auto",
-            md: "50vh",
-          },
-          objectFit: "cover",
-          objectPosition: "center",
-        }}
-      >
-        <Box
-          component="img"
-          src="https://www.spieltimes.io/wp-content/uploads/2024/08/The-Rise-of-Indie-Games-A-New-Era-in-Gaming-1024x576.webp"
-          sx={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            objectPosition: "center",
-          }}
-          loading="lazy"
-        />
-        <Box
-          sx={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(103, 78, 167, 0.8)",
-            zIndex: 1,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Typography
-            variant="h5"
-            component="div"
+      <Box sx={{ backgroundColor: theme.palette.secondary.dark }}>
+        <Container maxWidth="xl">
+          <Box
             sx={{
-              color: theme.palette.primary.contrastText,
-              fontSize: { xs: "1.5rem", sm: "2.5rem", md: "3.5rem" },
-              fontWeight: "600",
+              position: "relative",
+              width: "100%",
+              height: {
+                xs: "auto",
+                md: "50vh",
+              },
+              objectFit: "cover",
+              objectPosition: "center",
             }}
           >
-            {splitWords(text1, textRef)}
-          </Typography>
-        </Box>
+            <Box
+              component="img"
+              src="https://www.spieltimes.io/wp-content/uploads/2024/08/The-Rise-of-Indie-Games-A-New-Era-in-Gaming-1024x576.webp"
+              sx={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                objectPosition: "center",
+              }}
+              loading="lazy"
+            />
+            <Box
+              sx={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                backgroundColor: "rgba(103, 78, 167, 0.8)",
+                zIndex: 1,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Typography
+                variant="h5"
+                component="div"
+                sx={{
+                  color: theme.palette.primary.contrastText,
+                  fontSize: { xs: "1.5rem", sm: "2.5rem", md: "3.5rem" },
+                  fontWeight: "600",
+                }}
+              >
+                {splitWords(text1, textRef)}
+              </Typography>
+            </Box>
+          </Box>
+        </Container>
       </Box>
-
-      <Box sx={{ paddingY: 2 }}>
+      <Container maxWidth="xl" sx={{ paddingY: 2 }}>
         <SwiperPerViewAuto products={recommendedGames} />
+      </Container>
+      <Box sx={{ backgroundColor: theme.palette.background.paper }}>
+        <Container maxWidth="xl">
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              backgroundColor: theme.palette.background.paper,
+              paddingBottom: 2,
+              marginX: 2,
+            }}
+          >
+            <Paper elevation={3} />
+            <Heading section="For you" />
+            <Box sx={{ marginLeft: 4, marginRight: 4 }}>
+              <SwiperGrid products={products} />
+            </Box>
+          </Box>
+        </Container>
       </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          backgroundColor: theme.palette.background.paper,
-          paddingBottom: 2,
-        }}
-      >
-        <Paper elevation={3} />
-        <Heading section="For you" />
-        <Box sx={{ marginLeft: 4, marginRight: 4 }}>
-          <SwiperGrid products={products} />
+      <Container maxWidth="xl">
+        <Box sx={{ paddingBottom: 2, marginX: 2 }}>
+          <Heading section="New Release" />
+          <SwiperAutoplay products={recommendedGames} />
         </Box>
-      </Box>
-      <Box sx={{ paddingBottom: 2 }}>
-        <Heading section="New Release" />
-        <SwiperAutoplay products={recommendedGames} />
-      </Box>
+      </Container>
       <Box
         sx={{
           backgroundColor: theme.palette.background.paper,
@@ -178,7 +190,11 @@ const Home = () => {
         }}
       >
         <Paper elevation={3} />
-        <Heading section="News" />
+        <Container maxWidth="xl">
+          <Box sx={{ marginX: 2 }}>
+            <Heading section="News" />
+          </Box>
+        </Container>
         <Box
           sx={{
             backgroundColor: theme.palette.accent.emphasisdark,
@@ -186,176 +202,180 @@ const Home = () => {
             padding: 2,
           }}
         >
-          <Box
-            sx={{
-              height: 24,
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginX: "auto",
-            }}
-          >
-            <Box sx={{ display: "flex", gap: 4 }}>
-              <CalendarMonthIcon
-                sx={{
-                  display: { xs: "none", md: "block" },
-                }}
-              />
+          <Container maxWidth="xl">
+            <Box
+              sx={{
+                height: 24,
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginX: "auto",
+              }}
+            >
+              <Box sx={{ display: "flex", gap: 4 }}>
+                <CalendarMonthIcon
+                  sx={{
+                    display: { xs: "none", md: "block" },
+                  }}
+                />
+                <Typography
+                  variant="body1"
+                  sx={{
+                    display: { xs: "none", md: "block" },
+                    textTransform: "uppercase",
+                    color: theme.palette.secondary.contrastText,
+                  }}
+                >
+                  28/03
+                </Typography>
+              </Box>
               <Typography
                 variant="body1"
                 sx={{
-                  display: { xs: "none", md: "block" },
+                  fontWeight: "bold",
+                  whiteSpace: "nowrap",
+                  color: theme.palette.secondary.contrastText,
+                }}
+              >
+                TOKYO GAME SHOW 2025 Oversea Sessions
+              </Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  whiteSpace: "nowrap",
                   textTransform: "uppercase",
                   color: theme.palette.secondary.contrastText,
                 }}
               >
-                28/03
+                10am Justco Amarin Plaza
               </Typography>
             </Box>
-            <Typography
-              variant="body1"
-              sx={{
-                fontWeight: "bold",
-                whiteSpace: "nowrap",
-                color: theme.palette.secondary.contrastText,
-              }}
-            >
-              TOKYO GAME SHOW 2025 Oversea Sessions
-            </Typography>
-            <Typography
-              variant="body1"
-              sx={{
-                whiteSpace: "nowrap",
-                textTransform: "uppercase",
-                color: theme.palette.secondary.contrastText,
-              }}
-            >
-              10am Justco Amarin Plaza
-            </Typography>
-          </Box>
+          </Container>
         </Box>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: { xs: "column", md: "row" },
-            gap: 4,
-            alignItems: "stretch",
-            marginY: 4,
-            paddingX: 4,
-          }}
-        >
-          <Box sx={{ flex: 3, display: "flex", flexDirection: "column" }}>
-            <Card
-              sx={{
-                borderRadius: 4,
-                display: "flex",
-                flexDirection: "column",
-                flexGrow: 1,
-                backgroundColor: theme.palette.background.card,
-              }}
-            >
-              <CardMedia
-                component="img"
-                image={newsItems[0].image}
-                alt={newsItems[0].alt}
-                sx={{ borderTopLeftRadius: 4, borderTopRightRadius: 4 }}
-                loading="lazy"
-              />
-              <Box
-                sx={{
-                  backgroundColor: theme.palette.background.layout,
-                  textAlign: "center",
-                  color: theme.palette.secondary.light,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  paddingY: 1,
-                }}
-              >
-                <Typography variant="caption">
-                  {newsItems[0].updated}
-                </Typography>
-              </Box>
-              <CardContent
-                sx={{
-                  padding: 3,
-                  flexGrow: 1,
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 4,
-                }}
-              >
-                <Typography
-                  variant="body1"
-                  sx={{ color: theme.palette.secondary.light }}
-                >
-                  {newsItems[0].title}
-                </Typography>
-                <Typography variant="body2">
-                  {newsItems[0].description}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Box>
+        <Container maxWidth="xl">
           <Box
-            sx={{ flex: 2, display: "flex", flexDirection: "column", gap: 2 }}
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", md: "row" },
+              gap: 4,
+              alignItems: "stretch",
+              marginY: 4,
+              paddingX: 4,
+            }}
           >
-            {newsItems.slice(1).map((item, index) => (
+            <Box sx={{ flex: 3, display: "flex", flexDirection: "column" }}>
               <Card
-                key={index}
                 sx={{
                   borderRadius: 4,
                   display: "flex",
-                  flexDirection: "row",
-                  gap: 2,
+                  flexDirection: "column",
                   flexGrow: 1,
                   backgroundColor: theme.palette.background.card,
                 }}
               >
                 <CardMedia
                   component="img"
-                  image={item.image}
-                  alt={item.alt}
-                  sx={{
-                    borderRadius: 4,
-                    maxWidth: "45%",
-                    height: "auto",
-                    flexShrink: 0,
-                  }}
+                  image={newsItems[0].image}
+                  alt={newsItems[0].alt}
+                  sx={{ borderTopLeftRadius: 4, borderTopRightRadius: 4 }}
                   loading="lazy"
                 />
+                <Box
+                  sx={{
+                    backgroundColor: theme.palette.background.layout,
+                    textAlign: "center",
+                    color: theme.palette.secondary.light,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    paddingY: 1,
+                  }}
+                >
+                  <Typography variant="caption">
+                    {newsItems[0].updated}
+                  </Typography>
+                </Box>
                 <CardContent
                   sx={{
-                    p: 2,
+                    padding: 3,
                     flexGrow: 1,
                     display: "flex",
                     flexDirection: "column",
-                    gap: 1,
+                    gap: 4,
                   }}
                 >
                   <Typography
                     variant="body1"
-                    fontWeight="medium"
-                    sx={{
-                      color: theme.palette.secondary.light,
-                    }}
+                    sx={{ color: theme.palette.secondary.light }}
                   >
-                    {item.title}
+                    {newsItems[0].title}
                   </Typography>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      display: { xs: "none", md: "block" },
-                      color: theme.palette.primary.contrastText,
-                    }}
-                  >
-                    {item.description}
+                  <Typography variant="body2">
+                    {newsItems[0].description}
                   </Typography>
                 </CardContent>
               </Card>
-            ))}
+            </Box>
+            <Box
+              sx={{ flex: 2, display: "flex", flexDirection: "column", gap: 2 }}
+            >
+              {newsItems.slice(1).map((item, index) => (
+                <Card
+                  key={index}
+                  sx={{
+                    borderRadius: 4,
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: 2,
+                    flexGrow: 1,
+                    backgroundColor: theme.palette.background.card,
+                  }}
+                >
+                  <CardMedia
+                    component="img"
+                    image={item.image}
+                    alt={item.alt}
+                    sx={{
+                      borderRadius: 4,
+                      maxWidth: "45%",
+                      height: "auto",
+                      flexShrink: 0,
+                    }}
+                    loading="lazy"
+                  />
+                  <CardContent
+                    sx={{
+                      p: 2,
+                      flexGrow: 1,
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 1,
+                    }}
+                  >
+                    <Typography
+                      variant="body1"
+                      fontWeight="medium"
+                      sx={{
+                        color: theme.palette.secondary.light,
+                      }}
+                    >
+                      {item.title}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        display: { xs: "none", md: "block" },
+                        color: theme.palette.primary.contrastText,
+                      }}
+                    >
+                      {item.description}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              ))}
+            </Box>
           </Box>
-        </Box>
+        </Container>
       </Box>
     </>
   );
