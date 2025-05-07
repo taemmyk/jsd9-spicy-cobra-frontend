@@ -137,7 +137,7 @@ function Dashboard() {
         sx={{
           background: `linear-gradient(to right, ${theme.palette.background.layout} 50%, ${theme.palette.background.paper} 50%)`,
           width: "100%",
-          height: "100vh",
+          minHeight: "100vh",
         }}
       >
         <Container maxWidth="xl">
@@ -163,7 +163,7 @@ function Dashboard() {
                 <FormControl
                   component="fieldset"
                   fullWidth
-                  sx={{ height: "100vh" }}
+                  sx={{ minHeight: "100vh" }}
                 >
                   <RadioGroup
                     aria-label="Dashboard options"
@@ -254,7 +254,7 @@ function Dashboard() {
                 borderTopRightRadius: 4,
                 borderBottomRightRadius: 4,
                 width: "100%",
-                height: "100vh",
+                minHeight: "100vh",
               }}
             >
               {selectedTab === "dashboard" && <DashboardTab />}
