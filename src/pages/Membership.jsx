@@ -4,7 +4,6 @@ import {
   Button,
   Box,
   Typography,
-  IconButton,
   Paper,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -75,7 +74,7 @@ function Membership() {
           }}
         >
           <Container maxWidth="xl">
-            <IconButton
+            <Button
               onClick={handleGoBack}
               sx={{
                 display: "flex",
@@ -103,7 +102,7 @@ function Membership() {
               >
                 Back
               </Typography>
-            </IconButton>
+            </Button>
             <Box
               sx={{
                 height: "100vh",

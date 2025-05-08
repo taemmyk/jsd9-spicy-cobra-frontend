@@ -4,7 +4,7 @@ import { useTheme } from "@mui/material/styles";
 import {
   AppBar,
   Toolbar,
-  IconButton,
+  Button,
   Typography,
   Box,
   Container,
@@ -75,7 +75,7 @@ const Header = () => {
               gap: { xs: 1, md: 4 },
             }}
           >
-            <IconButton onClick={handleSearchClick} sx={{ p: 1 }}>
+            <Button onClick={handleSearchClick} sx={{ p: 1 }}>
               <SearchIcon
                 sx={{
                   width: { xs: 28, md: 40 },
@@ -83,13 +83,13 @@ const Header = () => {
                   color: theme.palette.secondary.light,
                 }}
               />
-            </IconButton>
+            </Button>
             <TemporaryDrawer
               open={isCartOpen}
               toggleDrawer={toggleCartDrawer}
             />
             <Link to="/membership" style={{ textDecoration: "none" }}>
-              <IconButton>
+              <Button>
                 <PersonIcon
                   sx={{
                     width: { xs: 28, md: 40 },
@@ -97,7 +97,7 @@ const Header = () => {
                     color: theme.palette.secondary.light,
                   }}
                 />
-              </IconButton>
+              </Button>
             </Link>
           </Box>
         </Container>
