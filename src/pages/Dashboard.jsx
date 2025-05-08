@@ -262,7 +262,7 @@ function Dashboard() {
             >
               {selectedTab === "dashboard" && <OrderTabAdmin />}
               {selectedTab === "orders" && <OrdersTab />}
-              {selectedTab === "review" && <CommunityTab />}
+              {selectedTab === "review" && <CommunityTabAdmin />}
               {selectedTab === "report" && <ReportTab />}
               {selectedTab === "inventory" && <InventoryTab />}
               {selectedTab === "profile" && <ProfileTab />}

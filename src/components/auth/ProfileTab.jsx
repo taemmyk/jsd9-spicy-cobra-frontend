@@ -3,11 +3,6 @@ import {
   Box,
   Typography,
   Avatar,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import VerifiedIcon from "@mui/icons-material/Verified";
