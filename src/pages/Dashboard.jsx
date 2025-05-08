@@ -29,7 +29,6 @@ import ProfileTab from "../components/auth/ProfileTab";
 
 import CommunityTabAdmin from "../components/auth/CommunityTabAdmin";
 import OrderTabAdmin from "../components/auth/OrdersTabAdmin"
-import ProfileTabAdmin from "../components/auth/ProfileAdmin"
 
 function Dashboard() {
   const theme = useTheme();
