@@ -27,6 +27,10 @@ import ReportTab from "../components/auth/ReportTab";
 import InventoryTab from "../components/auth/InventoryTab";
 import ProfileTab from "../components/auth/ProfileTab";
 
+import CommunityTabAdmin from "../components/auth/CommunityTabAdmin";
+import OrderTabAdmin from "../components/auth/OrdersTabAdmin"
+import ProfileTabAdmin from "../components/auth/ProfileAdmin"
+
 function Dashboard() {
   const theme = useTheme();
   const [selectedTab, setSelectedTab] = useState("dashboard");
@@ -257,7 +261,7 @@ function Dashboard() {
                 minHeight: "100vh",
               }}
             >
-              {selectedTab === "dashboard" && <DashboardTab />}
+              {selectedTab === "dashboard" && <OrderTabAdmin />}
               {selectedTab === "orders" && <OrdersTab />}
               {selectedTab === "review" && <CommunityTab />}
               {selectedTab === "report" && <ReportTab />}

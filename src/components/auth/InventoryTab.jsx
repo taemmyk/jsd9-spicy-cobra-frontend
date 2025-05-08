@@ -55,7 +55,7 @@ export default function InventoryTab() {
   const [publisherName, setPublisherName] = useState("");
   const [selectedGenres, setSelectedGenres] = useState({});
   const [price, setPrice] = useState("");
-  const [selectedDiscount, setSelectedDiscount] = useState(0.0);
+  const [selectedDiscount, setSelectedDiscount] = useState(0);
   const currentPrice =
     selectedDiscount > 0
       ? Math.floor(parseInt(price) * (1 - selectedDiscount))
