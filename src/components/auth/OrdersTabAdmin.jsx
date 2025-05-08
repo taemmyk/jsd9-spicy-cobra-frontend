@@ -7,25 +7,15 @@ import FormTextField from "../common/FormTextField";
 import MenuItem from "@mui/material/MenuItem";
 import FormSelect from "../common/FormSelect";
 
-const columns = [
-  { field: "id", headerName: "ID", width: 70 },
-  { field: "firstName", headerName: "First name", width: 130, flex: 1 },
-  { field: "lastName", headerName: "Last name", width: 130, flex: 1 },
-  {
-    field: "age",
-    headerName: "Age",
-    type: "number",
-    width: 90,
-  },
-  {
-    field: "fullName",
-    headerName: "Full name",
-    description: "This column has a value getter and is not sortable.",
-    sortable: false,
-    width: 160,
-    flex: 1,
-    valueGetter: (value, row) => `${row.firstName || ""} ${row.lastName || ""}`,
-  },
+const orderColums = [
+  { field: "orderNumber", headerName: "Order No.", flex: 1 },
+  { field: "username", headerName: "Username", flex: 2 },
+  { field: "product", headerName: "Product", flex: 2 },
+  { field: "totalPrice", headerName: "Total", flex: 1 },
+  { field: "orderStatus", headerName: "Status", flex: 1 },
+  { field: "paymentMethod", headerName: "Payment Method", flex: 1 },
+  { field: "orderAt", headerName: "Order At", flex: 2 },
+  { field: "transactionAt", headerName: "Transaction At", flex: 2 },
 ];
 
 const rows = [
@@ -102,7 +92,7 @@ function OrdersTabAdmin() {
         <Paper sx={{ minHeight: 100, width: "100%" }}>
           <TableData
             rows={rows}
-            columns={columns}
+            columns={orderColums}
             paginationModel={paginationModel}
             pageSizeOptions={[5, 10]}
             checkboxSelection={false}
