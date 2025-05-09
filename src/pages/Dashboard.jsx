@@ -24,7 +24,7 @@ import DashboardTab from "../components/auth/DashboardTab";
 import OrdersTab from "../components/auth/OrdersTab";
 import CommunityTab from "../components/auth/CommunityTab";
 import ReportTab from "../components/auth/ReportTab";
-import InventoryTab from "../components/auth/InventoryTab";
+import InventoryTabAdmin from "../components/auth/InventoryTabAdmin";
 import ProfileTab from "../components/auth/ProfileTab";
 
 import CommunityTabAdmin from "../components/auth/CommunityTabAdmin";
@@ -264,7 +264,7 @@ function Dashboard() {
               {selectedTab === "orders" && <OrdersTab />}
               {selectedTab === "review" && <CommunityTabAdmin />}
               {selectedTab === "report" && <ReportTab />}
-              {selectedTab === "inventory" && <InventoryTab />}
+              {selectedTab === "inventory" && <InventoryTabAdmin />}
               {selectedTab === "profile" && <ProfileTab />}
             </Box>
           </Box>
