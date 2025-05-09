@@ -270,7 +270,7 @@ export default function InventoryTab() {
                 justifyContent: "space-between",
               }}
             >
-              <Heading section="Developer's Inventory Manager" />
+              <Heading section="Inventory Manager" />
               {initialValueSet && (
                 <ButtonGeneric
                   label="Change game"

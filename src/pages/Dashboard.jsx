@@ -24,11 +24,12 @@ import DashboardTab from "../components/auth/DashboardTab";
 import OrdersTab from "../components/auth/OrdersTab";
 import CommunityTab from "../components/auth/CommunityTab";
 import ReportTab from "../components/auth/ReportTab";
-import InventoryTabAdmin from "../components/auth/InventoryTabAdmin";
 import ProfileTab from "../components/auth/ProfileTab";
 
 import CommunityTabAdmin from "../components/auth/CommunityTabAdmin";
 import OrderTabAdmin from "../components/auth/OrdersTabAdmin"
+import InventoryTabAdmin from "../components/auth/InventoryTabAdmin";
+import InventoryTabTable from "../components/auth/InventoryTabTable";
 
 function Dashboard() {
   const theme = useTheme();
@@ -260,7 +261,7 @@ function Dashboard() {
                 minHeight: "100vh",
               }}
             >
-              {selectedTab === "dashboard" && <InventoryTabAdmin />}
+              {selectedTab === "dashboard" && <InventoryTabTable />}
               {selectedTab === "orders" && <OrderTabAdmin />}
               {selectedTab === "review" && <CommunityTabAdmin />}
               {selectedTab === "report" && <ReportTab />}
