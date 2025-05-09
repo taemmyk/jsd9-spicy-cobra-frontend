@@ -1,10 +1,10 @@
 import api from "./api.js"; // Axios instance with withCredentials:true
 
-export const signupUser = async ({ fullName, email, password }) => {
+export const signupUser = async ({ email, password, confirmPassword }) => {
   const response = await api.post("/auth/register", {
-    fullName,
     email,
     password,
+    confirmPassword,
   });
   return response.data;
 };

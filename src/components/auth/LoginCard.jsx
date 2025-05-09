@@ -18,7 +18,8 @@ import {loginUser} from "../../services/authService.js";
 
 const LoginCard = () => {
   // const { setUser } = useAuth();
-  
+  const theme = useTheme();
+
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const navigate = useNavigate();
@@ -26,13 +27,11 @@ const LoginCard = () => {
   const [error, setError] = useState(false);
   // const [loading, setLoading] = useState(false);
 
-  const theme = useTheme();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     // setError("");
     // setLoading(true);
-    console.log("testing button");
     try{
       const data = await loginUser({email, password});
       console.log(data);
