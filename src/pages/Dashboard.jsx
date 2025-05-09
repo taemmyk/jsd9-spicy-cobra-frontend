@@ -260,8 +260,8 @@ function Dashboard() {
                 minHeight: "100vh",
               }}
             >
-              {selectedTab === "dashboard" && <OrderTabAdmin />}
-              {selectedTab === "orders" && <OrdersTab />}
+              {selectedTab === "dashboard" && <InventoryTabAdmin />}
+              {selectedTab === "orders" && <OrderTabAdmin />}
               {selectedTab === "review" && <CommunityTabAdmin />}
               {selectedTab === "report" && <ReportTab />}
               {selectedTab === "inventory" && <InventoryTabAdmin />}

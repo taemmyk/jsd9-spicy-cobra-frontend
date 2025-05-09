@@ -2,7 +2,16 @@ import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { useTheme } from "@mui/material/styles";
 
-function TableData({rows, columns, getRowId, paginationModel, pageSizeOptions, checkboxSelection, filterModel }) {
+function TableData({
+  rows,
+  columns,
+  getRowId,
+  paginationModel,
+  pageSizeOptions,
+  checkboxSelection,
+  filterModel,
+  onRowClick,
+}) {
   const theme = useTheme();
   return (
     <>
@@ -15,6 +24,7 @@ function TableData({rows, columns, getRowId, paginationModel, pageSizeOptions, c
         checkboxSelection={checkboxSelection}
         disableColumnMenu
         filterModel={filterModel}
+        onRowClick={onRowClick}
         sx={{
           border: 0,
           backgroundColor: theme.palette.background.layout,

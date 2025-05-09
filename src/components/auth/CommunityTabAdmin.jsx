@@ -27,77 +27,77 @@ function CommunityTabAdmin() {
   const [users, setUsers] = useState(() => [
     {
       _id: "a1b2c3d4-e5f6-47h8-i9j0-k1l2m3n4o5p6",
-      email: "admin1@example.com",
+      username: "admin1@example.com",
       role: "admin",
       status: "active",
       lastactive: new Date("2025-05-08T21:50:00Z"),
     },
     {
       _id: "f9e8d7c6-b5a4-43z2-y1x0-w9v8u7t6s5r4",
-      email: "user1@example.com",
+      username: "user1@example.com",
       role: "user",
       status: "inactive",
       lastactive: new Date("2025-05-08T19:30:00Z"),
     },
     {
       _id: "q2w3e4r5-t6y7-4u8i-o9p0-a1s2d3f4g5h6",
-      email: "user2@example.com",
+      username: "user2@example.com",
       role: "user",
       status: "active",
       lastactive: new Date("2025-05-08T20:15:00Z"),
     },
     {
       _id: "z7x6c5v4-b3n2-4m1l-k0j9-h8g7f6d5s4a3",
-      email: "admin2@example.com",
+      username: "admin2@example.com",
       role: "admin",
       status: "active",
       lastactive: new Date("2025-05-08T21:10:00Z"),
     },
     {
       _id: "i1o2p3u4-y5t6-4r7e-w8q9-s0d1f2g3h4j5",
-      email: "user3@example.com",
+      username: "user3@example.com",
       role: "user",
       status: "inactive",
       lastactive: new Date("2025-05-07T22:45:00Z"),
     },
     {
       _id: "l0k9j8h7-g6f5-4e4d-s3a2-p1o2i3u4y5t6",
-      email: "user4@example.com",
+      username: "user4@example.com",
       role: "user",
       status: "active",
       lastactive: new Date("2025-05-08T10:00:00Z"),
     },
     {
       _id: "m3n4b5v6-c7x8-4z9a-s1d2-f3g4h5j6k7l8",
-      email: "user5@example.com",
+      username: "user5@example.com",
       role: "user",
       status: "inactive",
       lastactive: new Date("2025-05-06T16:20:00Z"),
     },
     {
       _id: "p6o5i4u3-y2t1-4r0e-w9q8-s7d6f5g4h3j2",
-      email: "user6@example.com",
+      username: "user6@example.com",
       role: "user",
       status: "active",
       lastactive: new Date("2025-05-08T13:35:00Z"),
     },
     {
       _id: "n9m8l7k6-j5h4-4g3f-d2s1-a0z9x8c7v6b5",
-      email: "user7@example.com",
+      username: "user7@example.com",
       role: "user",
       status: "inactive",
       lastactive: new Date("2025-05-07T08:55:00Z"),
     },
     {
       _id: "r2t3y4u5-i6o7-4p8a-s9d0-f1g2h3j4k5l6",
-      email: "user8@example.com",
+      username: "user8@example.com",
       role: "user",
       status: "active",
       lastactive: new Date("2025-05-08T17:00:00Z"),
     },
   ]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchField, setSearchField] = useState("email"); // Default search field
+  const [searchField, setSearchField] = useState("username");
 
   const handleSearchFieldChange = (event) => {
     setSearchField(event.target.value);
@@ -114,7 +114,7 @@ function CommunityTabAdmin() {
     }
     return {
       items,
-      logicOperator: "and", // When only one field is selected, 'and' is fine
+      logicOperator: "and",
     };
   }, [searchTerm, searchField]);
 
@@ -135,7 +135,7 @@ function CommunityTabAdmin() {
       flex: 2,
       resizable: false,
     },
-    { field: "email", headerName: "Username", flex: 3 },
+    { field: "username", headerName: "Username", flex: 3 },
     {
       field: "role",
       headerName: "Role",
@@ -219,7 +219,7 @@ function CommunityTabAdmin() {
             onChange={handleSearchFieldChange}
           >
             <FormRadioField
-              value="email"
+              value="username"
               label="Username"
               selectedValue={searchField}
               onChange={handleSearchFieldChange}
