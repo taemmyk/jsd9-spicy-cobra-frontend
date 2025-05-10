@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+// import { useNavigate, Link } from "react-router-dom";
 import {
   Typography,
   Box,
@@ -11,36 +12,52 @@ import FormCheckbox from "../common/FormCheckbox";
 import ButtonGeneric from "../common/ButtonGeneric";
 import FormTextFieldWithIcon from "../common/FormTextFieldWithIcon";
 
-const SignupCard = () => {
+import {signupUser} from "../../services/authService.js"
+
+const SignupCard = ({ onSwitchToLogin }) => {
   const theme = useTheme();
+
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordMatchError, setPasswordMatchError] = useState("");
+  // const navigate = useNavigate();
 
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-    if (confirmPassword != "") {
-      if (event.target.value !== confirmPassword) {
-        setPasswordMatchError("Passwords do not match");
-      } else {
-        setPasswordMatchError("");
-      }
-    }
-  };
-  const handleConfirmPasswordChange = (event) => {
-    setConfirmPassword(event.target.value);
-    if (event.target.value !== password) {
-      setPasswordMatchError("Passwords do not match");
-    } else {
-      setPasswordMatchError("");
-    }
-  };
+  // const handlePasswordChange = (event) => {
+  //   setPassword(event.target.value);
+  //   if (confirmPassword != "") {
+  //     if (event.target.value !== confirmPassword) {
+  //       setPasswordMatchError("Passwords do not match");
+  //     } else {
+  //       setPasswordMatchError("");
+  //     }
+  //   }
+  // };
+  // const handleConfirmPasswordChange = (event) => {
+  //   setConfirmPassword(event.target.value);
+  //   if (event.target.value !== password) {
+  //     setPasswordMatchError("Passwords do not match");
+  //   } else {
+  //     setPasswordMatchError("");
+  //   }
+  // };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (password !== confirmPassword) {
       setPasswordMatchError("Passwords do not match");
       return;
+    }
+
+    try{
+      const data = await signupUser({email, password, confirmPassword});
+      console.log(data);
+      if (onSwitchToLogin) {
+        onSwitchToLogin(); // เปลี่ยน state เป็น login แทน
+      }
+    } catch(err) {
+      console.error(err);
     }
   };
 
@@ -72,6 +89,8 @@ const SignupCard = () => {
           label="Email address"
           type="email"
           placeholder="Email address"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
           icon={<EmailIcon sx={{ color: theme.palette.secondary.light }} />}
         />
@@ -82,21 +101,21 @@ const SignupCard = () => {
           label="Password"
           type="password"
           placeholder="password"
-          required
           value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
           isPasswordToggle={true}
-          onChange={handlePasswordChange}
         />
         <Box sx={{ position: "relative", width: "100%" }}>
           <FormTextFieldWithIcon
-            id="confirm-password"
-            name="confirm-password"
-            label="Confirm Password"
+            id="confirmPassword"
+            name="confirmPassword"
+            label="confirmPassword"
             type="password"
             placeholder="confirm password"
-            required
             value={confirmPassword}
-            onChange={handleConfirmPasswordChange}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
             isPasswordToggle={true}
           />
           {passwordMatchError != "" && (
@@ -117,14 +136,14 @@ const SignupCard = () => {
           )}
         </Box>
 
-        <FormTextFieldWithIcon
+        {/* <FormTextFieldWithIcon
           id="birthday"
           name="birthday"
           label="Birthday"
           type="date"
           placeholder="MM/DD/YYYY"
           required
-        />
+        /> */}
 
         <FormControlLabel
           control={<FormCheckbox />}
@@ -138,7 +157,7 @@ const SignupCard = () => {
 
         <ButtonGeneric
           label="Sign up"
-          to="/dashboard"
+          type="submit"
           sx={{ marginTop: 2, alignItems: "center" }}
         />
       </Box>

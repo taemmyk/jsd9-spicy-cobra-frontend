@@ -17,15 +17,18 @@ import Membership from "./pages/Membership";
 import Dashboard from "./pages/Dashboard";
 import ProductList from "./components/products/ProductList";
 
+import LoginCard from "./components/auth/LoginCard";
+import { Login } from "./pages/Login";
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
-    errorElement: (
-      <div>
-        <h1>404 - Page Not Found 🧙‍♂️</h1>
-      </div>
-    ),
+    // errorElement: (
+    //   <div>
+    //     <h1>404 - Page Not Found 🧙‍♂️</h1>
+    //   </div>
+    // ),
     children: [
       { path: "/", element: <Home /> },
       { path: "about", element: <About /> },
@@ -59,6 +62,7 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
       { path: "search", element: <ProductList /> },
+      { path: "login", element: <Login />}
     ],
   },
 ]);

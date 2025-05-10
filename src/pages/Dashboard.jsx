@@ -26,6 +26,7 @@ import CommunityTab from "../components/auth/CommunityTab";
 import ReportTab from "../components/auth/ReportTab";
 import InventoryTab from "../components/auth/InventoryTab";
 import ProfileTab from "../components/auth/ProfileTab";
+import LogoutTab from "../components/auth/LogoutTab";
 
 function Dashboard() {
   const theme = useTheme();
@@ -59,6 +60,8 @@ function Dashboard() {
       return <RateReviewIcon fontSize="small" sx={defaultIconSx} />;
     } else if (value === "inventory") {
       return <InventoryIcon fontSize="small" sx={defaultIconSx} />;
+    } else if(value === "logout") {
+      return < PersonIcon fontSize="small" sx={defaultIconSx} />
     }
     return null;
   };
@@ -181,6 +184,7 @@ function Dashboard() {
                     <TabSelectorCard value="inventory" label="Inventory" />
                     <TabSelectorCard value="report" label="Report" />
                     <TabSelectorCard value="profile" label="Profile" />
+                    <TabSelectorCard value="logout" label="Logout" />
                   </RadioGroup>
                 </FormControl>
               </Box>
@@ -238,6 +242,7 @@ function Dashboard() {
                         <TabSelectorCard value="inventory" label="Inventory" />
                         <TabSelectorCard value="report" label="Report" />
                         <TabSelectorCard value="profile" label="Profile" />
+                        <TabSelectorCard value="logout" label="Logout" />
                       </RadioGroup>
                     </FormControl>
                   </AccordionDetails>
@@ -263,6 +268,7 @@ function Dashboard() {
               {selectedTab === "report" && <ReportTab />}
               {selectedTab === "inventory" && <InventoryTab />}
               {selectedTab === "profile" && <ProfileTab />}
+              {selectedTab === "logout" && <LogoutTab />}
             </Box>
           </Box>
         </Container>
