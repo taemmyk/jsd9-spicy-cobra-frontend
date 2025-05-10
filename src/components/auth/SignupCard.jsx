@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+// import { useNavigate, Link } from "react-router-dom";
 import {
   Typography,
   Box,
@@ -14,14 +14,14 @@ import FormTextFieldWithIcon from "../common/FormTextFieldWithIcon";
 
 import {signupUser} from "../../services/authService.js"
 
-const SignupCard = () => {
+const SignupCard = ({ onSwitchToLogin }) => {
   const theme = useTheme();
 
-  const [email, setEmail] = useState();
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordMatchError, setPasswordMatchError] = useState("");
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // const handlePasswordChange = (event) => {
   //   setPassword(event.target.value);
@@ -53,7 +53,9 @@ const SignupCard = () => {
     try{
       const data = await signupUser({email, password, confirmPassword});
       console.log(data);
-      navigate("/dashboard")
+      if (onSwitchToLogin) {
+        onSwitchToLogin(); // เปลี่ยน state เป็น login แทน
+      }
     } catch(err) {
       console.error(err);
     }
