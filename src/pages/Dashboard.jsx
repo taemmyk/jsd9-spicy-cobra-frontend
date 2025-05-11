@@ -26,10 +26,20 @@ import CommunityTab from "../components/auth/CommunityTab";
 import ReportTab from "../components/auth/ReportTab";
 import InventoryTab from "../components/auth/InventoryTab";
 import ProfileTab from "../components/auth/ProfileTab";
-
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../services/AuthContext";
 function Dashboard() {
   const theme = useTheme();
   const [selectedTab, setSelectedTab] = useState("dashboard");
+  const { token } = useAuth();
+  const navigate = useNavigate();
+
+ useEffect(() => {
+    if (!token) {
+      navigate("/membership");
+    }
+  }, [token]);
+
 
   const handleTabChange = (event) => {
     setSelectedTab(event.target.value);
@@ -133,6 +143,7 @@ function Dashboard() {
   }, []);
   return (
     <>
+    
       <Box
         sx={{
           background: `linear-gradient(to right, ${theme.palette.background.layout} 50%, ${theme.palette.background.paper} 50%)`,

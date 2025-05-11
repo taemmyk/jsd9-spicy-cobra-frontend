@@ -20,10 +20,10 @@ import AddressForm from "./AddressForm";
 import PaymentForm from "./PaymentForm";
 import ButtonGeneric from "../common/ButtonGeneric";
 import ReviewOrderForm from "./ReviewOrderForm";
-
+import axios from "../../services/axiosInstance"
 import { CartContext } from "../contexts/CartContext";
 import Backdrop from "@mui/material/Backdrop";
-
+import { useNavigate } from "react-router-dom";
 const steps = ["Your address", "Payment details", "Review you order"];
 
 const ColorlibStepIconRoot = styled("div")(({ theme, ownerState }) => ({
@@ -62,58 +62,88 @@ function ColorlibStepIcon(props) {
 function CheckoutStepper({ onStepChange }) {
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
-  const { clearCart } = useContext(CartContext);
   const [open, setOpen] = useState(false);
   const [progress, setProgress] = useState(0);
   const [showButton, setShowButton] = useState(false);
+  const { cartItems, clearCart } = useContext(CartContext);
   const progressRef = useRef(null);
   const previousFocusRef = useRef(null);
+  const navigate = useNavigate();
+  const [latestOrders, setLatestOrders] = useState([]);
+const handleBack = () => {
+      const prevStep = activeStep - 1;
+      setActiveStep(prevStep);
+      if (onStepChange) {
+        onStepChange(prevStep);
+      }
+    };
+const handleClearCart = () => {
+      handleNext();
+      clearCart();
+    };
 
-  const handleNext = () => {
-    if (activeStep === 2) {
-      previousFocusRef.current = document.activeElement;
-      handleOpen();
-      return;
-    } else {
+
+
+    
+ const handleNext = async () => {
+  if (activeStep === 2) {
+    const token = localStorage.getItem("token");
+    try {
       const nextStep = activeStep + 1;
       setActiveStep(nextStep);
       if (onStepChange) {
         onStepChange(nextStep);
       }
-    }
-  };
+ 
 
-  const handleBack = () => {
-    const prevStep = activeStep - 1;
-    setActiveStep(prevStep);
-    if (onStepChange) {
-      onStepChange(prevStep);
-    }
-  };
 
-  const handleClearCart = () => {
-    handleNext();
-    clearCart();
-  };
 
-  const handleOpen = () => {
+   await axios.post(
+        "/orders",
+        { items: cartItems },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+    
+    const response = await axios.get("/orders", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    const orders = response.data;
+
+    
     previousFocusRef.current = document.activeElement;
     setOpen(true);
     setProgress(0);
     setShowButton(false);
 
-    progressRef.current = setInterval(() => {
-      setProgress((oldProgress) => {
-        if (oldProgress === 100) {
-          clearInterval(progressRef.current);
-          setShowButton(true);
-          return 100;
-        }
-        const diff = Math.random() * 15;
-        return Math.min(oldProgress + diff, 100);
-      });
-    }, 300);
-  };
+    setLatestOrders(orders)
+
+
+      progressRef.current = setInterval(() => {
+        setProgress((oldProgress) => {
+          if (oldProgress >= 100) {
+            clearInterval(progressRef.current);
+            setShowButton(true);
+            return 100;
+          }
+           const diff = Math.random() * 15;
+          return Math.min(oldProgress + diff, 100);
+        });
+      }, 300);
+    } catch (error) {
+      console.error("Error submitting order:", error);
+    }
+  } else {
+    const nextStep = activeStep + 1;
+    setActiveStep(nextStep);
+    if (onStepChange) {
+      onStepChange(nextStep);
+    }
+  }
+};
 
   const handleClose = () => {
     setOpen(false);
@@ -128,9 +158,11 @@ function CheckoutStepper({ onStepChange }) {
     }
   };
 
-  const handleContinue = () => {
-    handleClose();
-  };
+ const handleContinue = () => {
+  handleClose();
+  navigate("/dashboard", { state: { orders: latestOrders } });
+};
+
 
   useEffect(() => {
     return () => {

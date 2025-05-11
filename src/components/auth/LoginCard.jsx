@@ -1,33 +1,67 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Box,
   Typography,
   FormControlLabel,
+  Alert,
 } from "@mui/material";
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from "@mui/material/styles";
 import EmailIcon from "@mui/icons-material/Email";
 import FormCheckbox from "../common/FormCheckbox";
-import ButtonGeneric from "../common/ButtonGeneric";
 import FormTextFieldWithIcon from "../common/FormTextFieldWithIcon";
+import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../services/axiosInstance";
+import { useAuth } from "../../services/AuthContext";
+
 
 const LoginCard = () => {
   const theme = useTheme();
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
   };
+console.log(formData)
+  const handleSubmit = (e) => {
+    e.preventDefault(); // ป้องกัน reload หน้า
+    handleLogin();      // เรียกไปล็อกอินจริงๆ
+  };
+  const handleLogin = async () => {
+    try {
+      const res = await axiosInstance.post("/auth/login", {
+        email: formData.email,
+        password: formData.password,
+      });
+      console.log(res.data)
+      localStorage.setItem("token", res.data.token);
+      navigate("/"); 
+    } catch (err) {
+      console.error("Login failed", err);
+      setError("Login failed. Please check your email or password.");
+    }
+  };
+
+
+
 
   return (
     <>
-      <Typography
-        fontSize={"1.5rem"}
-        fontWeight="bold"
-        textAlign={"center"}
-        mb={2}
-      >
+      <Typography fontSize={"1.5rem"} fontWeight="bold" textAlign={"center"} mb={2}>
         Login to Your
         <span style={{ color: theme.palette.secondary.light }}> Account</span>
       </Typography>
+
       <Box
         component="form"
         onSubmit={handleSubmit}
@@ -42,10 +76,12 @@ const LoginCard = () => {
         <FormTextFieldWithIcon
           id="email"
           name="email"
-          label="Email address"
-          type="email"
-          placeholder="Email address"
+          label="email"
+          type="text"
+          placeholder="email"
           required
+          value={formData.email}
+          onChange={handleChange}
           icon={<EmailIcon sx={{ color: theme.palette.secondary.light }} />}
         />
 
@@ -54,9 +90,11 @@ const LoginCard = () => {
           name="password"
           label="Password"
           type="password"
-          placeholder="password"
+          placeholder="Password"
           required
           isPasswordToggle={true}
+          value={formData.password}
+          onChange={handleChange}
         />
 
         <Box
@@ -84,11 +122,27 @@ const LoginCard = () => {
           </Button>
         </Box>
 
-        <ButtonGeneric
-          label="Sign in"
-          to="/dashboard"
-          sx={{ marginTop: 2, alignItems: "center" }}
-        />
+        {error && (
+          <Alert severity="error" sx={{ width: "100%", mb: 2 }}>
+            {error}
+          </Alert>
+        )}
+
+        <Button
+          type="submit"
+          variant="contained"
+          sx={{
+            mt: 2,
+            backgroundColor: theme.palette.secondary.light,
+            color: "white",
+            paddingX: 5,
+            paddingY: 1,
+            borderRadius: 3,
+            textTransform: "none",
+          }}
+        >
+          Sign in
+        </Button>
       </Box>
     </>
   );

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef ,useState } from "react";
 import {
   Box,
   Typography,
@@ -16,13 +16,16 @@ import SwiperPerViewAuto from "../components/common/SwiperPerViewAuto";
 import SwiperAutoplay from "../components/common/SwiperAutoplay";
 import SwiperGrid from "../components/common/SwiperGrid";
 import { animate, stagger } from "motion";
-
+import axiosInstance from "../services/axiosInstance";
 import products from "../data/products.json";
 import { newsItems } from "../data/misc";
+import axiosInstance from "../services/axiosInstance";
 
 const Home = () => {
-  const recommendedGames = products.slice(0, 5);
-
+  const [productsData, setProductsData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const recommendedGames = productsData.slice(0, 5);
   const textRef = useRef([]);
   const text1 = `Unleash your indie game. Limitless creativity`;
 
@@ -41,6 +44,27 @@ const Home = () => {
       );
     }
   }, []);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await axiosInstance.get("/products");
+        setProductsData(res.data);
+        setError("");
+      } catch (err) {
+        console.error("❌ Failed to fetch products:", err);
+        setError("Failed to load products");
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchProducts();
+  }, []);
+  
+
+
+  
 
   const splitWords = (text, ref) => {
     const sentences = text.split(". ").filter(Boolean);
@@ -172,7 +196,7 @@ const Home = () => {
             <Paper elevation={3} />
             <Heading section="For you" />
             <Box sx={{ marginLeft: 4, marginRight: 4 }}>
-              <SwiperGrid products={products} />
+              <SwiperGrid products={productsData} />
             </Box>
           </Box>
         </Container>

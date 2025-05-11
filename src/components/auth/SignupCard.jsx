@@ -10,9 +10,15 @@ import EmailIcon from "@mui/icons-material/Email";
 import FormCheckbox from "../common/FormCheckbox";
 import ButtonGeneric from "../common/ButtonGeneric";
 import FormTextFieldWithIcon from "../common/FormTextFieldWithIcon";
+import { data, useNavigate } from "react-router-dom"
+import axios from "../../services/axiosInstance";
+import axiosInstance from "../../services/axiosInstance";
 
 const SignupCard = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [birthday, setBirthday] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordMatchError, setPasswordMatchError] = useState("");
@@ -36,13 +42,40 @@ const SignupCard = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       setPasswordMatchError("Passwords do not match");
       return;
     }
+
+
+    try {
+      const res = await axiosInstance.post("/auth/register", {
+        email,
+        password,
+        birthday,
+      });
+      
+      if (res.data.success) {
+        localStorage.setItem("token", res.data.token);
+        navigate("/membership");
+      } else {
+        alert("Registration failed: " + res.data.message);
+      }
+    } catch (error) {
+      console.error("Registration error:", error);
+      if (error.response?.data?.message) {
+        alert("Error: " + error.response.data.message);
+      } else {
+        alert("Something went wrong. Please try again.");
+      }
+    }
   };
+
+
+
+
 
   return (
     <>
@@ -72,6 +105,8 @@ const SignupCard = () => {
           label="Email address"
           type="email"
           placeholder="Email address"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
           icon={<EmailIcon sx={{ color: theme.palette.secondary.light }} />}
         />
@@ -124,6 +159,9 @@ const SignupCard = () => {
           type="date"
           placeholder="MM/DD/YYYY"
           required
+          value={birthday}
+          onChange={(e) => setBirthday(e.target.value)}
+
         />
 
         <FormControlLabel
@@ -138,9 +176,10 @@ const SignupCard = () => {
 
         <ButtonGeneric
           label="Sign up"
-          to="/dashboard"
+          type="submit"
           sx={{ marginTop: 2, alignItems: "center" }}
         />
+
       </Box>
     </>
   );

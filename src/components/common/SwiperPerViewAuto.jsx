@@ -21,7 +21,7 @@ function SlidesPerViewAuto({ products }) {
         {products.map((product, index) => (
           <SwiperSlide key={index}>
             <Link
-              to={`/games/${product.product_id}`}
+              to={`/games/${product.products_id}`}
               style={{ textDecoration: "none" }}
             >
               <img

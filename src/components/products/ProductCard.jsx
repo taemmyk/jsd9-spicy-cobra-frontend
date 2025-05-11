@@ -16,9 +16,16 @@ import calculateSalePrice from "../../utils/calculateSalePrice";
 
 function ProductCard({ product }) {
   const theme = useTheme();
-  const currentPrice = product ? calculateSalePrice(product) : null;
+ 
   const [ratingValue] = useState(parseFloat(product?.rating) || 0);
-
+  const price = Number(product.price);
+  const discount = Number(product.discountPercentage);
+  
+  const currentPrice =
+    !isNaN(price) && !isNaN(discount) && discount > 0
+      ? price * ((100 - discount) / 100)
+      : price;
+  
   if (!product) {
     return null;
   }
@@ -26,7 +33,7 @@ function ProductCard({ product }) {
   return (
     <>
       <Link
-        to={`/games/${product.product_id}`}
+        to={`/games/${product._id}`}
         style={{ textDecoration: "none" }}
       >
         <Card sx={{ borderRadius: 4 }}>
@@ -38,7 +45,7 @@ function ProductCard({ product }) {
                 flexDirection: "column",
               }}
             >
-              {product.discount_percentage > 0 && (
+              {product.discountPercentage > 0 && (
                 <Box
                   sx={{
                     position: "absolute",
@@ -50,7 +57,7 @@ function ProductCard({ product }) {
                   }}
                 >
                   <Typography variant="saleTag">
-                    {product.discount_percentage}%
+                    {product.discountPercentage}%
                   </Typography>
                 </Box>
               )}
@@ -76,19 +83,16 @@ function ProductCard({ product }) {
                   padding: theme.spacing(1, 2),
                 }}
               >
-                {product.discount_percentage > 0 &&
-                  product.price !== undefined && (
-                    <Typography
-                      variant="strikePriceTag"
-                      sx={{ textDecoration: "line-through" }}
-                    >
-                      ฿{product.price}
-                    </Typography>
-                  )}
-                <Typography variant="priceTag">
-                  {" "}
-                  ฿{currentPrice !== null ? currentPrice : "N/A"}
-                </Typography>
+                {!isNaN(price) && discount > 0 && (
+  <Typography variant="strikePriceTag" sx={{ textDecoration: "line-through" }}>
+    ฿{price.toFixed(2)}
+  </Typography>
+)}
+
+<Typography variant="priceTag">
+  ฿{!isNaN(currentPrice) ? currentPrice.toFixed(2) : "N/A"}
+</Typography>
+
               </Box>
             </Box>
             <CardContent
@@ -108,7 +112,7 @@ function ProductCard({ product }) {
               >
                 <Avatar
                   alt={product.developer}
-                  src={product.developer_avatar}
+                  src={product.developerAvatar}
                   sx={{ width: 48, height: 48, objectFit: "cover" }}
                 />
                 <Typography variant="body3">{product.developer}</Typography>

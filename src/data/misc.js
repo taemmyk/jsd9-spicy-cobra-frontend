@@ -89,6 +89,36 @@ export const communityItems = [
 
 import productsData from "../data/products.json";
 
+export const myOders = [
+  {
+    order_id: "#1234567",
+    createAt: 1279308713,
+    product: productsData[2],
+    // reviews: [...review]  // review only product id match
+  },
+  {
+    product: productsData[8],
+    // reviews: [...review] // review only product id match
+  }
+];
+
+// const review = [
+//   {
+//     userId: 1,
+//     productsData: 2432,
+//     review:
+//       "Once you play it for 30 mins above and understand the mechanics of how to make your friend angry, this game is good. Give it a try with 1 or 2 of your friends (with a mic) in a public match!",
+//     rate: 4,
+//   },
+//   {
+//     userId: 5,
+//     productsData: 2432,
+//     review:
+//       "dsaklnj",
+//     rate: 2,
+//   },
+// ];
+
 export const reviewItems = [
   {
     product: productsData[2],
@@ -104,74 +134,91 @@ export const reviewItems = [
   },
 ];
 
+
+
+
 export const devlogItems = [
   {
-    imageUrl: "https://img.itch.zone/aW1nLzIwNDI3NDAwLnBuZw==/350x196%23cm/e8RO9n.png",
+    imageUrl:
+      "https://img.itch.zone/aW1nLzIwNDI3NDAwLnBuZw==/350x196%23cm/e8RO9n.png",
     altText: "Special Giveaway",
     tag: "Marketing",
     title: "Special Giveaway",
     gameCollection: "The Motel",
-    developerAvatarUrl: "https://pbs.twimg.com/profile_images/1895194033888075776/iqkW1cX5_400x400.jpg",
+    developerAvatarUrl:
+      "https://pbs.twimg.com/profile_images/1895194033888075776/iqkW1cX5_400x400.jpg",
     developerName: "Aura Studios",
     developerAltText: "Aura Studios",
   },
   {
-    imageUrl: "https://img.itch.zone/aW1nLzIwOTQyMzczLnBuZw==/350x196%23cm/ClLCwv.png",
+    imageUrl:
+      "https://img.itch.zone/aW1nLzIwOTQyMzczLnBuZw==/350x196%23cm/ClLCwv.png",
     altText: "New Update Released",
     tag: "Development",
     title: "Version 1.3.3 Patch Notes",
     gameCollection: "Starlight Adventures",
-    developerAvatarUrl: "https://yt3.googleusercontent.com/ytc/AL5GRJXW0b274qL-4aY74gX0_Z0jF8jJv9c9P1v9=s900-c-k-c0x00ffffff-no-rj",
+    developerAvatarUrl:
+      "https://yt3.googleusercontent.com/ytc/AL5GRJXW0b274qL-4aY74gX0_Z0jF8jJv9c9P1v9=s900-c-k-c0x00ffffff-no-rj",
     developerName: "Cosmic Games",
     developerAltText: "Cosmic Games",
   },
   {
-    imageUrl: "https://img.itch.zone/aW1hZ2UvMjM2NTUwMC8yMDk0OTQzNS5naWY=/350x196%23cm/IG7ZLA.gif",
+    imageUrl:
+      "https://img.itch.zone/aW1hZ2UvMjM2NTUwMC8yMDk0OTQzNS5naWY=/350x196%23cm/IG7ZLA.gif",
     altText: "Battle Background: Town",
     tag: "Major Update",
     title: "Battle Background: Town",
     gameCollection: "Gothicvania Collection",
-    developerAvatarUrl: "https://pbs.twimg.com/profile_images/1272969808007626762/XhUQYtqO_400x400.png",
+    developerAvatarUrl:
+      "https://pbs.twimg.com/profile_images/1272969808007626762/XhUQYtqO_400x400.png",
     developerName: "ansimuz",
     developerAltText: "ansimuz",
   },
   {
-    imageUrl: "https://img.itch.zone/aW1nLzIxMDEzMTg3LmpwZw==/350x196%23cm/2Lo4bT.jpg",
+    imageUrl:
+      "https://img.itch.zone/aW1nLzIxMDEzMTg3LmpwZw==/350x196%23cm/2Lo4bT.jpg",
     altText: "Patch Notes-1.1",
     tag: "Major Update",
     title: "Patch Notes-1.1",
     gameCollection: "Solar Sandbox",
-    developerAvatarUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCxEebn7U-GMZyg4sljOOqODRDd6UA2EY-9g&s",
+    developerAvatarUrl:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCxEebn7U-GMZyg4sljOOqODRDd6UA2EY-9g&s",
     developerName: "totoriel",
     developerAltText: "totoriel",
   },
   {
-    imageUrl: "https://img.itch.zone/aW1hZ2UvNzk1NDgxLzQ0NTM0NDAuanBn/350x196%23cm/93smb4.jpg",
+    imageUrl:
+      "https://img.itch.zone/aW1hZ2UvNzk1NDgxLzQ0NTM0NDAuanBn/350x196%23cm/93smb4.jpg",
     altText: "5 Things you didn't know about Dwarf Mine",
     tag: "Game Design",
     title: "5 Things you didn't know about",
     gameCollection: "Dwarf Mine",
-    developerAvatarUrl: "https://yt3.googleusercontent.com/ytc/AIdro_mSy6W39sMICqXHuuINngvP4QF9FV7bMO4r5idj_CbqWg=s160-c-k-c0x00ffffff-no-rj",
+    developerAvatarUrl:
+      "https://yt3.googleusercontent.com/ytc/AIdro_mSy6W39sMICqXHuuINngvP4QF9FV7bMO4r5idj_CbqWg=s160-c-k-c0x00ffffff-no-rj",
     developerName: "Paper Dice Games",
     developerAltText: "Paper Dice Games",
   },
   {
-    imageUrl: "https://img.itch.zone/aW1nLzIwMzQ1Mjc1LnBuZw==/350x196%23cm/OAb%2Fzn.png",
+    imageUrl:
+      "https://img.itch.zone/aW1nLzIwMzQ1Mjc1LnBuZw==/350x196%23cm/OAb%2Fzn.png",
     altText: "Optimisation",
     tag: "Tech Discussion",
     title: "Optimisation",
     gameCollection: "Shark Turtle",
-    developerAvatarUrl: "https://pbs.twimg.com/profile_images/928339899480240128/RMWHeTkx_400x400.jpg",
+    developerAvatarUrl:
+      "https://pbs.twimg.com/profile_images/928339899480240128/RMWHeTkx_400x400.jpg",
     developerName: "gingerbeardman",
     developerAltText: "gingerbeardman",
   },
   {
-    imageUrl: "https://img.itch.zone/aW1nLzE5OTU5NzE4LnBuZw==/350x196%23cm/T%2BKqTT.png",
+    imageUrl:
+      "https://img.itch.zone/aW1nLzE5OTU5NzE4LnBuZw==/350x196%23cm/T%2BKqTT.png",
     altText: "v1.08 Chinese Translation",
     tag: "Announcement",
     title: "v1.08 Chinese Translation",
     gameCollection: "Dawntide",
-    developerAvatarUrl: "https://pbs.twimg.com/profile_images/1692910103194718208/h05gLAGW_400x400.jpg",
+    developerAvatarUrl:
+      "https://pbs.twimg.com/profile_images/1692910103194718208/h05gLAGW_400x400.jpg",
     developerName: "Choob",
     developerAltText: "Choob",
   },

@@ -58,7 +58,7 @@ function CartItemCard({ product, onRemove }) {
           {product.title}
         </Typography>
         <Typography variant="body3" fontWeight="semibold">
-          ฿{currentPrice.toFixed(2)}
+          ฿{product.price}
         </Typography>
       </MotionBox>
 

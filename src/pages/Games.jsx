@@ -13,17 +13,23 @@ import { useTheme } from "@mui/material/styles";
 import ProductCard from "../components/products/ProductCard";
 import Heading from "../components/common/Heading";
 import SearchInput from "../components/common/SearchInput";
-import ProductsData from "../data/products.json";
+// import ProductsData from "../data/products.json";
 import GenresData from "../data/genre.json";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
 import SelectorCard from "../components/common/SelectorCard";
 import { motion, useAnimate } from "framer-motion";
+import axios from "../services/axiosInstance"
+
 
 const MotionBox = motion.create(Box);
 const genres = GenresData.map((genre) => genre.genre_name);
 
 function Games() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
   const theme = useTheme();
   const [selectedGenre, setSelectedGenre] = useState("View All");
   const [searchText, setSearchText] = useState("");
@@ -106,7 +112,7 @@ function Games() {
           selectedGenre === "View All"
             ? "Explore a wide variety of your next favorite games across different genres!"
             : selectedGenreData?.description ||
-                `Information about the ${selectedGenre} genre will be displayed here.`
+            `Information about the ${selectedGenre} genre will be displayed here.`
         );
         animate(
           scope.current,
@@ -117,18 +123,24 @@ function Games() {
     }
   }, [animateDescription, selectedGenre, animate, scope]);
 
-  const filteredProducts = useMemo(() => {
-    if (selectedGenre === "View All") {
-      return ProductsData;
-    }
-    return ProductsData.filter((product) => {
-      return (
-        product.genre_id_1 === selectedGenre ||
-        product.genre_id_2 === selectedGenre ||
-        product.genre_id_3 === selectedGenre
-      );
-    });
-  }, [selectedGenre]);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await axios.get("http://localhost:5000/products");
+        setProducts(response.data);
+      } catch (err) {
+        setError("Failed to load products.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchProducts();
+  }, []);
+  
 
   return (
     <>
@@ -280,27 +292,39 @@ function Games() {
         </Container>
       </Box>
       {/* Product Grid */}
-      <Container maxWidth="xl">
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: {
-              xs: "repeat(1, 1fr)",
-              sm: "repeat(2, 1fr)",
-              md: "repeat(3, 1fr)",
-            },
-            gap: {
-              xs: 2,
-              md: 4,
-            },
-            margin: 4,
-          }}
-        >
-          {filteredProducts.map((item) => (
-            <ProductCard key={item.product_id} product={item} />
-          ))}
-        </Box>
-      </Container>
+      {/* Product Grid */}
+<Container maxWidth="xl">
+  {loading ? (
+    <Typography variant="h6" align="center" sx={{ mt: 4 }}>
+      Loading products...
+    </Typography>
+  ) : error ? (
+    <Typography variant="h6" color="error" align="center" sx={{ mt: 4 }}>
+      {error}
+    </Typography>
+  ) : (
+    <Box
+      sx={{
+        display: "grid",
+        gridTemplateColumns: {
+          xs: "repeat(1, 1fr)",
+          sm: "repeat(2, 1fr)",
+          md: "repeat(3, 1fr)",
+        },
+        gap: {
+          xs: 2,
+          md: 4,
+        },
+        margin: 4,
+      }}
+    >
+      {products.map((item) => (
+        <ProductCard key={item._id} product={item} />
+      ))}
+    </Box>
+  )}
+</Container>
+
     </>
   );
 }

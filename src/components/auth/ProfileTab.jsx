@@ -14,9 +14,12 @@ import Heading from "../common/Heading";
 import ButtonGeneric from "../common/ButtonGeneric";
 import FormTextField from "../common/FormTextField";
 import DividerGeneric from "../common/DividerGeneric";
+import axios from "../../services/axiosInstance";
+import { useEffect } from "react";
 
 export default function ProfileTab() {
   const theme = useTheme();
+  const [user, setUser] = useState(null);
   const avatarFileInputRef = useRef(null);
   const [avatarImage, setAvatarImage] = useState(
     "https://placehold.co/50x50/DBDBDB/DBDBDB"
@@ -51,6 +54,25 @@ export default function ProfileTab() {
       setExpirationDate(formattedValue);
     }
   };
+
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get("/user");
+        setUser(response.data);
+      
+        if (response.data.avatar) {
+          setAvatarImage(response.data.avatar);
+        }
+      } catch (error) {
+        console.error("Failed to fetch user profile:", error);
+      }
+    };
+  
+    fetchUser();
+  }, []);
+  
   return (
     <>
       <Box
@@ -96,7 +118,8 @@ export default function ProfileTab() {
               onChange={handleAvatarFileChange}
             />
             <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <Typography variant="h5">username@mail.com</Typography>
+            <Typography variant="h5">{user?.email || "Loading..."}</Typography>
+
               <Typography variant="body1">
                 <VerifiedIcon sx={{ color: theme.palette.secondary.light }} />{" "}
                 Verified developer

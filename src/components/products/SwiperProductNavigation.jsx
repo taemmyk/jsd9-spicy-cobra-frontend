@@ -5,20 +5,20 @@ import "swiper/css/navigation";
 import "../common/swiperStyles.css";
 import { Navigation } from "swiper/modules";
 
-function SwiperProductNavigation({ product }) {
+function SwiperproductsNavigation({ products }) {
   const imagesToShow = [
-    product.image_thumbnail,
-    product.image_show_1,
-    product.image_show_2,
-    product.image_show_3,
+    products.image_thumbnail,
+    products.image_show_1,
+    products.image_show_2,
+    products.image_show_3,
   ].filter(Boolean);
 
   return (
     <>
-      <Swiper navigation={true} modules={[Navigation]} className="swiper-product">
+      <Swiper navigation={true} modules={[Navigation]} className="swiper-products">
         {imagesToShow.map((image, index) => (
           <SwiperSlide key={index}>
-            <img src={image} alt={`${product.title} ${index + 1}`} loading="lazy"/>
+            <img src={image} alt={`${products.title} ${index + 1}`} loading="lazy"/>
           </SwiperSlide>
         ))}
       </Swiper>
@@ -26,4 +26,4 @@ function SwiperProductNavigation({ product }) {
   );
 }
 
-export default SwiperProductNavigation;
+export default SwiperproductsNavigation;

@@ -16,7 +16,7 @@ import Checkout from "./pages/Checkout";
 import Membership from "./pages/Membership";
 import Dashboard from "./pages/Dashboard";
 import ProductList from "./components/products/ProductList";
-
+import { AuthProvider } from "./services/AuthContext";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -35,7 +35,7 @@ const router = createBrowserRouter([
         element: <Games />,
       },
       {
-        path: "/games/:gameId",
+        path: "games/:id",
         element: <GameDetail />,
       },
       {
@@ -66,7 +66,9 @@ const router = createBrowserRouter([
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
     </ThemeProvider>
   );
 }

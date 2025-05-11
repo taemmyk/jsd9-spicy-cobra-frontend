@@ -4,16 +4,16 @@ import { Button } from "@mui/material";
 import { useTheme } from '@mui/material/styles';
 import { Link } from "react-router-dom";
 
-function ButtonGeneric({ label, onClick, disabled, to, sx: customSx }) {
+function ButtonGeneric({ label, onClick, disabled, to, type = "button", sx: customSx }) {
   const theme = useTheme();
 
   const defaultSx = {
     bgcolor: theme.palette.secondary.light,
     color: theme.palette.secondary.contrastText,
-    fontSize: {xs: "1rem", md:"1.25rem"},
+    fontSize: { xs: "1rem", md: "1.25rem" },
     fontWeight: "400",
-    paddingX: {xs: 1, md: 2},
-    paddingY: {xs: 0, md: 1},
+    paddingX: { xs: 1, md: 2 },
+    paddingY: { xs: 0, md: 1 },
     borderRadius: 8,
     boxShadow: 2,
     whiteSpace: 'nowrap',
@@ -28,7 +28,7 @@ function ButtonGeneric({ label, onClick, disabled, to, sx: customSx }) {
 
   return (
     <>
-      {to ? (
+      {to && type !== "submit" ? (
         <Link to={to} style={{ textDecoration: "none" }}>
           <Button
             variant="contained"
@@ -45,10 +45,12 @@ function ButtonGeneric({ label, onClick, disabled, to, sx: customSx }) {
           onClick={onClick}
           disabled={disabled}
           sx={combinedSx}
+          type={type}
         >
           {label}
         </Button>
       )}
+
     </>
   );
 }

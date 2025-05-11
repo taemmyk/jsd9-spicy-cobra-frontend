@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
+import axios from "../../services/axiosInstance"
 import { Box, IconButton } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Heading from "../../components/common/Heading";
 import SearchInput from "../../components/common/SearchInput";
 import ClearIcon from "@mui/icons-material/Clear";
+import { useLocation } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
-import productsData from "../../data/products.json";
+
 import {
   Card,
   CardActionArea,
@@ -18,8 +20,10 @@ import {
 
 function DashboardTab() {
   const theme = useTheme();
+  const location = useLocation();
+  const orders = location.state?.orders || [];
   const [searchText, setSearchText] = useState("");
-  const newSelectedProducts = [productsData[2], productsData[8]];
+  const [games, setGames] = useState([]); 
 
   const inputRef = useRef(null);
 
@@ -36,13 +40,27 @@ function DashboardTab() {
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
+   
   };
 
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
     }
+
+    
+    const fetchGames = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/products"); 
+        setGames(res.data); 
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchGames();
   }, []);
+
   return (
     <Box
       sx={{
@@ -96,6 +114,7 @@ function DashboardTab() {
           </IconButton>
         </Box>
       </Box>
+
       <Box
         sx={{
           display: "grid",
@@ -112,7 +131,7 @@ function DashboardTab() {
           marginRight: 4,
         }}
       >
-        {newSelectedProducts.map((game, index) => (
+        {games.map((game, index) => (
           <Card key={index} sx={{ borderRadius: 4 }}>
             <CardActionArea>
               <Box
@@ -127,10 +146,7 @@ function DashboardTab() {
                   height="auto"
                   image={game.image_thumbnail}
                   alt={game.title}
-                  sx={{
-                    width: "100%",
-                    objectFit: "cover",
-                  }}
+                  sx={{ width: "100%", objectFit: "cover" }}
                   loading="lazy"
                 />
               </Box>
@@ -159,6 +175,7 @@ function DashboardTab() {
             </CardActionArea>
           </Card>
         ))}
+        
       </Box>
     </Box>
   );

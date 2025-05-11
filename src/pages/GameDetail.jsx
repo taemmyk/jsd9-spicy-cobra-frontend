@@ -20,25 +20,25 @@ import ButtonGeneric from "../components/common/ButtonGeneric";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import SwiperProductNavigation from "../components/products/SwiperProductNavigation";
-import products from "../data/products.json";
+
 import Heading from "../components/common/Heading";
 import { CartContext } from "../components/contexts/CartContext";
 import calculateSalePrice from "../utils/calculateSalePrice";
 import SwiperPerViewAuto from "../components/common/SwiperPerViewAuto";
 import { systemRequirements } from "../data/misc";
 import { motion } from "framer-motion";
-
+import axios from "../services/axiosInstance";
 const MotionBox = motion.create(Box);
 
 function GameDetail() {
   const theme = useTheme();
-  const { gameId } = useParams();
+  const { id } = useParams();
   const [gameData, setGameData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { items, addItem } = useContext(CartContext);
   const navigate = useNavigate();
-
+const [recommendedGames,setRecommendedGames]= useState([])
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [thumbsupCount, setThumbsupCount] = useState(
     Math.max(100, Math.floor(Math.random() * 99999))
@@ -46,11 +46,23 @@ function GameDetail() {
   const [thumbsdownCount, setThumbsdownCount] = useState(
     Math.floor(thumbsupCount * Math.random() * 0.1)
   );
-
-  const recommendedGames = products
-    .filter((product) => product.product_id !== gameId)
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 3);
+  useEffect(() => {
+    const fetchRecommendedGames = async () => {
+      try {
+        const res = await axios.get(`/products`);
+        const recommended = res.data
+          .filter((product) => product._id !== id)
+          .sort(() => Math.random() - 0.5)
+          .slice(0, 3);
+        setRecommendedGames(recommended);
+      } catch (err) {
+        console.error("Failed to fetch recommended games:", err);
+      }
+    };
+  
+    fetchRecommendedGames();
+  }, [id]); 
+  
 
   const handleAddToCart = () => {
     addItem(gameData);
@@ -89,28 +101,34 @@ function GameDetail() {
   };
 
   const systemRequirementMock = systemRequirements();
-
+  
   useEffect(() => {
-    try {
-      const targetProduct = products.find((game) => game.product_id === gameId);
+    const fetchGameData = async () => {
+      setLoading(true);
+      setError(null);
+  
+      try {
+        const response = await axios.get(`/products/${id}`);
+        
 
-      if (targetProduct) {
-        setGameData(targetProduct);
-        setLoading(false);
-      } else {
-        setError("Game not found.");
+        setGameData(response.data);
+      } catch (err) {
+        setError("Error loading game data.");
+        console.error(err);
+      } finally {
         setLoading(false);
       }
-    } catch (err) {
-      setError("Error loading game data.", err);
-      setLoading(false);
-    }
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
-  }, [gameId]);
+  
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
+    };
+  
+    fetchGameData();
+  }, [id]);
+  
 
   if (loading) {
     return <div>Loading game details...</div>;
@@ -142,7 +160,7 @@ function GameDetail() {
                 flexGrow: 1,
               }}
             >
-              <SwiperProductNavigation product={gameData} />
+              <SwiperProductNavigation products={gameData} />
             </Box>
             <Box
               sx={{
@@ -165,7 +183,7 @@ function GameDetail() {
                   gap: 2,
                 }}
               >
-                {gameData.discount_percentage > 0 && (
+                {gameData.discountPercentage > 0 && (
                   <Card
                     sx={{
                       backgroundColor: "transparent",
@@ -180,7 +198,7 @@ function GameDetail() {
                         fontWeight: "600",
                       }}
                     >
-                      {gameData.discount_percentage}%
+                      {gameData.discountPercentage}%
                     </Typography>
                   </Card>
                 )}
@@ -241,13 +259,13 @@ function GameDetail() {
               </Box>
               {/* Price */}
               <Box sx={{ display: "flex", gap: 2 }}>
-                {gameData.discount_percentage > 0 ? (
+                {gameData.discountPercentage > 0 ? (
                   <>
                     <Typography
                       variant="body1"
                       sx={{ color: theme.palette.secondary.light }}
                     >
-                      ฿{calculateSalePrice(gameData)}
+                      ฿{gameData.price}
                     </Typography>
                     <Typography
                       variant="body1"
