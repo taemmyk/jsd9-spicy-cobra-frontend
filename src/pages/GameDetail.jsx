@@ -91,20 +91,32 @@ function GameDetail() {
   const systemRequirementMock = systemRequirements();
 
   useEffect(() => {
-    try {
-      const targetProduct = products.find((game) => game.product_id === gameId);
-
-      if (targetProduct) {
-        setGameData(targetProduct);
-        setLoading(false);
-      } else {
-        setError("Game not found.");
+    const fetchGameData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        //  const response = await api.get(`/products/${gameId}`); TODO:
+        const response = await fetch(
+          `http://localhost:3001/products/${gameId}`
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new Error("Received non-JSON response from server.");
+        }
+        const data = await response.json();
+        setGameData(data);
+      } catch (err) {
+        setError("Error loading game data.");
+        console.error("Fetch error:", err);
+      } finally {
         setLoading(false);
       }
-    } catch (err) {
-      setError("Error loading game data.", err);
-      setLoading(false);
-    }
+    };
+
+    fetchGameData();
     window.scrollTo({
       top: 0,
       left: 0,
@@ -165,7 +177,7 @@ function GameDetail() {
                   gap: 2,
                 }}
               >
-                {gameData.discount_percentage > 0 && (
+                {gameData.discountPercentage > 0 && (
                   <Card
                     sx={{
                       backgroundColor: "transparent",
@@ -180,68 +192,35 @@ function GameDetail() {
                         fontWeight: "600",
                       }}
                     >
-                      {gameData.discount_percentage}%
+                      {gameData.discountPercentage}%
                     </Typography>
                   </Card>
                 )}
-                <Card
-                  sx={{
-                    backgroundColor: "transparent",
-                    border: "solid 1px #D1B6FF",
-                    padding: 1,
-                  }}
-                >
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      color: theme.palette.secondary.light,
-                      fontSize: "0.85rem",
-                    }}
-                  >
-                    {gameData.genre_id_1}
-                  </Typography>
-                </Card>
-                {gameData.genre_id_2 && (
-                  <Card
-                    sx={{
-                      backgroundColor: "transparent",
-                      border: "solid 1px #D1B6FF",
-                      padding: 1,
-                    }}
-                  >
-                    <Typography
+                {Array.isArray(gameData.genres) &&
+                  gameData.genres.map((genre) => (
+                    <Card
+                      key={genre._id}
                       sx={{
-                        color: theme.palette.secondary.light,
-                        fontSize: "0.85rem",
+                        backgroundColor: "transparent",
+                        border: "solid 1px #D1B6FF",
+                        padding: 1,
                       }}
                     >
-                      {gameData.genre_id_2}
-                    </Typography>
-                  </Card>
-                )}
-                {gameData.genre_id_3 && (
-                  <Card
-                    sx={{
-                      backgroundColor: "transparent",
-                      border: "solid 1px #D1B6FF",
-                      padding: 1,
-                    }}
-                  >
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        color: theme.palette.secondary.light,
-                        fontSize: "0.85rem",
-                      }}
-                    >
-                      {gameData.genre_id_3}
-                    </Typography>
-                  </Card>
-                )}
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: theme.palette.secondary.light,
+                          fontSize: "0.85rem",
+                        }}
+                      >
+                        {genre.genreName}
+                      </Typography>
+                    </Card>
+                  ))}
               </Box>
               {/* Price */}
               <Box sx={{ display: "flex", gap: 2 }}>
-                {gameData.discount_percentage > 0 ? (
+                {gameData.discountPercentage > 0 ? (
                   <>
                     <Typography
                       variant="body1"
@@ -370,7 +349,7 @@ function GameDetail() {
                     textTransform: "uppercase",
                   }}
                 >
-                  {gameData.developer}
+                  {gameData.developerName}
                 </Typography>
                 <Typography
                   variant="body3"
@@ -469,7 +448,7 @@ function GameDetail() {
                     fontFamily: "Roboto Condensed",
                   }}
                 >
-                  {gameData.release_date}
+                  {gameData.releaseDate}
                 </Typography>
               </Box>
             </Box>
