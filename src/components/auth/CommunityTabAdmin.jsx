@@ -16,6 +16,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useTheme } from "@mui/material/styles";
 import FormTextField from "../common/FormTextField";
 import FormRadioField from "../common/FormRadioField";
+import ButtonGeneric from "../common/ButtonGeneric";
+import DividerGeneric from "../common/DividerGeneric";
 import api from "../../services/api";
 
 const paginationModel = { page: 0, pageSize: 10 };
@@ -27,6 +29,8 @@ function CommunityTabAdmin() {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchField, setSearchField] = useState("username");
+  const [newAdmin, setNewAdmin] = useState("");
+  const [isNewAdminEmailValid, setIsNewAdminEmailValid] = useState(false); // State สำหรับตรวจสอบความถูกต้องของอีเมล
 
   const handleSearchFieldChange = (event) => {
     setSearchField(event.target.value);
@@ -61,6 +65,24 @@ function CommunityTabAdmin() {
       setUsers(users);
     }
   };
+
+  const handleNewAdminChange = (event) => {
+    setNewAdmin(event.target.value);
+  };
+
+  const handleNewAdminInvite = (event) => {
+    if (isNewAdminEmailValid) {
+      console.log("Invitation sent to", newAdmin);
+      // TODO: Implement logic to send invitation
+    } else {
+      console.log("Invalid email format");
+    }
+  };
+
+  useEffect(() => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setIsNewAdminEmailValid(emailRegex.test(newAdmin));
+  }, [newAdmin]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -156,6 +178,22 @@ function CommunityTabAdmin() {
       }}
     >
       <Heading section="User Management" />
+      <Box sx={{ display: "flex", gap: 2, mb: 2, alignItems: "end" }}>
+        <FormTextField
+          id="admin-invite"
+          name="admin-invite"
+          label="Admin Invitation"
+          type="text"
+          placeholder="Email"
+          onChange={handleNewAdminChange}
+        />
+        <ButtonGeneric
+          label="Invite"
+          onClick={handleNewAdminInvite}
+          disabled={!isNewAdminEmailValid}
+        />
+      </Box>
+      <DividerGeneric />
       <Box sx={{ display: "flex", gap: 2, mb: 2, alignItems: "center" }}>
         <FormTextField
           id="user-search"
