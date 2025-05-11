@@ -10,9 +10,8 @@ function OrdersTab() {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await axios("http://localhost:5000/orders")
-        const data = await response.json();
-        setReviews(data);
+        const response = await axios.get("/order_items");
+        setReviews(response.data);
       } catch (error) {
         console.error("Failed to fetch reviews", error);
       }
@@ -20,6 +19,7 @@ function OrdersTab() {
 
     fetchReviews();
   }, []);
+
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", margin: 4, width: "100%" }}>
@@ -31,8 +31,9 @@ function OrdersTab() {
             product={review.product}
             ratingValue={review.ratingValue}
             reviewContent={review.reviewContent}
-          
+            orderLineId={review.order_line_id}
           />
+
         ))}
       </Box>
     </Box>

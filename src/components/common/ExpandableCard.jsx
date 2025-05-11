@@ -25,7 +25,7 @@ import {
   generateDatetimeTransaction,
 } from "../../utils/getRandomDatetime";
 
-function ExpandableCard({ product, ratingValue, reviewContent }) {
+function ExpandableCard({ product, ratingValue, reviewContent, orderLineId }) {
   const theme = useTheme();
   const [expanded, setExpanded] = useState(false);
   const orderDatetimeRef = useRef(null);
@@ -51,21 +51,21 @@ function ExpandableCard({ product, ratingValue, reviewContent }) {
     >
       <CardContent>
         <Grid container spacing={2}>
-          <Grid>
+          <Grid item xs={12} sm={4}>
             <CardMedia
               component="img"
-              image={product.image_thumbnail}
-              alt={product.title}
-              sx={{ height: "auto", maxWidth: "100%" }}
+              image={product?.image_thumbnail || "/default-thumbnail.jpg"}
+              alt={product?.title || "Game Image"}
+              sx={{ width: "100%", borderRadius: 2 }}
               loading="lazy"
             />
           </Grid>
-          <Grid>
+          <Grid item xs={12} sm={8}>
             <Typography
               variant="h5"
               sx={{ color: theme.palette.accent.default }}
             >
-              {product.title}
+              {product?.title || "Unknown Game"}
             </Typography>
             <Typography
               variant="body2"
@@ -73,12 +73,10 @@ function ExpandableCard({ product, ratingValue, reviewContent }) {
             >
               ฿{product.price}
             </Typography>
-            <Typography
-              variant="body2"
-              sx={{ color: theme.palette.primary.contrastText }}
-            >
-              <b>Order No.</b> #1234567
+            <Typography variant="body2">
+              <b>Order No.</b> #{orderLineId || "N/A"}
             </Typography>
+
             <Typography
               variant="body2"
               sx={{ color: theme.palette.primary.contrastText }}

@@ -11,7 +11,7 @@ import FormCheckbox from "../common/FormCheckbox";
 import ButtonGeneric from "../common/ButtonGeneric";
 import FormTextFieldWithIcon from "../common/FormTextFieldWithIcon";
 import { data, useNavigate } from "react-router-dom"
-import axios from "../../services/axiosInstance";
+
 import axiosInstance from "../../services/axiosInstance";
 
 const SignupCard = () => {
@@ -51,7 +51,7 @@ const SignupCard = () => {
 
 
     try {
-      const res = await axiosInstance.post("/auth/register", {
+      const res = await axiosInstance.post("/register", {
         email,
         password,
         birthday,

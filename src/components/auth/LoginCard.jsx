@@ -32,7 +32,7 @@ const LoginCard = () => {
       [e.target.name]: e.target.value,
     }));
   };
-console.log(formData)
+
   const handleSubmit = (e) => {
     e.preventDefault(); // ป้องกัน reload หน้า
     handleLogin();      // เรียกไปล็อกอินจริงๆ
@@ -43,7 +43,7 @@ console.log(formData)
         email: formData.email,
         password: formData.password,
       });
-      console.log(res.data)
+      
       localStorage.setItem("token", res.data.token);
       navigate("/"); 
     } catch (err) {

@@ -16,10 +16,9 @@ import SwiperPerViewAuto from "../components/common/SwiperPerViewAuto";
 import SwiperAutoplay from "../components/common/SwiperAutoplay";
 import SwiperGrid from "../components/common/SwiperGrid";
 import { animate, stagger } from "motion";
-import axiosInstance from "../services/axiosInstance";
+import axios from "../services/axiosInstance"
 import products from "../data/products.json";
 import { newsItems } from "../data/misc";
-import axiosInstance from "../services/axiosInstance";
 
 const Home = () => {
   const [productsData, setProductsData] = useState([]);
@@ -48,7 +47,7 @@ const Home = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axiosInstance.get("/products");
+        const res = await axios.get("/products");
         setProductsData(res.data);
         setError("");
       } catch (err) {
