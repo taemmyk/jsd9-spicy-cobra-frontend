@@ -219,7 +219,11 @@ function Membership() {
                     marginTop: { xs: 2, md: 0 },
                   }}
                 >
-                  {isLogin ? <LoginCard /> : <SignupCard />}
+                  {isLogin ? (
+                    <LoginCard />
+                  ) : (
+                    <SignupCard onSwitchToLogin={() => setIsLogin(true)} />
+                  )}
                 </Paper>
               </Box>
             </Box>
