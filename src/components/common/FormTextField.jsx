@@ -1,6 +1,6 @@
 import React from "react";
 import { FormLabel, TextField, FormControl } from "@mui/material";
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from "@mui/material/styles";
 import PropTypes from "prop-types";
 
 const FormTextField = ({
@@ -10,6 +10,7 @@ const FormTextField = ({
   type,
   placeholder,
   autoComplete,
+  disabled,
   required,
   sx,
   size = "small",
@@ -20,11 +21,21 @@ const FormTextField = ({
 }) => {
   const theme = useTheme();
   return (
-    <FormControl fullWidth margin="normal" variant="outlined" sx={{ flexGrow: sx?.flexGrow }}>
+    <FormControl
+      fullWidth
+      margin="normal"
+      variant="outlined"
+      sx={{ flexGrow: sx?.flexGrow }}
+    >
       <FormLabel
         htmlFor={id}
+        disabled={disabled}
         required={required}
-        sx={{ color: theme.palette.secondary.light }}
+        sx={{
+          color: disabled
+            ? theme.palette.secondary.light
+            : theme.palette.secondary.light,
+        }}
       >
         {label}
       </FormLabel>
@@ -37,7 +48,28 @@ const FormTextField = ({
         required={required}
         size={size}
         variant="outlined"
-        sx={{ backgroundColor: theme.palette.primary.contrastText, borderRadius: 4, ...sx }}
+        sx={{
+          backgroundColor: disabled
+            ? theme.palette.secondary.main
+            : theme.palette.primary.contrastText,
+          borderRadius: 4,
+          ...sx,
+          "&:hover": {
+            "& .MuiOutlinedInput-notchedOutline": {
+              borderRadius: 4,
+              borderColor: theme.palette.secondary.light,
+            },
+          },
+          "&:focus-within": {
+            "& .MuiOutlinedInput-notchedOutline": {
+              borderRadius: 4,
+              borderColor: theme.palette.secondary.light,
+            },
+            "& .MuiInputLabel-outlined": {
+              color: theme.palette.secondary.main,
+            },
+          },
+        }}
         value={value}
         onChange={onChange}
         multiline={multiline}
