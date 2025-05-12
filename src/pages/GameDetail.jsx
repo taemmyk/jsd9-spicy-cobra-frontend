@@ -20,7 +20,7 @@ import ButtonGeneric from "../components/common/ButtonGeneric";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import SwiperProductNavigation from "../components/products/SwiperProductNavigation";
-import products from "../data/products.json";
+// import products from "../data/products.json";
 import Heading from "../components/common/Heading";
 import { CartContext } from "../components/contexts/CartContext";
 import calculateSalePrice from "../utils/calculateSalePrice";
@@ -49,10 +49,10 @@ function GameDetail() {
     Math.floor(thumbsupCount * Math.random() * 0.1)
   );
 
-  const recommendedGames = products
-    .filter((product) => product.product_id !== gameId)
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 3);
+  // const recommendedGames = products
+  //   .filter((product) => product.product_id !== gameId)
+  //   .sort(() => Math.random() - 0.5)
+  //   .slice(0, 3);
 
   const handleAddToCart = () => {
     addItem(gameData);
@@ -62,7 +62,7 @@ function GameDetail() {
     if (!gameData) return;
 
     const isItemInCart = items.some(
-      (item) => item.product_id === gameData.product_id
+      (item) => item._id === gameData._id
     );
 
     if (isItemInCart) {
@@ -557,9 +557,9 @@ function GameDetail() {
           >
             <Heading section="You may also like" />
 
-            <Box sx={{ paddingBottom: 2, paddingX: 4 }}>
+            {/* <Box sx={{ paddingBottom: 2, paddingX: 4 }}>
               <SwiperPerViewAuto products={recommendedGames} />
-            </Box>
+            </Box> */}
           </Box>
         </Container>
       </Box>

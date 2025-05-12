@@ -15,12 +15,6 @@ import {
 import AccountBalanceRoundedIcon from "@mui/icons-material/AccountBalanceRounded";
 import CreditCardRoundedIcon from "@mui/icons-material/CreditCardRounded";
 import FormTextField from "../common/FormTextField";
-import FormCheckbox from "../common/FormCheckbox";
-
-const FormGrid = styled("div")(() => ({
-  display: "flex",
-  flexDirection: "column",
-}));
 
 function PaymentForm() {
   const theme = useTheme();
@@ -59,8 +53,14 @@ function PaymentForm() {
 
   return (
     <>
-      <Stack spacing={{ xs: 3, sm: 6 }} useFlexGap sx={{ mt: 2 }}>
-        <Typography>Payment</Typography>
+      <Typography variant="body1" sx={{ paddingTop: 4 }}>
+        Payment
+      </Typography>
+      <Stack
+        spacing={{ xs: 3, sm: 6 }}
+        useFlexGap
+        sx={{ marginTop: 2, paddingY: 4 }}
+      >
         <FormControl component="fieldset" fullWidth>
           <RadioGroup
             aria-label="Payment options"
@@ -250,15 +250,6 @@ function PaymentForm() {
                   onChange={handleExpirationDateChange}
                 />
               </Stack>
-              <FormControlLabel
-                control={<FormCheckbox />}
-                label={
-                  <Typography variant="body2" marginLeft={2} marginY={2}>
-                    Remember credit card details for next time
-                  </Typography>
-                }
-                sx={{ paddingX: 3 }}
-              />
             </Box>
           </Box>
         )}
@@ -282,7 +273,6 @@ function PaymentForm() {
               loading="lazy"
             />
 
-            <Box sx={{ display: "flex", gap: 1 }}></Box>
           </Box>
         )}
       </Stack>

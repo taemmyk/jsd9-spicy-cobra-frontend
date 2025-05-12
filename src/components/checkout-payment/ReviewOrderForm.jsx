@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { Box, Typography } from "@mui/material";
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from "@mui/material/styles";
 import OrderItemReviewCard from "./OrderItemReviewCard";
 import { CartContext } from "../contexts/CartContext";
 import calculateSalePrice from "../../utils/calculateSalePrice";
-import DividerGeneric from "../common/DividerGeneric"
+import DividerGeneric from "../common/DividerGeneric";
 
 function ReviewOrderForm() {
   const theme = useTheme();
@@ -19,10 +19,8 @@ function ReviewOrderForm() {
 
   return (
     <>
-      <Typography
-        sx={{ mt: 2, mb: 1, color: theme.palette.primary.contrastText }}
-      >
-        Review Your Order Details Here
+      <Typography variant="body1" sx={{ paddingTop: 4 }}>
+        Review Your Order Details
       </Typography>
 
       <Box
@@ -69,7 +67,7 @@ function ReviewOrderForm() {
               : "฿0.00"
           }
         />
-        <DividerGeneric/>
+        <DividerGeneric />
         <OrderItemReviewCard
           category="Payment Method"
           description="Credit card" // TODO: payment method

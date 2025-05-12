@@ -78,7 +78,7 @@ function Checkout() {
               >
                 {items &&
                   items.map((product) => (
-                    <OrderItemCard key={product.product_id} product={product} />
+                    <OrderItemCard key={product._id} product={product} />
                   ))}
 
                 <Box
