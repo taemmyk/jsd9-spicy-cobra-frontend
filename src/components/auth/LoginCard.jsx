@@ -20,8 +20,8 @@ const LoginCard = () => {
   // const { setUser } = useAuth();
   const theme = useTheme();
 
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const [error, setError] = useState(false);
