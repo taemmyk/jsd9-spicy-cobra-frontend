@@ -28,6 +28,7 @@ import SwiperPerViewAuto from "../components/common/SwiperPerViewAuto";
 import { systemRequirements } from "../data/misc";
 import { motion } from "framer-motion";
 import { formatDateDDMMMMYYYY } from "../utils/formatDateMongoDb";
+import api from "../services/api";
 
 const MotionBox = motion.create(Box);
 
@@ -96,33 +97,24 @@ function GameDetail() {
       setLoading(true);
       setError(null);
       try {
-        //  const response = await api.get(`/products/${gameId}`); TODO:
-        const response = await fetch(
-          `http://localhost:3001/products/${gameId}`
-        );
-        if (!response.ok) {
+        const response = await api.get(`/products/${gameId}`);
+        if (response.status < 200 || response.status >= 300) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const contentType = response.headers.get("content-type");
+        const contentType = response.headers["content-type"];
         if (!contentType || !contentType.includes("application/json")) {
           throw new Error("Received non-JSON response from server.");
         }
-        const data = await response.json();
-        setGameData(data);
+        setGameData(response.data);
       } catch (err) {
-        setError("Error loading game data.");
-        console.error("Fetch error:", err);
+        setError("Error loading game data.", err);
       } finally {
         setLoading(false);
       }
     };
 
     fetchGameData();
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, [gameId]);
 
   if (loading) {
