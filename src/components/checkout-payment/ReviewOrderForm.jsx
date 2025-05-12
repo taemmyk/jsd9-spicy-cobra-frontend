@@ -8,7 +8,7 @@ import DividerGeneric from "../common/DividerGeneric";
 
 function ReviewOrderForm() {
   const theme = useTheme();
-  const { items } = useContext(CartContext);
+  const { items, paymentMethod } = useContext(CartContext);
 
   const calculateItemTotalPrice = () => {
     return items.reduce((total, item) => total + item.price, 0);
@@ -70,7 +70,13 @@ function ReviewOrderForm() {
         <DividerGeneric />
         <OrderItemReviewCard
           category="Payment Method"
-          description="Credit card" // TODO: payment method
+          description={
+            paymentMethod === "creditCard"
+              ? "Credit card"
+              : paymentMethod === "qrCode"
+              ? "QR Code"
+              : paymentMethod || "Not selected"
+          }
           total={" "}
         />
       </Box>

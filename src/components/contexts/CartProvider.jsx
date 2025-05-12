@@ -7,6 +7,8 @@ import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
+  const [paymentMethod, setPaymentMethod] = useState("creditCard");
+
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarBgColor, setSnackbarBgColor] = useState(null);
@@ -70,11 +72,17 @@ export const CartProvider = ({ children }) => {
     }
   }, [cartItems]);
 
+  const setPayment = useCallback((method) => {
+    setPaymentMethod(method);
+  }, []);
+
   const cartContextValue = {
     items: cartItems,
+    paymentMethod: paymentMethod,
     addItem: addToCart,
     removeItem: removeFromCart,
     clearCart: clearCart,
+    setPaymentMethod: setPayment,
   };
 
   return (
