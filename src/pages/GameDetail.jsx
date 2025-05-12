@@ -34,7 +34,7 @@ const MotionBox = motion.create(Box);
 
 function GameDetail() {
   const theme = useTheme();
-  const { gameId } = useParams();
+  const { gameSlug } = useParams();
   const [gameData, setGameData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -97,7 +97,7 @@ function GameDetail() {
       setLoading(true);
       setError(null);
       try {
-        const response = await api.get(`/products/${gameId}`);
+        const response = await api.get(`/products/game/${gameSlug}`);
         if (response.status < 200 || response.status >= 300) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -115,7 +115,7 @@ function GameDetail() {
 
     fetchGameData();
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-  }, [gameId]);
+  }, [gameSlug]);
 
   if (loading) {
     return <div>Loading game details...</div>;

@@ -26,7 +26,7 @@ function ProductCard({ product }) {
   return (
     <>
       <Link
-        to={`/games/${product._id}`}
+        to={`/games/${product.slug}`}
         style={{ textDecoration: "none" }}
       >
         <Card sx={{ borderRadius: 4 }}>
