@@ -11,7 +11,7 @@ import { useTheme } from "@mui/material/styles";
 import Heading from "../common/Heading";
 import TableData from "../common/TableData";
 import FormTextField from "../common/FormTextField";
-import formatDate from "../../utils/formatDateMongoDb";
+import { formatDateDDMMYYYY } from "../../utils/formatDateMongoDb";
 import FormRadioField from "../common/FormRadioField";
 import PendingIcon from "@mui/icons-material/Pending";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -35,7 +35,7 @@ const orderColums = [
     headerName: "Order At",
     flex: 2,
     valueFormatter: (params) => {
-      return formatDate(params);
+      return formatDateDDMMYYYY(params);
     },
   },
 ];

@@ -27,6 +27,7 @@ import calculateSalePrice from "../utils/calculateSalePrice";
 import SwiperPerViewAuto from "../components/common/SwiperPerViewAuto";
 import { systemRequirements } from "../data/misc";
 import { motion } from "framer-motion";
+import { formatDateDDMMMMYYYY } from "../utils/formatDateMongoDb";
 
 const MotionBox = motion.create(Box);
 
@@ -448,7 +449,7 @@ function GameDetail() {
                     fontFamily: "Roboto Condensed",
                   }}
                 >
-                  {gameData.releaseDate}
+                  {formatDateDDMMMMYYYY(gameData.releaseDate)}
                 </Typography>
               </Box>
             </Box>

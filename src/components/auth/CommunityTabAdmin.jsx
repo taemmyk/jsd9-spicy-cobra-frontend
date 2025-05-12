@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import TableData from "../common/TableData";
 import Heading from "../common/Heading";
-import formatDate from "../../utils/formatDateMongoDb";
+import { formatDateDDMMYYYY } from "../../utils/formatDateMongoDb";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import { useTheme } from "@mui/material/styles";
@@ -163,7 +163,7 @@ function CommunityTabAdmin() {
       headerName: "Last active",
       flex: 2,
       valueFormatter: (params) => {
-        return formatDate(params);
+        return formatDateDDMMYYYY(params);
       },
     },
   ];
