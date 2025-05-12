@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   Typography,
@@ -8,6 +8,7 @@ import {
   Box,
   Paper,
   Container,
+  CircularProgress,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import ProductCard from "../components/products/ProductCard";
@@ -17,7 +18,8 @@ import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
 import SelectorCard from "../components/common/SelectorCard";
 import { motion, useAnimate } from "framer-motion";
-import api from "../services/api";
+import useFetchProducts from "../hooks/useFetchProducts";
+import useFetchGenres from "../hooks/useFetchGenres";
 
 const MotionBox = motion.create(Box);
 
@@ -33,63 +35,62 @@ function Games() {
   );
   const [animateDescription, setAnimateDescription] = useState(false);
   const [scope, animate] = useAnimate();
-  const [products, setProducts] = useState([]);
-  const [genres, setGenres] = useState([]);
-  const [loadingProducts, setLoadingProducts] = useState(true);
-  const [errorProducts, setErrorProducts] = useState(null);
-  const [loadingGenres, setLoadingGenres] = useState(true);
-  const [errorGenres, setErrorGenres] = useState(null);
+
+  const {
+    products,
+    loading: loadingProducts,
+    error: errorProducts,
+  } = useFetchProducts(searchText, selectedGenre);
+  const {
+    genres,
+    loading: loadingGenres,
+    error: errorGenres,
+  } = useFetchGenres();
+
+  const updateQuery = useCallback(
+    (newParams) => {
+      const searchParams = new URLSearchParams(location.search);
+      for (const key in newParams) {
+        if (newParams[key]) {
+          searchParams.set(key, newParams[key]);
+        } else {
+          searchParams.delete(key);
+        }
+      }
+      navigate(`/games?${searchParams.toString()}`, { replace: true });
+    },
+    [navigate, location.search]
+  );
+
+  const handleSearch = (query) => {
+    setSearchText(query);
+    updateQuery({
+      search: query,
+      genre: selectedGenre !== "View All" ? selectedGenre : null,
+    });
+  };
 
   const handleInputChange = (event) => {
-    const newValue = event.target.value;
-    setSearchText(newValue);
-    navigate(`/search?search=${encodeURIComponent(newValue)}`, {
-      replace: true,
-    });
+    setSearchText(event.target.value);
+    handleSearch(event.target.value);
   };
 
   const handleClearInput = () => {
     setSearchText("");
-    const searchParams = new URLSearchParams(location.search);
-    searchParams.delete("search");
-    searchParams.delete("genre");
-    navigate(
-      `/games${searchParams.toString() ? "?" + searchParams.toString() : ""}`,
-      { replace: true }
-    );
+    updateQuery({ search: null, genre: null });
     if (inputRef.current) {
       inputRef.current.focus();
     }
   };
 
-  const handleSearchSubmit = (event) => {
-    event.preventDefault();
-  };
-
-  const fetchProducts = async () => {
-    setLoadingProducts(true);
-    setErrorProducts(null);
-    try {
-      const response = await api.get("/products");
-      setProducts(response.data);
-      setLoadingProducts(false);
-    } catch (error) {
-      setErrorProducts(error);
-      setLoadingProducts(false);
-    }
-  };
-
-  const fetchProductsByGenreName = async (genreName) => {
-    setLoadingProducts(true);
-    setErrorProducts(null);
-    try {
-      const response = await api.get(`/products/genre/${genreName}`);
-      setProducts(response.data);
-      setLoadingProducts(false);
-    } catch (error) {
-      setErrorProducts(error);
-      setLoadingProducts(false);
-    }
+  const handleGenreChange = (event) => {
+    const newGenre = event.target.value;
+    setSelectedGenre(newGenre);
+    setAnimateDescription(true);
+    updateQuery({
+      genre: newGenre !== "View All" ? newGenre : null,
+      search: searchText || null,
+    });
   };
 
   useEffect(() => {
@@ -98,32 +99,16 @@ function Games() {
     const genreNameParam = searchParams.get("genre");
     if (query) {
       setSearchText(query);
-    }
-    if (genreNameParam && genreNameParam !== "View All") {
+      setSelectedGenre(genreNameParam || "View All");
+    } else if (genreNameParam) {
       setSelectedGenre(genreNameParam);
-      fetchProductsByGenreName(genreNameParam);
     } else {
       setSelectedGenre("View All");
-      fetchProducts();
     }
     if (inputRef.current && !query) {
       inputRef.current.focus();
     }
   }, [location.search]);
-
-  const handleGenreChange = (event) => {
-    const newGenre = event.target.value;
-    setSelectedGenre(newGenre);
-    setAnimateDescription(true);
-
-    const searchParams = new URLSearchParams(location.search);
-    if (newGenre !== "View All") {
-      searchParams.set("genre", newGenre);
-    } else {
-      searchParams.delete("genre");
-    }
-    navigate(`/games?genre=${encodeURIComponent(newGenre)}`, { replace: true });
-  };
 
   useEffect(() => {
     if (animateDescription && genres && genres.length > 0) {
@@ -149,47 +134,6 @@ function Games() {
       });
     }
   }, [animateDescription, selectedGenre, animate, scope, genres]);
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  useEffect(() => {
-    const fetchGenres = async () => {
-      setLoadingGenres(true);
-      setErrorGenres(null);
-      try {
-        const response = await api.get("/genres");
-        setGenres(response.data);
-      } catch (error) {
-        setErrorGenres(error);
-      } finally {
-        setLoadingGenres(false);
-      }
-    };
-
-    fetchGenres();
-  }, []);
-
-  // if (loadingProducts || loadingGenres) {
-  //   return <Typography>Loading products and genres...</Typography>;
-  // }
-
-  if (errorProducts) {
-    return (
-      <Typography color="error">
-        Error loading product: {errorProducts.message}
-      </Typography>
-    );
-  }
-
-  if (errorGenres) {
-    return (
-      <Typography color="error">
-        Error loading genre: {errorGenres.message}
-      </Typography>
-    );
-  }
 
   return (
     <>
@@ -289,20 +233,25 @@ function Games() {
                 searchText={searchText}
                 inputRef={inputRef}
                 handleInputChange={handleInputChange}
-                handleSearchSubmit={handleSearchSubmit}
+                handleSearchSubmit={(e) => e.preventDefault()}
                 sx={{ mx: 2, flexGrow: 1 }}
               />
-              {searchText && (
-                <IconButton onClick={handleClearInput} sx={{ p: 1 }}>
-                  <ClearIcon
-                    sx={{
-                      width: { xs: 28, md: 40 },
-                      height: { xs: 28, md: 40 },
-                      color: theme.palette.secondary.light,
-                    }}
-                  />
-                </IconButton>
-              )}
+
+              <IconButton
+                onClick={handleClearInput}
+                disabled={!searchText}
+                sx={{ p: 1 }}
+              >
+                <ClearIcon
+                  sx={{
+                    width: { xs: 28, md: 40 },
+                    height: { xs: 28, md: 40 },
+                    color: searchText
+                      ? theme.palette.secondary.light
+                      : theme.palette.background.paper,
+                  }}
+                />
+              </IconButton>
             </Box>
 
             {/* Genre Selector */}
@@ -342,25 +291,38 @@ function Games() {
       </Box>
       {/* Product Grid */}
       <Container maxWidth="xl">
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: {
-              xs: "repeat(1, 1fr)",
-              sm: "repeat(2, 1fr)",
-              md: "repeat(3, 1fr)",
-            },
-            gap: {
-              xs: 2,
-              md: 4,
-            },
-            margin: 4,
-          }}
-        >
-          {products.map((item) => (
-            <ProductCard key={item._id} product={item} />
-          ))}
-        </Box>
+        {loadingProducts ? (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              my: 4,
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        ) : (
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: {
+                xs: "repeat(1, 1fr)",
+                sm: "repeat(2, 1fr)",
+                md: "repeat(3, 1fr)",
+              },
+              gap: {
+                xs: 2,
+                md: 4,
+              },
+              margin: 4,
+            }}
+          >
+            {products.map((item) => (
+              <ProductCard key={item._id} product={item} />
+            ))}
+          </Box>
+        )}
       </Container>
     </>
   );
