@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   Typography,
@@ -13,15 +13,13 @@ import { useTheme } from "@mui/material/styles";
 import ProductCard from "../components/products/ProductCard";
 import Heading from "../components/common/Heading";
 import SearchInput from "../components/common/SearchInput";
-import ProductsData from "../data/products.json";
-import GenresData from "../data/genre.json";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
 import SelectorCard from "../components/common/SelectorCard";
 import { motion, useAnimate } from "framer-motion";
+import api from "../services/api";
 
 const MotionBox = motion.create(Box);
-const genres = GenresData.map((genre) => genre.genre_name);
 
 function Games() {
   const theme = useTheme();
@@ -35,6 +33,12 @@ function Games() {
   );
   const [animateDescription, setAnimateDescription] = useState(false);
   const [scope, animate] = useAnimate();
+  const [products, setProducts] = useState([]);
+  const [genres, setGenres] = useState([]);
+  const [loadingProducts, setLoadingProducts] = useState(true);
+  const [errorProducts, setErrorProducts] = useState(null);
+  const [loadingGenres, setLoadingGenres] = useState(true);
+  const [errorGenres, setErrorGenres] = useState(null);
 
   const handleInputChange = (event) => {
     const newValue = event.target.value;
@@ -48,6 +52,7 @@ function Games() {
     setSearchText("");
     const searchParams = new URLSearchParams(location.search);
     searchParams.delete("search");
+    searchParams.delete("genre");
     navigate(
       `/games${searchParams.toString() ? "?" + searchParams.toString() : ""}`,
       { replace: true }
@@ -61,17 +66,45 @@ function Games() {
     event.preventDefault();
   };
 
+  const fetchProducts = async () => {
+    setLoadingProducts(true);
+    setErrorProducts(null);
+    try {
+      const response = await api.get("/products");
+      setProducts(response.data);
+      setLoadingProducts(false);
+    } catch (error) {
+      setErrorProducts(error);
+      setLoadingProducts(false);
+    }
+  };
+
+  const fetchProductsByGenreName = async (genreName) => {
+    setLoadingProducts(true);
+    setErrorProducts(null);
+    try {
+      const response = await api.get(`/products/genre/${genreName}`);
+      setProducts(response.data);
+      setLoadingProducts(false);
+    } catch (error) {
+      setErrorProducts(error);
+      setLoadingProducts(false);
+    }
+  };
+
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const query = searchParams.get("search");
-    const genreParam = searchParams.get("genre");
+    const genreNameParam = searchParams.get("genre");
     if (query) {
       setSearchText(query);
     }
-    if (genreParam) {
-      setSelectedGenre(genreParam);
+    if (genreNameParam && genreNameParam !== "View All") {
+      setSelectedGenre(genreNameParam);
+      fetchProductsByGenreName(genreNameParam);
     } else {
       setSelectedGenre("View All");
+      fetchProducts();
     }
     if (inputRef.current && !query) {
       inputRef.current.focus();
@@ -89,23 +122,23 @@ function Games() {
     } else {
       searchParams.delete("genre");
     }
-    navigate(`/games?${searchParams.toString()}`, { replace: true });
+    navigate(`/games?genre=${encodeURIComponent(newGenre)}`, { replace: true });
   };
 
   useEffect(() => {
-    if (animateDescription) {
+    if (animateDescription && genres && genres.length > 0) {
       animate(
         scope.current,
         { y: [0, 40], opacity: [1, 0] },
         { duration: 0.2 }
       ).then(() => {
-        const selectedGenreData = GenresData.find(
-          (genre) => genre.genre_name === selectedGenre
+        const selectedGenreData = genres.find(
+          (genre) => genre.genreName === selectedGenre
         );
         setDescription(
           selectedGenre === "View All"
             ? "Explore a wide variety of your next favorite games across different genres!"
-            : selectedGenreData?.description ||
+            : selectedGenreData?.genreDescription ||
                 `Information about the ${selectedGenre} genre will be displayed here.`
         );
         animate(
@@ -115,20 +148,48 @@ function Games() {
         ).then(() => setAnimateDescription(false));
       });
     }
-  }, [animateDescription, selectedGenre, animate, scope]);
+  }, [animateDescription, selectedGenre, animate, scope, genres]);
 
-  const filteredProducts = useMemo(() => {
-    if (selectedGenre === "View All") {
-      return ProductsData;
-    }
-    return ProductsData.filter((product) => {
-      return (
-        product.genre_id_1 === selectedGenre ||
-        product.genre_id_2 === selectedGenre ||
-        product.genre_id_3 === selectedGenre
-      );
-    });
-  }, [selectedGenre]);
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    const fetchGenres = async () => {
+      setLoadingGenres(true);
+      setErrorGenres(null);
+      try {
+        const response = await api.get("/genres");
+        setGenres(response.data);
+      } catch (error) {
+        setErrorGenres(error);
+      } finally {
+        setLoadingGenres(false);
+      }
+    };
+
+    fetchGenres();
+  }, []);
+
+  // if (loadingProducts || loadingGenres) {
+  //   return <Typography>Loading products and genres...</Typography>;
+  // }
+
+  if (errorProducts) {
+    return (
+      <Typography color="error">
+        Error loading product: {errorProducts.message}
+      </Typography>
+    );
+  }
+
+  if (errorGenres) {
+    return (
+      <Typography color="error">
+        Error loading genre: {errorGenres.message}
+      </Typography>
+    );
+  }
 
   return (
     <>
@@ -267,9 +328,9 @@ function Games() {
                 />
                 {genres.map((genre) => (
                   <SelectorCard
-                    key={genre}
-                    value={genre}
-                    label={genre}
+                    key={genre._id}
+                    value={genre.genreName}
+                    label={genre.genreName}
                     selectedType={selectedGenre}
                     handleTypeChange={handleGenreChange}
                   />
@@ -296,8 +357,8 @@ function Games() {
             margin: 4,
           }}
         >
-          {filteredProducts.map((item) => (
-            <ProductCard key={item.product_id} product={item} />
+          {products.map((item) => (
+            <ProductCard key={item._id} product={item} />
           ))}
         </Box>
       </Container>
