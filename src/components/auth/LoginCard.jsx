@@ -1,19 +1,14 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import {
-  Button,
-  Box,
-  Typography,
-  FormControlLabel,
-} from "@mui/material";
-import { useTheme } from '@mui/material/styles';
+import { Button, Box, Typography, FormControlLabel } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import EmailIcon from "@mui/icons-material/Email";
 import FormCheckbox from "../common/FormCheckbox";
 import ButtonGeneric from "../common/ButtonGeneric";
 import FormTextFieldWithIcon from "../common/FormTextFieldWithIcon";
 
-import {loginUser} from "../../services/authService.js";
+import { loginUser } from "../../services/authService.js";
 // import {useAuth} from "../contexts/authContext.jsx";
 
 const LoginCard = () => {
@@ -27,27 +22,28 @@ const LoginCard = () => {
   const [error, setError] = useState(false);
   // const [loading, setLoading] = useState(false);
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     // setError("");
     // setLoading(true);
-    try{
-      const data = await loginUser({email, password});
+    try {
+      const data = await loginUser({ email, password });
       console.log(data);
       console.log("token from localStorage", localStorage.getItem("token"));
       // get token in localstorage
-      if(data.token) {
+      if (data.token) {
         localStorage.setItem("token", data.token);
       }
 
       // setUser(data.user);  //save user to authcontext
       navigate("/dashboard"); //redirect after successful login
-    } catch(err) {
+    } catch (err) {
       console.error(err, error);
-      setError(err?.response?.data?.message || "Login failed. Please try again.");
+      setError(
+        err?.response?.data?.message || "Login failed. Please try again."
+      );
     }
-  }
+  };
 
   return (
     <>
@@ -111,13 +107,15 @@ const LoginCard = () => {
               </Typography>
             }
           />
-          <Button
-            type="button"
-            variant="text"
-            sx={{ color: theme.palette.secondary.light }}
-          >
-            Forgot Password?
-          </Button>
+          <Link to="/forgot-password" style={{ textDecoration: "none" }}>
+            <Button
+              type="button"
+              variant="text"
+              sx={{ color: theme.palette.secondary.light }}
+            >
+              Forgot Password?
+            </Button>
+          </Link>
         </Box>
 
         <ButtonGeneric

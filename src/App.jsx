@@ -14,6 +14,8 @@ import Devlogs from "./pages/Devlogs";
 import Order from "./pages/Order";
 import Checkout from "./pages/Checkout";
 import Membership from "./pages/Membership";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard";
 import ProductList from "./components/products/ProductList";
 
@@ -56,6 +58,14 @@ const router = createBrowserRouter([
       {
         path: "membership",
         element: <Membership />,
+      },
+      {
+        path: "forgot-password",
+        element: <ForgotPassword />,
+      },
+      {
+        path: "reset-password",
+        element: <ResetPassword />,
       },
       {
         path: "dashboard",
