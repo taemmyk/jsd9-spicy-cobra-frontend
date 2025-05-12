@@ -19,6 +19,7 @@ import FormRadioField from "../common/FormRadioField";
 import ButtonGeneric from "../common/ButtonGeneric";
 import DividerGeneric from "../common/DividerGeneric";
 import api from "../../services/api";
+import TabsGeneric from "../common/TabsGeneric";
 
 const paginationModel = { page: 0, pageSize: 10 };
 
@@ -30,7 +31,12 @@ function CommunityTabAdmin() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchField, setSearchField] = useState("username");
   const [newAdmin, setNewAdmin] = useState("");
-  const [isNewAdminEmailValid, setIsNewAdminEmailValid] = useState(false); // State สำหรับตรวจสอบความถูกต้องของอีเมล
+  const [isNewAdminEmailValid, setIsNewAdminEmailValid] = useState(false);
+
+  const tabData = [
+    { label: "All users", component: "All users" },
+    { label: "Admin invitations", component: "Admin invitations" },
+  ];
 
   const handleSearchFieldChange = (event) => {
     setSearchField(event.target.value);
@@ -178,6 +184,7 @@ function CommunityTabAdmin() {
       }}
     >
       <Heading section="User Management" />
+      <TabsGeneric tabsData={tabData} />
       <Box sx={{ display: "flex", gap: 2, mb: 2, alignItems: "end" }}>
         <FormTextField
           id="admin-invite"

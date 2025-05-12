@@ -30,6 +30,7 @@ import CommunityTabAdmin from "../components/auth/CommunityTabAdmin";
 import OrderTabAdmin from "../components/auth/OrdersTabAdmin"
 import InventoryTabAdmin from "../components/auth/InventoryTabAdmin";
 import InventoryTabTable from "../components/auth/InventoryTabTable";
+import GameManagementAdmin from "../components/auth/GameManagementAdmin";
 
 function Dashboard() {
   const theme = useTheme();
@@ -265,7 +266,7 @@ function Dashboard() {
               {selectedTab === "orders" && <OrderTabAdmin />}
               {selectedTab === "review" && <CommunityTabAdmin />}
               {selectedTab === "report" && <InventoryTabTable />}
-              {selectedTab === "inventory" && <InventoryTabAdmin />}
+              {selectedTab === "inventory" && <GameManagementAdmin />}
               {selectedTab === "profile" && <ProfileTab />}
             </Box>
           </Box>
