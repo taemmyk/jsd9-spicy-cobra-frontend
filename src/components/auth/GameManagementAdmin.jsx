@@ -10,11 +10,9 @@ import {
   MenuItem,
   Button,
   Card,
-  CardHeader,
   CardActionArea,
   CardMedia,
   CardContent,
-  TextField,
   Stack,
   Avatar,
 } from "@mui/material";
@@ -32,6 +30,7 @@ import ButtonGeneric from "../common/ButtonGeneric";
 import api from "../../services/api";
 import convertTitleToSlug from "../../utils/generateSlug";
 import calculateSalePrice from "../../utils/calculateSalePrice";
+import DialogImageUrl from "../common/DialogImageURL";
 
 const paginationModel = { page: 0, pageSize: 10 };
 
@@ -47,6 +46,8 @@ function GameManagementAdmin() {
   const [searchField, setSearchField] = useState("title");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [editedProduct, setEditedProduct] = useState(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [imageURL, setImageURL] = useState("");
 
   const handleSearchFieldChange = (event) => {
     setSearchField(event.target.value);
@@ -228,6 +229,28 @@ function GameManagementAdmin() {
     );
   }
 
+  const handleOpenDialog = () => {
+    setImageURL(editedProduct.imageThumbnail || "");
+    setIsDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
+    setImageURL("");
+  };
+
+  const handleImageURLChange = (event) => {
+    setImageURL(event.target.value);
+  };
+
+  const handleSaveImageURL = () => {
+    setEditedProduct((prevEditedProduct) => ({
+      ...prevEditedProduct,
+      imageThumbnail: imageURL,
+    }));
+    handleCloseDialog();
+  };
+
   return (
     <Box
       sx={{
@@ -314,7 +337,7 @@ function GameManagementAdmin() {
               }}
             >
               <Card sx={{ borderRadius: 4 }}>
-                <CardActionArea>
+                <CardActionArea onClick={handleOpenDialog}>
                   <Box
                     sx={{
                       position: "relative",
@@ -322,31 +345,32 @@ function GameManagementAdmin() {
                       flexDirection: "column",
                     }}
                   >
-                    <Box
-                      sx={{
-                        position: "absolute",
-                        backgroundColor: theme.palette.accent.emphasis,
-                        top: theme.spacing(2),
-                        left: theme.spacing(2),
-                        borderRadius: 4,
-                        padding: theme.spacing(0.5, 1),
-                      }}
-                    >
-                      {editedProduct.discountPercentage > 0 && (
+                    {editedProduct.discountPercentage > 0 && (
+                      <Box
+                        sx={{
+                          position: "absolute",
+                          backgroundColor: theme.palette.accent.emphasis,
+                          top: theme.spacing(2),
+                          left: theme.spacing(2),
+                          borderRadius: 4,
+                          padding: theme.spacing(0.5, 1),
+                        }}
+                      >
                         <Typography variant="saleTag">
                           {editedProduct.discountPercentage}%
                         </Typography>
-                      )}
-                    </Box>
+                      </Box>
+                    )}
                     <CardMedia
                       component="img"
-                      height="140"
+                      height="100%"
                       image={
                         editedProduct.imageThumbnail ||
                         "https://placehold.co/460x215/DBDBDB/DBDBDB"
                       }
                       alt={editedProduct.title}
                       loading="lazy"
+                      sx={{ cursor: "pointer" }}
                     />
                     <Box
                       sx={{
@@ -581,6 +605,14 @@ function GameManagementAdmin() {
           </Box>
         </Box>
       )}
+
+      <DialogImageUrl
+        open={isDialogOpen}
+        onClose={handleCloseDialog}
+        imageURL={imageURL}
+        onImageURLChange={handleImageURLChange}
+        onSave={handleSaveImageURL}
+      />
 
       {!editedProduct && (
         <Box sx={{ marginTop: 2 }}>
