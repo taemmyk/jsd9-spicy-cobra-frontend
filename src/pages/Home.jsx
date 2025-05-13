@@ -17,7 +17,7 @@ import SwiperAutoplay from "../components/common/SwiperAutoplay";
 import SwiperGrid from "../components/common/SwiperGrid";
 import { animate, stagger } from "motion";
 import axios from "../services/axiosInstance"
-import products from "../data/products.json";
+
 import { newsItems } from "../data/misc";
 
 const Home = () => {

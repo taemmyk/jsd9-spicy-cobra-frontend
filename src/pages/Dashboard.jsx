@@ -28,17 +28,22 @@ import InventoryTab from "../components/auth/InventoryTab";
 import ProfileTab from "../components/auth/ProfileTab";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../services/AuthContext";
+import { useLocation } from 'react-router-dom';
+
+
+
 function Dashboard() {
   const theme = useTheme();
   const [selectedTab, setSelectedTab] = useState("dashboard");
-  const { token } = useAuth();
+  const { token, loading } = useAuth();
   const navigate = useNavigate();
-
- useEffect(() => {
-    if (!token) {
-      navigate("/membership");
-    }
-  }, [token]);
+  const location = useLocation();
+  const initialOrderItems = location.state?.orders || [];
+  useEffect(() => {
+  if (!loading && !token) {
+    navigate("/membership");
+  }
+}, [token, loading]);
 
 
   const handleTabChange = (event) => {
@@ -141,9 +146,10 @@ function Dashboard() {
       inputRef.current.focus();
     }
   }, []);
+
   return (
     <>
-    
+
       <Box
         sx={{
           background: `linear-gradient(to right, ${theme.palette.background.layout} 50%, ${theme.palette.background.paper} 50%)`,
@@ -180,6 +186,7 @@ function Dashboard() {
                     aria-label="Dashboard options"
                     name="dashboardTab"
                     value={selectedTab}
+
                     onChange={handleTabChange}
                     sx={{
                       display: "flex",
@@ -223,8 +230,8 @@ function Dashboard() {
                       {selectedTab === "review"
                         ? "Community"
                         : selectedTab &&
-                          selectedTab.charAt(0).toUpperCase() +
-                            selectedTab.slice(1).toLowerCase()}
+                        selectedTab.charAt(0).toUpperCase() +
+                        selectedTab.slice(1).toLowerCase()}
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
@@ -269,7 +276,7 @@ function Dashboard() {
               }}
             >
               {selectedTab === "dashboard" && <DashboardTab />}
-              {selectedTab === "orders" && <OrdersTab />}
+              {selectedTab === "orders" && <OrdersTab initialOrderItems={initialOrderItems} />}
               {selectedTab === "review" && <CommunityTab />}
               {selectedTab === "report" && <ReportTab />}
               {selectedTab === "inventory" && <InventoryTab />}

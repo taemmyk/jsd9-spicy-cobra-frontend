@@ -12,7 +12,7 @@ import ButtonGeneric from "../common/ButtonGeneric";
 import FormTextFieldWithIcon from "../common/FormTextFieldWithIcon";
 import { data, useNavigate } from "react-router-dom"
 
-import axiosInstance from "../../services/axiosInstance";
+import axios from "../../services/axiosInstance";
 
 const SignupCard = () => {
   const theme = useTheme();
@@ -51,7 +51,7 @@ const SignupCard = () => {
 
 
     try {
-      const res = await axiosInstance.post("/register", {
+      const res = await axios.post("/register", {
         email,
         password,
         birthday,
@@ -59,7 +59,7 @@ const SignupCard = () => {
       
       if (res.data.success) {
         localStorage.setItem("token", res.data.token);
-        navigate("/membership");
+        navigate("/");
       } else {
         alert("Registration failed: " + res.data.message);
       }

@@ -43,9 +43,9 @@ const LoginCard = () => {
         email: formData.email,
         password: formData.password,
       });
-      
+      login(res.data.token);
       localStorage.setItem("token", res.data.token);
-      navigate("/"); 
+      navigate("/");
     } catch (err) {
       console.error("Login failed", err);
       setError("Login failed. Please check your email or password.");

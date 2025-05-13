@@ -65,13 +65,13 @@ function ExpandableCard({ product, ratingValue, reviewContent, orderLineId }) {
               variant="h5"
               sx={{ color: theme.palette.accent.default }}
             >
-              {product?.title || "Unknown Game"}
+              {product?.title || "ggg"}
             </Typography>
             <Typography
               variant="body2"
               sx={{ color: theme.palette.secondary.light }}
             >
-              ฿{product.price}
+              ฿{product?.price || "what?"}
             </Typography>
             <Typography variant="body2">
               <b>Order No.</b> #{orderLineId || "N/A"}
