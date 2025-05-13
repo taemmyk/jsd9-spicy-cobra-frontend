@@ -6,7 +6,7 @@ import {
   InputAdornment,
   IconButton,
 } from "@mui/material";
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import LockOutlineIcon from "@mui/icons-material/LockOutline";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
@@ -91,6 +91,10 @@ const FormTextfieldWithIcon = ({
           fieldset: { borderColor: theme.palette.secondary.light },
           "&:hover .MuiOutlinedInput-notchedOutline": {
             borderColor: theme.palette.secondary.main,
+          },
+          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            borderColor: theme.palette.secondary.main,
+            borderWidth: 3,
           },
           ...sx?.input,
         }}

@@ -14,18 +14,23 @@ import Devlogs from "./pages/Devlogs";
 import Order from "./pages/Order";
 import Checkout from "./pages/Checkout";
 import Membership from "./pages/Membership";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard";
 import ProductList from "./components/products/ProductList";
+
+import LoginCard from "./components/auth/LoginCard";
+import { Login } from "./pages/Login";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
-    errorElement: (
-      <div>
-        <h1>404 - Page Not Found 🧙‍♂️</h1>
-      </div>
-    ),
+    // errorElement: (
+    //   <div>
+    //     <h1>404 - Page Not Found 🧙‍♂️</h1>
+    //   </div>
+    // ),
     children: [
       { path: "/", element: <Home /> },
       { path: "about", element: <About /> },
@@ -55,10 +60,19 @@ const router = createBrowserRouter([
         element: <Membership />,
       },
       {
+        path: "forgot-password",
+        element: <ForgotPassword />,
+      },
+      {
+        path: "reset-password",
+        element: <ResetPassword />,
+      },
+      {
         path: "dashboard",
         element: <Dashboard />,
       },
       { path: "search", element: <ProductList /> },
+      { path: "login", element: <Login />}
     ],
   },
 ]);

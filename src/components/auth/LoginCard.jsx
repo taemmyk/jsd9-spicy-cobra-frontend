@@ -1,20 +1,48 @@
 import React from "react";
-import {
-  Button,
-  Box,
-  Typography,
-  FormControlLabel,
-} from "@mui/material";
-import { useTheme } from '@mui/material/styles';
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { Button, Box, Typography, FormControlLabel } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import EmailIcon from "@mui/icons-material/Email";
 import FormCheckbox from "../common/FormCheckbox";
 import ButtonGeneric from "../common/ButtonGeneric";
 import FormTextFieldWithIcon from "../common/FormTextFieldWithIcon";
 
+import { loginUser } from "../../services/authService.js";
+// import {useAuth} from "../contexts/authContext.jsx";
+
 const LoginCard = () => {
+  // const { setUser } = useAuth();
   const theme = useTheme();
-  const handleSubmit = (e) => {
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const [error, setError] = useState(false);
+  // const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    // setError("");
+    // setLoading(true);
+    try {
+      const data = await loginUser({ email, password });
+      console.log(data);
+      console.log("token from localStorage", localStorage.getItem("token"));
+      // get token in localstorage
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+      }
+
+      // setUser(data.user);  //save user to authcontext
+      navigate("/dashboard"); //redirect after successful login
+    } catch (err) {
+      console.error(err, error);
+      setError(
+        err?.response?.data?.message || "Login failed. Please try again."
+      );
+    }
   };
 
   return (
@@ -45,6 +73,8 @@ const LoginCard = () => {
           label="Email address"
           type="email"
           placeholder="Email address"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
           icon={<EmailIcon sx={{ color: theme.palette.secondary.light }} />}
         />
@@ -55,6 +85,8 @@ const LoginCard = () => {
           label="Password"
           type="password"
           placeholder="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           required
           isPasswordToggle={true}
         />
@@ -75,18 +107,20 @@ const LoginCard = () => {
               </Typography>
             }
           />
-          <Button
-            type="button"
-            variant="text"
-            sx={{ color: theme.palette.secondary.light }}
-          >
-            Forgot Password?
-          </Button>
+          <Link to="/forgot-password" style={{ textDecoration: "none" }}>
+            <Button
+              type="button"
+              variant="text"
+              sx={{ color: theme.palette.secondary.light }}
+            >
+              Forgot Password?
+            </Button>
+          </Link>
         </Box>
 
         <ButtonGeneric
           label="Sign in"
-          to="/dashboard"
+          type="submit"
           sx={{ marginTop: 2, alignItems: "center" }}
         />
       </Box>
