@@ -110,7 +110,7 @@ const Header = () => {
                     color: theme.palette.secondary.light,
                   }}
                 />
-              </Button>
+              </IconButton>
             </Link>
           </Box>
         </Container>
