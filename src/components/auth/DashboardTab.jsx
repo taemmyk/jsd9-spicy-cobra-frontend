@@ -57,7 +57,7 @@ function DashboardTab() {
         marginY: 2,
       }}
     >
-      <Heading section="Welcome user!" />
+      {/* <Heading section="Welcome user!" /> */}
       <Box
         sx={{
           display: "flex",
@@ -65,8 +65,8 @@ function DashboardTab() {
           width: "100%",
         }}
       >
-        <Heading section="Game Library" />
-        <Box sx={{ display: "flex" }}>
+        <Heading section="Your Game Library" />
+        {/* <Box sx={{ display: "flex" }}>
           <SearchInput
             isSearchOpen={true}
             searchText={searchText}
@@ -94,7 +94,7 @@ function DashboardTab() {
               }}
             />
           </IconButton>
-        </Box>
+        </Box> */}
       </Box>
       <Box
         sx={{

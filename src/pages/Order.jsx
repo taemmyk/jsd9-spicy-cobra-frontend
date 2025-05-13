@@ -6,7 +6,7 @@ import { CartContext } from "../components/contexts/CartContext";
 import Heading from "../components/common/Heading";
 import OrderItemReviewCard from "../components/checkout-payment/OrderItemReviewCard";
 import CartItemCard from "../components/cart/CartItemCard";
-import calculateSalePrice from "../utils/calculateSalePrice";
+import { calculateSalePrice, calculateItemTotalPrice, calculateOrderTotalPrice } from "../utils/calculatePrice";
 
 function Order({ onCloseDrawer }) {
   const theme = useTheme();
@@ -14,13 +14,6 @@ function Order({ onCloseDrawer }) {
 
   const handleRemove = (itemId) => {
     removeItem(itemId);
-  };
-
-  const calculateItemTotalPrice = () => {
-    return items.reduce((total, item) => total + item.price, 0);
-  };
-  const calculateOrderTotalPrice = () => {
-    return items.reduce((total, item) => total + calculateSalePrice(item), 0);
   };
 
   const OrderButtonSmall = ({ label, to, onClick }) => {
@@ -114,7 +107,7 @@ function Order({ onCloseDrawer }) {
           }
           total={
             items.length > 0
-              ? `฿${calculateItemTotalPrice().toFixed(2)}`
+              ? `฿${calculateItemTotalPrice(items).toFixed(2)}`
               : "฿0.00"
           }
         />
@@ -123,7 +116,7 @@ function Order({ onCloseDrawer }) {
           total={
             items.length > 0
               ? `฿${(
-                  calculateItemTotalPrice() - calculateOrderTotalPrice()
+                  calculateItemTotalPrice(items) - calculateOrderTotalPrice(items)
                 ).toFixed(2)}`
               : "฿0.00"
           }
@@ -133,7 +126,7 @@ function Order({ onCloseDrawer }) {
           description="7% Vat include"
           total={
             items.length > 0
-              ? `฿${(calculateOrderTotalPrice() * 0.07).toFixed(2)}`
+              ? `฿${(calculateOrderTotalPrice(items) * 0.07).toFixed(2)}`
               : "฿0.00"
           }
         />
@@ -141,7 +134,7 @@ function Order({ onCloseDrawer }) {
           category="Total"
           total={
             items.length > 0
-              ? `฿${calculateOrderTotalPrice().toFixed(2)}`
+              ? `฿${calculateOrderTotalPrice(items).toFixed(2)}`
               : "฿0.00"
           }
         />

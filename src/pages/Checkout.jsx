@@ -7,7 +7,11 @@ import OrderItemCard from "../components/orders/OrderItemCard";
 import CheckoutStepper from "../components/checkout-payment/CheckoutStepper";
 import { CartContext } from "../components/contexts/CartContext";
 import OrderItemReviewCard from "../components/checkout-payment/OrderItemReviewCard";
-import calculateSalePrice from "../utils/calculateSalePrice";
+import {
+  calculateSalePrice,
+  calculateItemTotalPrice,
+  calculateOrderTotalPrice,
+} from "../utils/calculatePrice";
 import ButtonGeneric from "../components/common/ButtonGeneric";
 
 function Checkout() {
@@ -15,13 +19,6 @@ function Checkout() {
   const { items } = useContext(CartContext);
   const navigate = useNavigate();
   const [currentCheckoutStep, setCurrentCheckoutStep] = useState(0);
-
-  const calculateItemTotalPrice = () => {
-    return items.reduce((total, item) => total + item.price, 0);
-  };
-  const calculateOrderTotalPrice = () => {
-    return items.reduce((total, item) => total + calculateSalePrice(item), 0);
-  };
 
   const handleGoBack = () => {
     navigate(-1);
@@ -95,7 +92,7 @@ function Checkout() {
                     }
                     total={
                       items.length > 0
-                        ? `฿${calculateItemTotalPrice().toFixed(2)}`
+                        ? `฿${calculateItemTotalPrice(items).toFixed(2)}`
                         : "฿0.00"
                     }
                   />
@@ -104,8 +101,8 @@ function Checkout() {
                     total={
                       items.length > 0
                         ? `฿${(
-                            calculateItemTotalPrice() -
-                            calculateOrderTotalPrice()
+                            calculateItemTotalPrice(items) -
+                            calculateOrderTotalPrice(items)
                           ).toFixed(2)}`
                         : "฿0.00"
                     }
@@ -115,7 +112,7 @@ function Checkout() {
                     description="7% Vat include"
                     total={
                       items.length > 0
-                        ? `฿${(calculateOrderTotalPrice() * 0.07).toFixed(2)}`
+                        ? `฿${(calculateOrderTotalPrice(items) * 0.07).toFixed(2)}`
                         : "฿0.00"
                     }
                   />
@@ -123,7 +120,7 @@ function Checkout() {
                     category="Total"
                     total={
                       items.length > 0
-                        ? `฿${calculateOrderTotalPrice().toFixed(2)}`
+                        ? `฿${calculateOrderTotalPrice(items).toFixed(2)}`
                         : "฿0.00"
                     }
                   />

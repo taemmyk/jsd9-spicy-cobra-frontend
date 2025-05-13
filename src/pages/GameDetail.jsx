@@ -23,7 +23,7 @@ import SwiperProductNavigation from "../components/products/SwiperProductNavigat
 // import products from "../data/products.json";
 import Heading from "../components/common/Heading";
 import { CartContext } from "../components/contexts/CartContext";
-import calculateSalePrice from "../utils/calculateSalePrice";
+import {calculateSalePrice} from "../utils/calculatePrice";
 import SwiperPerViewAuto from "../components/common/SwiperPerViewAuto";
 import { systemRequirements } from "../data/misc";
 import { motion } from "framer-motion";

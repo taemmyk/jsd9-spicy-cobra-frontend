@@ -1,5 +1,12 @@
-import React, { useState, useEffect, useMemo  } from "react";
-import { Box, Typography, Paper, FormControl, FormLabel, RadioGroup   } from "@mui/material";
+import React, { useState, useEffect, useMemo } from "react";
+import {
+  Box,
+  Typography,
+  Paper,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+} from "@mui/material";
 import FormTextField from "../common/FormTextField";
 import ButtonGeneric from "../common/ButtonGeneric";
 import TableData from "../common/TableData";
@@ -46,12 +53,18 @@ function CommunityTabAdminInvitations() {
     setNewAdmin(event.target.value);
   };
 
-  const handleNewAdminInvite = (event) => {
+  const handleNewAdminInvite = async (event) => {
     if (isNewAdminEmailValid) {
-      console.log("Invitation sent to", newAdmin);
-      // TODO: Implement logic to send invitation
+      // console.log("Invitation sent to", newAdmin);
+      try {
+        const response = await api.post("/admin/invite/", { email: newAdmin });
+        console.log("Invitation sent", response.data);
+        setNewAdmin("");
+      } catch (error) {
+        // console.log("Error sending invitation", error);
+      }
     } else {
-      console.log("Invalid email format");
+      // console.log("Invalid email format");
     }
   };
 
@@ -132,7 +145,7 @@ function CommunityTabAdminInvitations() {
           disabled={!isNewAdminEmailValid}
         />
       </Box>
-      <DividerGeneric/>
+      <DividerGeneric />
       <Box sx={{ display: "flex", gap: 2, mb: 2, alignItems: "center" }}>
         <FormTextField
           id="invite-search"

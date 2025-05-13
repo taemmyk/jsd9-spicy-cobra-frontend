@@ -66,8 +66,9 @@ function CommunityTabAdminAllUsers() {
       setLoading(true);
       setError(null);
       try {
-        const response = await api.get("/users");
-        setUsers(response.data);
+        const response = await api.get("/auth/users");
+        console.log(response.data);
+        setUsers(response.data.users);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -136,7 +137,7 @@ function CommunityTabAdminAllUsers() {
       ),
     },
     {
-      field: "lastActive",
+      field: "lastlogin",
       headerName: "Last active",
       flex: 2,
       valueFormatter: (params) => {

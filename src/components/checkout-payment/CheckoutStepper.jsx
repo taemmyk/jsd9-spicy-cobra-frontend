@@ -22,7 +22,13 @@ import ButtonGeneric from "../common/ButtonGeneric";
 import ReviewOrderForm from "./ReviewOrderForm";
 
 import { CartContext } from "../contexts/CartContext";
+import {
+  calculateSalePrice,
+  calculateOrderTotalPrice,
+} from "../../utils/calculatePrice";
 import Backdrop from "@mui/material/Backdrop";
+
+import api from "../../services/api";
 
 const steps = ["Your address", "Payment details", "Review you order"];
 
@@ -62,12 +68,18 @@ function ColorlibStepIcon(props) {
 function CheckoutStepper({ onStepChange }) {
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
-  const { clearCart } = useContext(CartContext);
+  const {
+    clearCart,
+    items: cartItems,
+    paymentMethod,
+  } = useContext(CartContext);
   const [open, setOpen] = useState(false);
   const [progress, setProgress] = useState(0);
   const [showButton, setShowButton] = useState(false);
   const progressRef = useRef(null);
   const previousFocusRef = useRef(null);
+  const [orderId, setOrderId] = useState(null);
+  const [orderNumber, setOrderNumber] = useState(null);
 
   const handleNext = () => {
     if (activeStep === 2) {
@@ -97,6 +109,7 @@ function CheckoutStepper({ onStepChange }) {
   };
 
   const handleOpen = () => {
+    handleConfirmOrder();
     previousFocusRef.current = document.activeElement;
     setOpen(true);
     setProgress(0);
@@ -128,8 +141,20 @@ function CheckoutStepper({ onStepChange }) {
     }
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     handleClose();
+    if (orderId) {
+      try {
+        const patchResponse = await api.patch(`/orders/${orderId}`, {
+          orderStatus: "Paid",
+        });
+        console.log("Order patched successfully:", patchResponse.data);
+      } catch (error) {
+        console.error("Error patching order:", error);
+      }
+    } else {
+      console.warn("Order ID is not available, cannot patch.");
+    }
   };
 
   useEffect(() => {
@@ -137,6 +162,32 @@ function CheckoutStepper({ onStepChange }) {
       clearInterval(progressRef.current);
     };
   }, []);
+
+  const handleConfirmOrder = async () => {
+    try {
+      const orderData = {
+        products: cartItems.map((item) => ({
+          productId: item._id,
+          sellPrice: calculateSalePrice(item),
+        })),
+        totalPrice: calculateOrderTotalPrice(cartItems),
+        paymentMethod: paymentMethod,
+      };
+      console.log(JSON.stringify(orderData, null, 2));
+
+      const response = await api.post("/orders", orderData);
+
+      if (response.status === 200 || response.status === 201) {
+        console.log("Order created successfully:", response.data);
+        setOrderId(response.data.data._id);
+        setOrderNumber(response.data.data.orderNumber);
+      } else {
+        console.error("Error creating order:", response.data);
+      }
+    } catch (error) {
+      console.error("Error calling create order API:", error);
+    }
+  };
 
   return (
     <Box sx={{ width: "100%", color: theme.palette.primary.contrastText }}>
@@ -163,7 +214,7 @@ function CheckoutStepper({ onStepChange }) {
           </Typography>
 
           <Typography variant="body1">
-            Your order number is &nbsp;#140396. //TODO:
+            Your order number is &nbsp;#{orderNumber}.
           </Typography>
           <Typography variant="body2" sx={{ paddingBottom: 4 }}>
             We have emailed your order confirmation.

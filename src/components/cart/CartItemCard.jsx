@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Typography, IconButton, Tooltip, Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import DeleteIcon from "@mui/icons-material/Delete";
-import calculateSalePrice from "../../utils/calculateSalePrice";
+import {calculateSalePrice} from "../../utils/calculatePrice";
 import { motion } from "framer-motion";
 
 const MotionBox = motion.create(Box);

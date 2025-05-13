@@ -263,7 +263,7 @@ function Dashboard() {
                 minHeight: "100vh",
               }}
             >
-              {selectedTab === "dashboard" && <InventoryTabTable />}
+              {selectedTab === "dashboard" && <DashboardTab />}
               {selectedTab === "orders" && <OrderTabAdmin />}
               {selectedTab === "review" && <CommunityTabAdmin />}
               {selectedTab === "inventory" && <InventoryTabTable />}
