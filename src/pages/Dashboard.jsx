@@ -23,11 +23,10 @@ import InventoryIcon from "@mui/icons-material/Inventory";
 import DashboardTab from "../components/auth/DashboardTab";
 import OrdersTab from "../components/auth/OrdersTab";
 import CommunityTab from "../components/auth/CommunityTab";
-import ReportTab from "../components/auth/ReportTab";
 import ProfileTab from "../components/auth/ProfileTab";
 
 import CommunityTabAdmin from "../components/auth/CommunityTabAdmin";
-import OrderTabAdmin from "../components/auth/OrdersTabAdmin"
+import OrderTabAdmin from "../components/auth/OrdersTabAdmin";
 import InventoryTabAdmin from "../components/auth/InventoryTabAdmin";
 import InventoryTabTable from "../components/auth/InventoryTabTable";
 import GameManagementAdmin from "../components/auth/GameManagementAdmin";
@@ -56,8 +55,6 @@ function Dashboard() {
       return <DashboardIcon fontSize="small" sx={defaultIconSx} />;
     } else if (value === "orders") {
       return <ReceiptIcon fontSize="small" sx={defaultIconSx} />;
-    } else if (value === "report") {
-      return <SummarizeIcon fontSize="small" sx={defaultIconSx} />;
     } else if (value === "profile") {
       return <PersonIcon fontSize="small" sx={defaultIconSx} />;
     } else if (value === "review") {
@@ -184,7 +181,6 @@ function Dashboard() {
                     <TabSelectorCard value="orders" label="Orders" />
                     <TabSelectorCard value="review" label="Community" />
                     <TabSelectorCard value="inventory" label="Inventory" />
-                    <TabSelectorCard value="report" label="Report" />
                     <TabSelectorCard value="profile" label="Profile" />
                   </RadioGroup>
                 </FormControl>
@@ -241,7 +237,6 @@ function Dashboard() {
                         <TabSelectorCard value="orders" label="Orders" />
                         <TabSelectorCard value="review" label="Community" />
                         <TabSelectorCard value="inventory" label="Inventory" />
-                        <TabSelectorCard value="report" label="Report" />
                         <TabSelectorCard value="profile" label="Profile" />
                       </RadioGroup>
                     </FormControl>
@@ -262,11 +257,10 @@ function Dashboard() {
                 minHeight: "100vh",
               }}
             >
-              {selectedTab === "dashboard" && <InventoryTabTable />}
+              {selectedTab === "dashboard" && <GameManagementAdmin />}
               {selectedTab === "orders" && <OrderTabAdmin />}
               {selectedTab === "review" && <CommunityTabAdmin />}
-              {selectedTab === "report" && <InventoryTabTable />}
-              {selectedTab === "inventory" && <GameManagementAdmin />}
+              {selectedTab === "inventory" && <InventoryTabTable />}
               {selectedTab === "profile" && <ProfileTab />}
             </Box>
           </Box>

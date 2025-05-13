@@ -1,9 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import {
-  Box,
-  Typography,
-  Avatar,
-} from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Box, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import Heading from "../common/Heading";
@@ -13,10 +9,6 @@ import DividerGeneric from "../common/DividerGeneric";
 
 export default function ProfileTab() {
   const theme = useTheme();
-  const avatarFileInputRef = useRef(null);
-  const [avatarImage, setAvatarImage] = useState(
-    "https://placehold.co/50x50/DBDBDB/DBDBDB"
-  );
   const userPassword = "currentpassword123"; // TODO: Replace this with actual API call to verify current password
   const [currentPasswordToCheck, setCurrentPasswordToCheck] = useState("");
   const [password, setPassword] = useState("");
@@ -33,17 +25,6 @@ export default function ProfileTab() {
       password !== "" && confirmPassword !== "" && !match
     );
   }, [password, confirmPassword]);
-
-  const handleAvatarClick = () => {
-    avatarFileInputRef.current.click();
-  };
-
-  const handleAvatarFileChange = (event) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setAvatarImage(URL.createObjectURL(file));
-    }
-  };
 
   const handleCurrentPasswordToCheckChange = (event) => {
     setCurrentPasswordToCheck(event.target.value);
@@ -97,24 +78,6 @@ export default function ProfileTab() {
               marginBottom: 2,
             }}
           >
-            <Avatar
-              alt="Developer avatar"
-              src={avatarImage}
-              sx={{
-                width: 136,
-                height: 136,
-                objectFit: "cover",
-                cursor: "pointer",
-              }}
-              onClick={handleAvatarClick}
-            />
-            <input
-              type="file"
-              accept="image/*"
-              style={{ display: "none" }}
-              ref={avatarFileInputRef}
-              onChange={handleAvatarFileChange}
-            />
             <Box sx={{ display: "flex", flexDirection: "column" }}>
               <Typography variant="h5">username@mail.com</Typography>
               <Typography variant="body1">

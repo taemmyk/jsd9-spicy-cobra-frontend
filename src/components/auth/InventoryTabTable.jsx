@@ -9,7 +9,7 @@ import GameManagementAdmin from "./GameManagementAdmin";
 function InventoryTabTable() {
   const theme = useTheme();
   const tabData = [
-    { label: "Games", component: "<GameManagementAdmin />" },
+    { label: "Games", component: <GameManagementAdmin /> },
     { label: "Genre", component: "<GenreManagementAdmin />" },
     { label: "News", component: "<NewsManagementAdmin />" },
   ];
