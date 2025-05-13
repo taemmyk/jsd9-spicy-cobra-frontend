@@ -24,6 +24,7 @@ import DashboardTab from "../components/auth/DashboardTab";
 import OrdersTab from "../components/auth/OrdersTab";
 import CommunityTab from "../components/auth/CommunityTab";
 import ProfileTab from "../components/auth/ProfileTab";
+import LogoutTab from "../components/auth/LogoutTab";
 
 import CommunityTabAdmin from "../components/auth/CommunityTabAdmin";
 import OrderTabAdmin from "../components/auth/OrdersTabAdmin";
@@ -62,6 +63,8 @@ function Dashboard() {
       return <RateReviewIcon fontSize="small" sx={defaultIconSx} />;
     } else if (value === "inventory") {
       return <InventoryIcon fontSize="small" sx={defaultIconSx} />;
+    } else if(value === "logout") {
+      return < PersonIcon fontSize="small" sx={defaultIconSx} />
     }
     return null;
   };
@@ -183,6 +186,7 @@ function Dashboard() {
                     <TabSelectorCard value="review" label="Community" />
                     <TabSelectorCard value="inventory" label="Inventory" />
                     <TabSelectorCard value="profile" label="Profile" />
+                    <TabSelectorCard value="logout" label="Logout" />
                   </RadioGroup>
                 </FormControl>
               </Box>
@@ -239,6 +243,7 @@ function Dashboard() {
                         <TabSelectorCard value="review" label="Community" />
                         <TabSelectorCard value="inventory" label="Inventory" />
                         <TabSelectorCard value="profile" label="Profile" />
+                        <TabSelectorCard value="logout" label="Logout" />
                       </RadioGroup>
                     </FormControl>
                   </AccordionDetails>
@@ -263,6 +268,7 @@ function Dashboard() {
               {selectedTab === "review" && <CommunityTabAdmin />}
               {selectedTab === "inventory" && <InventoryTabTable />}
               {selectedTab === "profile" && <ProfileTab />}
+              {selectedTab === "logout" && <LogoutTab />}
             </Box>
           </Box>
         </Container>

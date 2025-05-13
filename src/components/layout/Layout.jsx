@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { Box } from "@mui/material";
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from "@mui/material/styles";
 import Header from "./Header";
 import Footer from "./Footer";
 
@@ -13,8 +13,8 @@ const Layout = () => {
   const scrollToTop = () => {
     headerRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-  const showHeader =
-    location.pathname !== "/checkout" && location.pathname !== "/membership";
+  const hideHeaderOn = ["/membership", "/checkout", "/forgot-password", "/reset-password"];
+  const showHeader = !hideHeaderOn.includes(location.pathname);
   const showFooter = location.pathname === "/";
 
   useEffect(() => {
