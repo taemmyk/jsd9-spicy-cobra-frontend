@@ -158,10 +158,15 @@ function CheckoutStepper({ onStepChange }) {
       </Stepper>
       {activeStep === steps.length ? (
         <Fragment>
-          <Typography variant="h5">Thank you for your order!</Typography>
+          <Typography variant="h5" sx={{ paddingY: 4 }}>
+            Thank you for your order!
+          </Typography>
+
           <Typography variant="body1">
-            Your order number is &nbsp;#140396. We have emailed your order
-            confirmation and will update you once its shipped.
+            Your order number is &nbsp;#140396. //TODO:
+          </Typography>
+          <Typography variant="body2" sx={{ paddingBottom: 4 }}>
+            We have emailed your order confirmation.
           </Typography>
           <ButtonGeneric
             label="Go to my dashboard"

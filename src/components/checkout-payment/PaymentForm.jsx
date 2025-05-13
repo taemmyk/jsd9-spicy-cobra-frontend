@@ -1,37 +1,31 @@
-import React, { useState } from "react";
-import { useTheme, styled } from "@mui/material/styles";
+import React, { useState, useContext } from "react";
+import { useTheme } from "@mui/material/styles";
 import {
   Box,
   Card,
   CardActionArea,
   CardContent,
   FormControl,
-  FormControlLabel,
   RadioGroup,
   Stack,
   Typography,
   CardMedia,
 } from "@mui/material";
-import AccountBalanceRoundedIcon from "@mui/icons-material/AccountBalanceRounded";
+import QrCodeRoundedIcon from "@mui/icons-material/QrCodeRounded";
 import CreditCardRoundedIcon from "@mui/icons-material/CreditCardRounded";
+import { CartContext } from "../contexts/CartContext";
 import FormTextField from "../common/FormTextField";
-import FormCheckbox from "../common/FormCheckbox";
-
-const FormGrid = styled("div")(() => ({
-  display: "flex",
-  flexDirection: "column",
-}));
 
 function PaymentForm() {
   const theme = useTheme();
-  const [paymentType, setPaymentType] = useState("");
   const [cardNumber, setCardNumber] = useState("");
   const [cvv, setCvv] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
+  const { paymentMethod, setPaymentMethod } = useContext(CartContext);
 
   const handlePaymentTypeChange = (event) => {
     const value = event.target.value;
-    setPaymentType(value); //TODO:
+    setPaymentMethod(value);
   };
 
   const handleCardNumberChange = (event) => {
@@ -57,15 +51,29 @@ function PaymentForm() {
     }
   };
 
+  const handleCreditCardSelect = () => {
+    setPaymentMethod("creditCard");
+  };
+
+  const handleQrCodeSelect = () => {
+    setPaymentMethod("qrCode");
+  };
+
   return (
     <>
-      <Stack spacing={{ xs: 3, sm: 6 }} useFlexGap sx={{ mt: 2 }}>
-        <Typography>Payment</Typography>
+      <Typography variant="body1" sx={{ paddingTop: 4 }}>
+        Payment
+      </Typography>
+      <Stack
+        spacing={{ xs: 3, sm: 6 }}
+        useFlexGap
+        sx={{ marginTop: 2, paddingY: 4 }}
+      >
         <FormControl component="fieldset" fullWidth>
           <RadioGroup
             aria-label="Payment options"
             name="paymentType"
-            value={paymentType}
+            value={paymentMethod}
             onChange={handlePaymentTypeChange}
             sx={{
               display: "flex",
@@ -74,16 +82,16 @@ function PaymentForm() {
             }}
           >
             <Card
-              selected={paymentType === "creditCard"}
+              selected={paymentMethod === "creditCard"}
               sx={{
                 backgroundColor: theme.palette.background.card,
-                ...(paymentType === "creditCard" && {
+                ...(paymentMethod === "creditCard" && {
                   backgroundColor: theme.palette.background.layout,
                 }),
               }}
             >
               <CardActionArea
-                onClick={() => setPaymentType("creditCard")}
+                onClick={handleCreditCardSelect}
                 sx={{
                   ".MuiCardActionArea-focusHighlight": {
                     backgroundColor: theme.palette.secondary.dark,
@@ -114,7 +122,7 @@ function PaymentForm() {
                       {
                         color: theme.palette.primary.contrastText,
                       },
-                      paymentType === "creditCard" && {
+                      paymentMethod === "creditCard" && {
                         color: theme.palette.primary.contrastText,
                       },
                     ]}
@@ -124,16 +132,16 @@ function PaymentForm() {
               </CardActionArea>
             </Card>
             <Card
-              selected={paymentType === "bankTransfer"}
+              selected={paymentMethod === "qrCode"}
               sx={{
                 backgroundColor: theme.palette.background.card,
-                ...(paymentType === "bankTransfer" && {
+                ...(paymentMethod === "qrCode" && {
                   backgroundColor: theme.palette.background.layout,
                 }),
               }}
             >
               <CardActionArea
-                onClick={() => setPaymentType("bankTransfer")}
+                onClick={handleQrCodeSelect}
                 sx={{
                   ".MuiCardActionArea-focusHighlight": {
                     backgroundColor: theme.palette.secondary.dark,
@@ -158,26 +166,24 @@ function PaymentForm() {
                 <CardContent
                   sx={{ display: "flex", alignItems: "center", gap: 1 }}
                 >
-                  <AccountBalanceRoundedIcon
+                  <QrCodeRoundedIcon
                     fontSize="small"
                     sx={[
                       {
                         color: theme.palette.primary.contrastText,
                       },
-                      paymentType === "bankTransfer" && {
+                      paymentMethod === "qrCode" && {
                         color: theme.palette.primary.contrastText,
                       },
                     ]}
                   />
-                  <Typography sx={{ fontWeight: "medium" }}>
-                    Bank account
-                  </Typography>
+                  <Typography sx={{ fontWeight: "medium" }}>QR Code</Typography>
                 </CardContent>
               </CardActionArea>
             </Card>
           </RadioGroup>
         </FormControl>
-        {paymentType === "creditCard" && (
+        {paymentMethod === "creditCard" && (
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
             <Box
               sx={{
@@ -250,24 +256,14 @@ function PaymentForm() {
                   onChange={handleExpirationDateChange}
                 />
               </Stack>
-              <FormControlLabel
-                control={<FormCheckbox />}
-                label={
-                  <Typography variant="body2" marginLeft={2} marginY={2}>
-                    Remember credit card details for next time
-                  </Typography>
-                }
-                sx={{ paddingX: 3 }}
-              />
             </Box>
           </Box>
         )}
-        {paymentType === "bankTransfer" && (
+        {paymentMethod === "qrCode" && (
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
             <Typography variant="body1">QR Code</Typography>
             <Typography variant="body2" gutterBottom>
-              Please transfer the payment to the bank account details shown
-              below.
+              Follow the instruction below to complete your payment. The system will generate a QR code for you to scan.
             </Typography>
 
             <CardMedia
@@ -281,8 +277,6 @@ function PaymentForm() {
               }}
               loading="lazy"
             />
-
-            <Box sx={{ display: "flex", gap: 1 }}></Box>
           </Box>
         )}
       </Stack>

@@ -1,5 +1,4 @@
 export function generateRandomDateAndTime() {
-  // Generate a random date
   const startYear = new Date().getFullYear() - 3;
   const endYear = new Date().getFullYear();
   const randomYear =
@@ -7,7 +6,6 @@ export function generateRandomDateAndTime() {
   const randomMonth = Math.floor(Math.random() * 12);
   const randomDay = Math.floor(Math.random() * 28) + 1;
 
-  // Generate random time components
   const randomHours = Math.floor(Math.random() * 24);
   const randomMinutes = Math.floor(Math.random() * 60);
   const randomSeconds = Math.floor(Math.random() * 60);
