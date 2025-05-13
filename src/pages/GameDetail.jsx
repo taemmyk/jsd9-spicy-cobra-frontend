@@ -20,19 +20,21 @@ import ButtonGeneric from "../components/common/ButtonGeneric";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import SwiperProductNavigation from "../components/products/SwiperProductNavigation";
-import products from "../data/products.json";
+// import products from "../data/products.json";
 import Heading from "../components/common/Heading";
 import { CartContext } from "../components/contexts/CartContext";
 import calculateSalePrice from "../utils/calculateSalePrice";
 import SwiperPerViewAuto from "../components/common/SwiperPerViewAuto";
 import { systemRequirements } from "../data/misc";
 import { motion } from "framer-motion";
+import { formatDateDDMMMMYYYY } from "../utils/formatDateMongoDb";
+import api from "../services/api";
 
 const MotionBox = motion.create(Box);
 
 function GameDetail() {
   const theme = useTheme();
-  const { gameId } = useParams();
+  const { gameSlug } = useParams();
   const [gameData, setGameData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -47,10 +49,10 @@ function GameDetail() {
     Math.floor(thumbsupCount * Math.random() * 0.1)
   );
 
-  const recommendedGames = products
-    .filter((product) => product.product_id !== gameId)
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 3);
+  // const recommendedGames = products
+  //   .filter((product) => product.product_id !== gameId)
+  //   .sort(() => Math.random() - 0.5)
+  //   .slice(0, 3);
 
   const handleAddToCart = () => {
     addItem(gameData);
@@ -60,7 +62,7 @@ function GameDetail() {
     if (!gameData) return;
 
     const isItemInCart = items.some(
-      (item) => item.product_id === gameData.product_id
+      (item) => item._id === gameData._id
     );
 
     if (isItemInCart) {
@@ -91,26 +93,29 @@ function GameDetail() {
   const systemRequirementMock = systemRequirements();
 
   useEffect(() => {
-    try {
-      const targetProduct = products.find((game) => game.product_id === gameId);
-
-      if (targetProduct) {
-        setGameData(targetProduct);
-        setLoading(false);
-      } else {
-        setError("Game not found.");
+    const fetchGameData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await api.get(`/products/game/${gameSlug}`);
+        if (response.status < 200 || response.status >= 300) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const contentType = response.headers["content-type"];
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new Error("Received non-JSON response from server.");
+        }
+        setGameData(response.data);
+      } catch (err) {
+        setError("Error loading game data.", err);
+      } finally {
         setLoading(false);
       }
-    } catch (err) {
-      setError("Error loading game data.", err);
-      setLoading(false);
-    }
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
-  }, [gameId]);
+    };
+
+    fetchGameData();
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, [gameSlug]);
 
   if (loading) {
     return <div>Loading game details...</div>;
@@ -165,7 +170,7 @@ function GameDetail() {
                   gap: 2,
                 }}
               >
-                {gameData.discount_percentage > 0 && (
+                {gameData.discountPercentage > 0 && (
                   <Card
                     sx={{
                       backgroundColor: "transparent",
@@ -180,68 +185,35 @@ function GameDetail() {
                         fontWeight: "600",
                       }}
                     >
-                      {gameData.discount_percentage}%
+                      {gameData.discountPercentage}%
                     </Typography>
                   </Card>
                 )}
-                <Card
-                  sx={{
-                    backgroundColor: "transparent",
-                    border: "solid 1px #D1B6FF",
-                    padding: 1,
-                  }}
-                >
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      color: theme.palette.secondary.light,
-                      fontSize: "0.85rem",
-                    }}
-                  >
-                    {gameData.genre_id_1}
-                  </Typography>
-                </Card>
-                {gameData.genre_id_2 && (
-                  <Card
-                    sx={{
-                      backgroundColor: "transparent",
-                      border: "solid 1px #D1B6FF",
-                      padding: 1,
-                    }}
-                  >
-                    <Typography
+                {Array.isArray(gameData.genres) &&
+                  gameData.genres.map((genre) => (
+                    <Card
+                      key={genre._id}
                       sx={{
-                        color: theme.palette.secondary.light,
-                        fontSize: "0.85rem",
+                        backgroundColor: "transparent",
+                        border: "solid 1px #D1B6FF",
+                        padding: 1,
                       }}
                     >
-                      {gameData.genre_id_2}
-                    </Typography>
-                  </Card>
-                )}
-                {gameData.genre_id_3 && (
-                  <Card
-                    sx={{
-                      backgroundColor: "transparent",
-                      border: "solid 1px #D1B6FF",
-                      padding: 1,
-                    }}
-                  >
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        color: theme.palette.secondary.light,
-                        fontSize: "0.85rem",
-                      }}
-                    >
-                      {gameData.genre_id_3}
-                    </Typography>
-                  </Card>
-                )}
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: theme.palette.secondary.light,
+                          fontSize: "0.85rem",
+                        }}
+                      >
+                        {genre.genreName}
+                      </Typography>
+                    </Card>
+                  ))}
               </Box>
               {/* Price */}
               <Box sx={{ display: "flex", gap: 2 }}>
-                {gameData.discount_percentage > 0 ? (
+                {gameData.discountPercentage > 0 ? (
                   <>
                     <Typography
                       variant="body1"
@@ -370,7 +342,7 @@ function GameDetail() {
                     textTransform: "uppercase",
                   }}
                 >
-                  {gameData.developer}
+                  {gameData.developerName}
                 </Typography>
                 <Typography
                   variant="body3"
@@ -469,7 +441,7 @@ function GameDetail() {
                     fontFamily: "Roboto Condensed",
                   }}
                 >
-                  {gameData.release_date}
+                  {formatDateDDMMMMYYYY(gameData.releaseDate)}
                 </Typography>
               </Box>
             </Box>
@@ -585,9 +557,9 @@ function GameDetail() {
           >
             <Heading section="You may also like" />
 
-            <Box sx={{ paddingBottom: 2, paddingX: 4 }}>
+            {/* <Box sx={{ paddingBottom: 2, paddingX: 4 }}>
               <SwiperPerViewAuto products={recommendedGames} />
-            </Box>
+            </Box> */}
           </Box>
         </Container>
       </Box>

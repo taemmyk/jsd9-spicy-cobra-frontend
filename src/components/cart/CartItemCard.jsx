@@ -16,7 +16,7 @@ function CartItemCard({ product, onRemove }) {
     event.stopPropagation();
     setShouldAnimate(true);
     setTimeout(() => {
-      onRemove(product.product_id);
+      onRemove(product._id);
     }, 400);
   };
 

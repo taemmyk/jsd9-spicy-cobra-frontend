@@ -1,10 +1,6 @@
 import React from "react";
-import {
-  FormLabel,
-  Select,
-  FormControl,
-} from "@mui/material";
-import { useTheme } from '@mui/material/styles';
+import { FormLabel, Select, FormControl } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import PropTypes from "prop-types";
 
 const FormSelect = ({
@@ -23,7 +19,12 @@ const FormSelect = ({
       <FormLabel
         htmlFor={id}
         required={required}
-        sx={{ color: theme.palette.secondary.light }}
+        sx={{
+          color: theme.palette.secondary.light,
+          "&.Mui-focused": {
+            color: theme.palette.secondary.light,
+          },
+        }}
       >
         {label}
       </FormLabel>
@@ -33,7 +34,7 @@ const FormSelect = ({
         value={value}
         onChange={onChange}
         sx={{
-          backgroundColor: theme.palette.primary.contrastText,
+          backgroundColor: theme.palette.primary.contrastText, borderRadius: 4,
         }}
         MenuProps={{
           PaperProps: {

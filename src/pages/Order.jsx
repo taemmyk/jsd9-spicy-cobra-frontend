@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Box, Typography, Button } from "@mui/material";
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 import { CartContext } from "../components/contexts/CartContext";
 import Heading from "../components/common/Heading";
@@ -85,7 +85,7 @@ function Order({ onCloseDrawer }) {
           >
             {items.map((item) => (
               <CartItemCard
-                key={item.product_id}
+                key={item._id}
                 product={item}
                 onRemove={handleRemove}
               />

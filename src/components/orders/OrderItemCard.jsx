@@ -17,7 +17,7 @@ function OrderItemCard({ product }) {
     >
       <Box
         component="img"
-        src={product.image_thumbnail}
+        src={product.imageThumbnail}
         alt={product.title}
         sx={{
           maxWidth: "150px",
