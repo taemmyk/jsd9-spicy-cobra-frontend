@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import {
   AppBar,
@@ -19,6 +19,7 @@ const Header = () => {
   const theme = useTheme();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation(); // ใช้เพื่อตรวจสอบตำแหน่งปัจจุบัน
 
   const toggleCartDrawer = (newOpen) => () => {
     setIsCartOpen(newOpen);
@@ -29,7 +30,10 @@ const Header = () => {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: theme.palette.background.layout }}>
+    <AppBar
+      position="static"
+      sx={{ backgroundColor: theme.palette.background.layout }}
+    >
       <Toolbar>
         <Container
           maxWidth="xl"
@@ -88,7 +92,16 @@ const Header = () => {
               open={isCartOpen}
               toggleDrawer={toggleCartDrawer}
             />
-            <Link to="/membership" style={{ textDecoration: "none" }}>
+            <Link
+              to={
+                localStorage.getItem("token")
+                  ? location.pathname === "/"
+                    ? "/dashboard" // ถ้าอยู่หน้า "/" ให้ไปหน้า "dashboard"
+                    : "/" // ถ้าอยู่หน้าอื่น เช่น "dashboard" ให้กลับไปหน้า "/"
+                  : "/membership" // ถ้ายังไม่ได้ล็อกอิน ให้ไปหน้า "membership"
+              }
+              style={{ textDecoration: "none" }}
+            >
               <IconButton>
                 <PersonIcon
                   sx={{
