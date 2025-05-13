@@ -29,3 +29,28 @@ export const getProfile = async () => {
   const response = await api.get("/mongo/auth/profile");
   return response.data;
 };
+
+// Forgot Password
+export const forgotPassword = async (email) => {
+  try {
+    const response = await api.post("/auth/forgot-password", { email });
+    if (response.data.error) {
+      throw new Error(response.data.message || "Password reset failed.");
+    }
+    return response.data;
+  } catch (error) {
+    console.error("Error in forgotPassword:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+// Reset Password
+// export const resetPassword = async ({ token, password }) => {
+//   const response = await api.post("/auth/reset-password", { token, password });
+//   return response.data;
+// };
+
+export const resetPassword = async ({ token, password }) => {
+  const response = await api.post(`/auth/reset-password/${token}`, { password });
+  return response.data;
+};

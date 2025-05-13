@@ -15,12 +15,25 @@ const api = axios.create({
 // เพิ่ม interceptor เพื่อแนบ token อัตโนมัติ
 api.interceptors.request.use((config) => {
   console.log("Interceptor fired");
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-    console.log("Sending token:", token);
+
+  // รายการ endpoint ที่ไม่ควรแนบ token
+  const publicEndpoints = ["/auth/forgot-password", "/auth/register", "/auth/login"];
+
+  // ตรวจว่า URL นี้ไม่ใช่ public endpoint ก่อนจะแนบ token
+  const isPublic = publicEndpoints.some((endpoint) =>
+    config.url?.includes(endpoint)
+  );
+
+  if (!isPublic) {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+      console.log("Sending token:", token);
+    }
   }
+
   return config;
 });
+
 
 export default api;

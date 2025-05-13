@@ -7,19 +7,33 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import EmailIcon from "@mui/icons-material/Email";
 import ButtonGeneric from "../components/common/ButtonGeneric";
 import FormTextFieldWithIcon from "../components/common/FormTextFieldWithIcon";
+import { forgotPassword } from "../services/authService";
 
 function ForgotPassword() {
   const theme = useTheme();
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleGoBack = () => {
     navigate(-1);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Send password reset email");
-    navigate("/reset-password"); //TODO:
+    setIsLoading(true);
+    try {
+      const response = await forgotPassword(email);
+      setSuccessMessage(response.message);
+      setErrorMessage("");
+    } catch (error) {
+      setErrorMessage(error.response?.data?.message || "Something went wrong.");
+      setSuccessMessage("");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -138,6 +152,8 @@ function ForgotPassword() {
                     type="email"
                     placeholder="Email address"
                     required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     icon={
                       <EmailIcon
                         sx={{ color: theme.palette.secondary.light }}
@@ -147,8 +163,29 @@ function ForgotPassword() {
                   <ButtonGeneric
                     label="Send Reset Email"
                     type="submit"
+                    disabled={isLoading}
                     sx={{ marginTop: 2, alignItems: "center" }}
                   />
+                  {successMessage && (
+                    <Typography
+                      variant="body2"
+                      color="success"
+                      textAlign="center"
+                      mt={2}
+                    >
+                      {successMessage}
+                    </Typography>
+                  )}
+                  {errorMessage && (
+                    <Typography
+                      variant="body2"
+                      color="error"
+                      textAlign="center"
+                      mt={2}
+                    >
+                      {errorMessage}
+                    </Typography>
+                  )}
                 </Box>
               </Paper>
             </Box>
