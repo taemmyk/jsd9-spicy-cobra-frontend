@@ -1,30 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Box, Typography, IconButton, Paper } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import cobraBg from "../assets/Cobra.png";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ButtonGeneric from "../components/common/ButtonGeneric";
 import FormTextFieldWithIcon from "../components/common/FormTextFieldWithIcon";
+import { resetPassword } from "../services/authService";
+import Alert from "@mui/material/Alert";
 
 function ResetPassword() {
   const theme = useTheme();
   const navigate = useNavigate();
+  const { token } = useParams(); // รับ token จาก URL
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordMatchError, setPasswordMatchError] = useState("");
-   const [email, setEmail] = useState("userToReset@example.com"); //TODO:
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/forgot-password");
+    }
+  }, [token, navigate]);
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
-    if (confirmPassword != "") {
-      if (event.target.value !== confirmPassword) {
-        setPasswordMatchError("Passwords do not match");
-      } else {
-        setPasswordMatchError("");
-      }
+    if (confirmPassword !== "" && event.target.value !== confirmPassword) {
+      setPasswordMatchError("Passwords do not match");
+    } else {
+      setPasswordMatchError("");
     }
   };
+
   const handleConfirmPasswordChange = (event) => {
     setConfirmPassword(event.target.value);
     if (event.target.value !== password) {
@@ -35,12 +43,35 @@ function ResetPassword() {
   };
 
   const handleGoBack = () => {
-    navigate("/membership"); //TODO: start over to get a new token?
+    navigate("/membership");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Send confirm password reset email"); //TODO:
+    setIsLoading(true);
+
+    if (password !== confirmPassword) {
+      setPasswordMatchError("Passwords do not match");
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const response = await resetPassword({ token, password });
+      console.log(response.message);
+      navigate("/membership");
+    } catch (error) {
+      const errorMsg = error.response?.data?.message || "Failed to reset password.";
+
+      if (error.response?.status === 400) {
+        alert("Your reset link may have expired. Please request a new one.");
+        navigate("/forgot-password");
+      } else {
+        setPasswordMatchError(errorMsg);
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -145,17 +176,6 @@ function ResetPassword() {
                     alignItems: "center",
                   }}
                 >
-                  <Typography variant="body2" textAlign="center" mb={2}>
-                    Please enter a new password for the email address:
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    fontWeight="bold"
-                    textAlign="center"
-                    sx={{ color: theme.palette.secondary.main }}
-                  >
-                    {email}
-                  </Typography>
                   <FormTextFieldWithIcon
                     id="password"
                     name="password"
@@ -198,8 +218,9 @@ function ResetPassword() {
                   </Box>
 
                   <ButtonGeneric
-                    label="Reset your password"
-                    to="/" //TODO: 
+                    label={isLoading ? "Resetting..." : "Reset your password"}
+                    type="submit"
+                    disabled={isLoading}
                     sx={{ marginTop: 2, alignItems: "center" }}
                   />
                 </Box>
