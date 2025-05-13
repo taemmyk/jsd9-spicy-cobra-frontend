@@ -30,6 +30,7 @@ import OrderTabAdmin from "../components/auth/OrdersTabAdmin";
 import InventoryTabAdmin from "../components/auth/InventoryTabAdmin";
 import InventoryTabTable from "../components/auth/InventoryTabTable";
 import GameManagementAdmin from "../components/auth/GameManagementAdmin";
+import CommunityTabAdminInvitations from "../components/auth/CommunityTabAdminInvitations";
 
 function Dashboard() {
   const theme = useTheme();
@@ -257,7 +258,7 @@ function Dashboard() {
                 minHeight: "100vh",
               }}
             >
-              {selectedTab === "dashboard" && <GameManagementAdmin />}
+              {selectedTab === "dashboard" && <InventoryTabTable />}
               {selectedTab === "orders" && <OrderTabAdmin />}
               {selectedTab === "review" && <CommunityTabAdmin />}
               {selectedTab === "inventory" && <InventoryTabTable />}

@@ -116,8 +116,7 @@ function GameManagementAdmin() {
 
     const updatedProductData = {
       ...editedProduct,
-      genres: selectedGenreIds,
-      releaseDate: releaseDate ? releaseDate.toISOString() : null,
+      genres: selectedGenreIds, //TODO:
     };
 
     try {
@@ -133,7 +132,7 @@ function GameManagementAdmin() {
 
       setSelectedProduct(null);
       setEditedProduct(null);
-      setReleaseDate(null);
+      // setReleaseDate(null); //TODO:
     } catch (error) {
       console.error("Error updating product:", error);
     }
@@ -467,8 +466,8 @@ function GameManagementAdmin() {
                 onChange={handleInputChange}
               />
               <FormTextField
-                id="developer"
-                name="developer"
+                id="developerName"
+                name="developerName"
                 label="Developer"
                 type="text"
                 placeholder="developer"
@@ -477,8 +476,8 @@ function GameManagementAdmin() {
                 onChange={handleInputChange}
               />
               <FormTextField
-                id="publisher"
-                name="publisher"
+                id="publisherName"
+                name="publisherName"
                 label="Publisher"
                 type="text"
                 placeholder="publisher"
@@ -557,8 +556,8 @@ function GameManagementAdmin() {
                 <MenuItem value={70}>70%</MenuItem>
               </FormSelect>
               <FormTextField
-                id="release-date"
-                name="release-date"
+                id="releaseDate"
+                name="releaseDate"
                 label="Release date"
                 type="text"
                 placeholder="DD-MM-YYYY"

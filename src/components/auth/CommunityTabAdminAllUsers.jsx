@@ -25,7 +25,7 @@ function CommunityTabAdminAllUsers() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchField, setSearchField] = useState("username");
+  const [searchField, setSearchField] = useState("email");
 
   const handleSearchFieldChange = (event) => {
     setSearchField(event.target.value);
@@ -97,7 +97,7 @@ function CommunityTabAdminAllUsers() {
       flex: 2,
       resizable: false,
     },
-    { field: "username", headerName: "Username", flex: 3 },
+    { field: "email", headerName: "Email", flex: 3 },
     {
       field: "role",
       headerName: "Role",
@@ -176,8 +176,8 @@ function CommunityTabAdminAllUsers() {
             onChange={handleSearchFieldChange}
           >
             <FormRadioField
-              value="username"
-              label="Username"
+              value="email"
+              label="Email"
               selectedValue={searchField}
               onChange={handleSearchFieldChange}
             />
