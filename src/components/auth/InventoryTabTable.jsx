@@ -6,13 +6,14 @@ import { useTheme } from "@mui/material/styles";
 import TabsGeneric from "../common/TabsGeneric";
 import GameManagementAdmin from "./GameManagementAdmin";
 import GenreManagement from "./GenreManagement";
+import NewsManagement from "./NewsManagement";
 
 function InventoryTabTable() {
   const theme = useTheme();
   const tabData = [
     { label: "Games", component: <GameManagementAdmin /> },
     { label: "Genre", component: <GenreManagement /> },
-    { label: "News", component: "News Management" },
+    { label: "News", component: <NewsManagement/> },
   ];
 
   return (

@@ -27,14 +27,14 @@ function TableData({
         onRowClick={onRowClick}
         sx={{
           border: 0,
-          backgroundColor: theme.palette.background.layout,
+          backgroundColor: theme.palette.background.paper,
           color: theme.palette.primary.contrastText,
           "& .MuiDataGrid-columnHeader": {
-            backgroundColor: theme.palette.primary.light,
-            color: "white",
+            backgroundColor: theme.palette.background.layout,
+            color: theme.palette.secondary.light,
           },
           "& .MuiDataGrid-row:hover": {
-            backgroundColor: theme.palette.secondary.main,
+            backgroundColor: theme.palette.background.layout,
           },
           "& .MuiDataGrid-row.Mui-selected": {
             backgroundColor: theme.palette.secondary.dark,
@@ -46,13 +46,25 @@ function TableData({
             color: theme.palette.secondary.light,
           },
           "& .MuiDataGrid-row.Mui-selected:hover": {
-            backgroundColor: theme.palette.secondary.main,
+            backgroundColor: theme.palette.background.layout,
           },
-          "& .MuiDataGrid-footer": {
-            backgroundColor: "pink",
-            color: theme.palette.primary.contrastText,
+          "& .MuiDataGrid-footerContainer": {
+            backgroundColor: theme.palette.background.layout,
+            color: theme.palette.secondary.light,
           },
 
+          "& .MuiTablePagination-root": {
+            backgroundColor: theme.palette.background.layout,
+          },
+
+          "& .MuiTablePagination-selectLabel, & .MuiTablePagination-displayedRows":
+            {
+              color: theme.palette.secondary.light,
+            },
+
+          "& .MuiSelect-select, & .MuiSelect-icon": {
+            color: theme.palette.secondary.light,
+          },
           "& .MuiSelect-select": {
             color: theme.palette.primary.contrastText,
           },
