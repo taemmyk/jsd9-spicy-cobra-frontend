@@ -361,11 +361,11 @@ function GameManagementAdmin() {
             </RadioGroup>
           </FormControl>
           <Box>
-            <ButtonOutlined
+            {/* <ButtonOutlined
               label="Add new Game"
               icons={<AddIcon />}
               // onClick={handleAddNew}
-            />
+            /> TODO: */}
           </Box>
         </Box>
       </Box>
