@@ -17,7 +17,6 @@ import SwiperAutoplay from "../components/common/SwiperAutoplay";
 import SwiperGrid from "../components/common/SwiperGrid";
 import { animate, stagger } from "motion";
 
-import productsLocal from "../data/products.json";
 import { newsItems } from "../data/misc";
 
 import api from "../services/api";
@@ -27,7 +26,7 @@ const Home = () => {
   const [products, setProducts] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [errorProducts, setErrorProducts] = useState(null);
-  const recommendedGames = productsLocal.slice(0, 10);
+  const recommendedGames = [...products].sort(() => 0.5 - Math.random()).slice(0, 5);
 
   const textRef = useRef([]);
   const text1 = `Unleash your indie game. Limitless creativity`;
@@ -122,9 +121,6 @@ const Home = () => {
 
   return (
     <>
-      {/* {products.map((item) => (
-        <ProductCard key={item._id} product={item} />
-      ))} */}
       <Box sx={{ backgroundColor: theme.palette.secondary.dark }}>
         <Container maxWidth="xl">
           <Box

@@ -21,11 +21,11 @@ function SlidesPerViewAuto({ products }) {
         {products.map((product, index) => (
           <SwiperSlide key={index}>
             <Link
-              to={`/games/${product.product_id}`}
+              to={`/games/${product.slug}`}
               style={{ textDecoration: "none" }}
             >
               <img
-                src={product.image_thumbnail}
+                src={product.imageThumbnail}
                 alt={product.title || `Product ${index + 1}`}
                 loading="lazy"
               />
