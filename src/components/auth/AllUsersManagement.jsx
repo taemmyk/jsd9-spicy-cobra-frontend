@@ -53,7 +53,7 @@ function CommunityTabAdminAllUsers() {
     );
     setUsers(updatedUsers);
     try {
-      await api.patch(`/users/status/${user._id}`, { status: newStatus });
+      await api.patch(`/auth/status/${user._id}`);
     } catch (updateError) {
       console.error("Error updating user status:", updateError);
       setError("Failed to update user status.");
