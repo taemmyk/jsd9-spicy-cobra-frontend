@@ -1,11 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Box, IconButton } from "@mui/material";
+import { Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Heading from "../../components/common/Heading";
-import SearchInput from "../../components/common/SearchInput";
-import ClearIcon from "@mui/icons-material/Clear";
-import SearchIcon from "@mui/icons-material/Search";
-import productsData from "../../data/products.json";
 import {
   Card,
   CardActionArea,
@@ -14,35 +10,76 @@ import {
   Typography,
   Avatar,
   Stack,
+  CircularProgress,
 } from "@mui/material";
+import api from "../../services/api";
 
 function DashboardTab() {
   const theme = useTheme();
-  const [searchText, setSearchText] = useState("");
-  const newSelectedProducts = [productsData[2], productsData[8]];
-
-  const inputRef = useRef(null);
-
-  const handleInputChange = (event) => {
-    setSearchText(event.target.value);
-  };
-
-  const handleClearInput = () => {
-    setSearchText("");
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  };
-
-  const handleSearchSubmit = (event) => {
-    event.preventDefault();
-  };
+  const [userGames, setUserGames] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
+    const fetchOrders = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          setError("Not authenticated");
+          setLoading(false);
+          return;
+        }
+
+        const decodedToken = JSON.parse(atob(token.split(".")[1]));
+        const userIdFromToken = decodedToken.userId;
+
+        if (!userIdFromToken) {
+          setError("User ID not found in token");
+          setLoading(false);
+          return;
+        }
+
+        // console.log("token userid", userIdFromToken);
+
+        const response = await api.get(`/orders/games/${userIdFromToken}`);
+        setUserGames(response.data.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+        setError("Failed to fetch orders");
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
   }, []);
+
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "200px",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box sx={{ margin: 4 }}>
+        <Heading section="Your order" />
+        <Box sx={{ marginTop: 4 }}>
+          <Typography color="error">{error}</Typography>
+        </Box>
+      </Box>
+    );
+  }
+
   return (
     <Box
       sx={{
@@ -57,7 +94,6 @@ function DashboardTab() {
         marginY: 2,
       }}
     >
-      {/* <Heading section="Welcome user!" /> */}
       <Box
         sx={{
           display: "flex",
@@ -66,35 +102,6 @@ function DashboardTab() {
         }}
       >
         <Heading section="Your Game Library" />
-        {/* <Box sx={{ display: "flex" }}>
-          <SearchInput
-            isSearchOpen={true}
-            searchText={searchText}
-            handleInputChange={handleInputChange}
-            handleSearchSubmit={handleSearchSubmit}
-            sx={{ backgroundColor: theme.palette.secondary.light }}
-          />
-          {searchText && (
-            <IconButton onClick={handleClearInput} sx={{ p: 1 }}>
-              <ClearIcon
-                sx={{
-                  width: { xs: 28, md: 40 },
-                  height: { xs: 28, md: 40 },
-                  color: theme.palette.secondary.light,
-                }}
-              />
-            </IconButton>
-          )}
-          <IconButton sx={{ p: 1 }}>
-            <SearchIcon
-              sx={{
-                width: { xs: 28, md: 40 },
-                height: { xs: 28, md: 40 },
-                color: theme.palette.secondary.light,
-              }}
-            />
-          </IconButton>
-        </Box> */}
       </Box>
       <Box
         sx={{
@@ -112,53 +119,59 @@ function DashboardTab() {
           marginRight: 4,
         }}
       >
-        {newSelectedProducts.map((game, index) => (
-          <Card key={index} sx={{ borderRadius: 4 }}>
-            <CardActionArea>
-              <Box
-                sx={{
-                  position: "relative",
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
-                <CardMedia
-                  component="img"
-                  height="auto"
-                  image={game.image_thumbnail}
-                  alt={game.title}
+        {userGames.map((userGame) =>
+          userGame.items.map((item) => (
+            <Card key={item._id} sx={{ borderRadius: 4 }}>
+              <CardActionArea>
+                <Box
                   sx={{
-                    width: "100%",
-                    objectFit: "cover",
-                  }}
-                  loading="lazy"
-                />
-              </Box>
-              <CardContent
-                sx={{
-                  display: "flex",
-                  justifyContent: "start",
-                  backgroundColor: theme.palette.background.card,
-                }}
-              >
-                <Stack
-                  sx={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: 2,
+                    position: "relative",
+                    display: "flex",
+                    flexDirection: "column",
                   }}
                 >
-                  <Avatar
-                    alt={game.developer}
-                    src={game.developer_avatar}
-                    sx={{ width: 48, height: 48, objectFit: "cover" }}
+                  <CardMedia
+                    component="img"
+                    height="auto"
+                    image={item.product?.imageThumbnail}
+                    alt={item.product?.title}
+                    sx={{
+                      width: "100%",
+                      objectFit: "cover",
+                    }}
+                    loading="lazy"
                   />
-                  <Typography variant="body3">{game.developer}</Typography>
-                </Stack>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        ))}
+                </Box>
+                <CardContent
+                  sx={{
+                    display: "flex",
+                    justifyContent: "start",
+                    backgroundColor: theme.palette.background.card,
+                  }}
+                >
+                  <Stack
+                    sx={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: 2,
+                    }}
+                  >
+                    {item.product?.developerName && (
+                      <Avatar
+                        alt={item.product.developerName}
+                        src={item.product?.developerAvatar}
+                        sx={{ width: 48, height: 48, objectFit: "cover" }}
+                      />
+                    )}
+                    <Typography variant="body3">
+                      {item.product?.developerName}
+                    </Typography>
+                  </Stack>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          ))
+        )}
       </Box>
     </Box>
   );
