@@ -97,7 +97,7 @@ function GameDetail() {
       setLoading(true);
       setError(null);
       try {
-        const response = await api.get(`/products/game/${gameSlug}`);
+        const response = await api.get(`/products/games/${gameSlug}`);
         if (response.status < 200 || response.status >= 300) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }

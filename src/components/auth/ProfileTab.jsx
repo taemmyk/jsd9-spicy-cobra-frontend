@@ -6,18 +6,18 @@ import Heading from "../common/Heading";
 import ButtonGeneric from "../common/ButtonGeneric";
 import FormTextField from "../common/FormTextField";
 import DividerGeneric from "../common/DividerGeneric";
-
+import api from "../../services/api";
 export default function ProfileTab() {
   const theme = useTheme();
-  const userPassword = "currentpassword123"; // TODO: Replace this with actual API call to verify current password
+  // const userPassword = "currentpassword123"; // TODO: Replace this with actual API call to verify current password
   const [currentPasswordToCheck, setCurrentPasswordToCheck] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState(""); //new password
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isPasswordMatch, setIsPasswordMatch] = useState(false);
   const [showPasswordMismatch, setShowPasswordMismatch] = useState(false);
   const [showCurrentPasswordMismatch, setShowCurrentPasswordMismatch] =
     useState(false);
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const match = password === confirmPassword && password !== "";
     setIsPasswordMatch(match);
@@ -25,33 +25,45 @@ export default function ProfileTab() {
       password !== "" && confirmPassword !== "" && !match
     );
   }, [password, confirmPassword]);
-
   const handleCurrentPasswordToCheckChange = (event) => {
     setCurrentPasswordToCheck(event.target.value);
     setShowCurrentPasswordMismatch(false);
   };
-
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
-
   const handleConfirmPasswordChange = (event) => {
     setConfirmPassword(event.target.value);
   };
-
-  const handleSaveChanges = () => {
-    if (currentPasswordToCheck === userPassword) {
+  const handleSaveChanges = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      // update password
       if (isPasswordMatch) {
+        await api.post("/auth/users/update-password", {
+          currentPassword: currentPasswordToCheck,
+          newPassword: password,
+          confirmNewPassword: confirmPassword,
+        });
+        // reset form
         setCurrentPasswordToCheck("");
         setPassword("");
         setConfirmPassword("");
-        setShowPasswordMismatch(false); // TODO: Implement actual save new password logic
+        setShowPasswordMismatch(false);
+        alert("Password updated successfully!");
       }
-    } else {
-      setShowCurrentPasswordMismatch(true);
+    } catch (error) {
+      if (error.response?.status === 400) {
+        setShowCurrentPasswordMismatch(true);
+      } else {
+        console.error("Error updating password:", error);
+        alert("An error occurred while updating the password.");
+      }
+    } finally {
+      setLoading(false);
     }
   };
-
   return (
     <>
       <Box
@@ -112,7 +124,6 @@ export default function ProfileTab() {
               </Typography>
             )}
           </Box>
-
           <FormTextField
             id="current-password-check"
             name="current-password-check"
@@ -122,7 +133,6 @@ export default function ProfileTab() {
             value={currentPasswordToCheck}
             onChange={handleCurrentPasswordToCheckChange}
           />
-
           <FormTextField
             id="password"
             name="password"
@@ -132,7 +142,6 @@ export default function ProfileTab() {
             value={password}
             onChange={handlePasswordChange}
           />
-
           <FormTextField
             id="confirm-password"
             name="confirm-password"
@@ -142,11 +151,11 @@ export default function ProfileTab() {
             value={confirmPassword}
             onChange={handleConfirmPasswordChange}
           />
-
           <ButtonGeneric
             label="Save Changes"
             sx={{ marginTop: 4 }}
             disabled={
+              loading ||
               !password ||
               !confirmPassword ||
               showPasswordMismatch ||
