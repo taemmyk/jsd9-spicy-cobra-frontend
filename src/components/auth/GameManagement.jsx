@@ -20,6 +20,7 @@ import dayjs from "dayjs";
 import TableData from "../common/TableData";
 import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
 import CloseIcon from "@mui/icons-material/Close";
+import AddIcon from "@mui/icons-material/Add";
 import { useTheme } from "@mui/material/styles";
 import FormTextField from "../common/FormTextField";
 import FormSelect from "../common/FormSelect";
@@ -28,8 +29,9 @@ import FormCheckbox from "../common/FormCheckbox";
 import ButtonGeneric from "../common/ButtonGeneric";
 import api from "../../services/api";
 import convertTitleToSlug from "../../utils/generateSlug";
-import {calculateSalePrice} from "../../utils/calculatePrice";
+import { calculateSalePrice } from "../../utils/calculatePrice";
 import DialogImageUrl from "../common/DialogImageUrl";
+import ButtonOutlined from "../common/ButtonOutlined";
 
 const paginationModel = { page: 0, pageSize: 10 };
 
@@ -47,6 +49,9 @@ function GameManagementAdmin() {
   const [editedProduct, setEditedProduct] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [imageURL, setImageURL] = useState("");
+  const [editingImageType, setEditingImageType] = useState(null);
+  const [selectedSlideshowIndex, setSelectedSlideshowIndex] = useState(-1);
+  const [newSlideshowImageURL, setNewSlideshowImageURL] = useState("");
 
   const handleSearchFieldChange = (event) => {
     setSearchField(event.target.value);
@@ -115,8 +120,19 @@ function GameManagementAdmin() {
     );
 
     const updatedProductData = {
-      ...editedProduct,
-      genres: selectedGenreIds, //TODO:
+      title: editedProduct.title,
+      slug: convertTitleToSlug(editedProduct.title), // Generate slug from title
+      description: editedProduct.description,
+      genres: selectedGenreIds,
+      releaseDate: editedProduct.releaseDate,
+      developerName: editedProduct.developerName,
+      developerAvatar: editedProduct.developerAvatar,
+      publisherName: editedProduct.publisherName,
+      rating: editedProduct.rating,
+      price: editedProduct.price,
+      discountPercentage: editedProduct.discountPercentage,
+      imageThumbnail: editedProduct.imageThumbnail,
+      imageSlideshow: editedProduct.imageSlideshow,
     };
 
     try {
@@ -132,7 +148,6 @@ function GameManagementAdmin() {
 
       setSelectedProduct(null);
       setEditedProduct(null);
-      // setReleaseDate(null); //TODO:
     } catch (error) {
       console.error("Error updating product:", error);
     }
@@ -228,8 +243,13 @@ function GameManagementAdmin() {
     );
   }
 
-  const handleOpenDialog = () => {
-    setImageURL(editedProduct.imageThumbnail || "");
+  const handleOpenDialog = (type, index = -1, currentURL = "") => {
+    setEditingImageType(type);
+    setSelectedSlideshowIndex(index);
+    setImageURL(currentURL);
+    if (type === "addSlideshow") {
+      setNewSlideshowImageURL("");
+    }
     setIsDialogOpen(true);
   };
 
@@ -238,16 +258,46 @@ function GameManagementAdmin() {
     setImageURL("");
   };
 
-  const handleImageURLChange = (event) => {
-    setImageURL(event.target.value);
+  const handleSaveImageURL = () => {
+    if (editingImageType === "thumbnail") {
+      setEditedProduct((prevEditedProduct) => ({
+        ...prevEditedProduct,
+        imageThumbnail: imageURL,
+      }));
+    } else if (
+      editingImageType === "slideshow" &&
+      selectedSlideshowIndex !== -1 &&
+      editedProduct?.imageSlideshow
+    ) {
+      const updatedImageSlideshow = [...editedProduct.imageSlideshow];
+      updatedImageSlideshow[selectedSlideshowIndex] = imageURL;
+      setEditedProduct((prevEditedProduct) => ({
+        ...prevEditedProduct,
+        imageSlideshow: updatedImageSlideshow,
+      }));
+      setSelectedSlideshowIndex(-1);
+    } else if (editingImageType === "addSlideshow" && imageURL) {
+      setEditedProduct((prevEditedProduct) => ({
+        ...prevEditedProduct,
+        imageSlideshow: [...(prevEditedProduct.imageSlideshow || []), imageURL],
+      }));
+      setNewSlideshowImageURL("");
+    }
+    setEditingImageType(null);
+    setImageURL("");
+    handleCloseDialog();
   };
 
-  const handleSaveImageURL = () => {
-    setEditedProduct((prevEditedProduct) => ({
-      ...prevEditedProduct,
-      imageThumbnail: imageURL,
-    }));
-    handleCloseDialog();
+  const handleRemoveSlideshowImage = (indexToRemove) => {
+    setEditedProduct((prevEditedProduct) => {
+      if (prevEditedProduct?.imageSlideshow) {
+        const updatedSlideshow = prevEditedProduct.imageSlideshow.filter(
+          (_, index) => index !== indexToRemove
+        );
+        return { ...prevEditedProduct, imageSlideshow: updatedSlideshow };
+      }
+      return prevEditedProduct;
+    });
   };
 
   return (
@@ -258,48 +308,66 @@ function GameManagementAdmin() {
         width: "100%",
       }}
     >
-      <Box sx={{ display: "flex", gap: 2, mb: 2, alignItems: "center" }}>
-        <FormTextField
-          id="user-search"
-          name="user-search"
-          label="Search"
-          type="text"
-          placeholder="Search products"
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <FormControl fullWidth component="fieldset">
-          <FormLabel
-            component="legend"
-            sx={{
-              color: theme.palette.secondary.light,
-              "&.Mui-focused": {
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: 2,
+        }}
+      >
+        <Box
+          sx={{ display: "flex", gap: 2, alignItems: "center", width: "100%" }}
+        >
+          <FormTextField
+            id="user-search"
+            name="user-search"
+            label="Search"
+            type="text"
+            placeholder="Search products"
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <FormControl fullWidth component="fieldset">
+            <FormLabel
+              component="legend"
+              sx={{
                 color: theme.palette.secondary.light,
-              },
-            }}
-          >
-            Search By
-          </FormLabel>
-          <RadioGroup
-            row
-            aria-label="search-by"
-            name="searchBy"
-            value={searchField}
-            onChange={handleSearchFieldChange}
-          >
-            <FormRadioField
-              value="title"
-              label="Title"
-              selectedValue={searchField}
+                "&.Mui-focused": {
+                  color: theme.palette.secondary.light,
+                },
+              }}
+            >
+              Search By
+            </FormLabel>
+            <RadioGroup
+              row
+              aria-label="search-by"
+              name="searchBy"
+              value={searchField}
               onChange={handleSearchFieldChange}
+            >
+              <FormRadioField
+                value="title"
+                label="Title"
+                selectedValue={searchField}
+                onChange={handleSearchFieldChange}
+              />
+              <FormRadioField
+                value="developerName"
+                label="Developer"
+                selectedValue={searchField}
+                onChange={handleSearchFieldChange}
+              />
+            </RadioGroup>
+          </FormControl>
+          <Box>
+            <ButtonOutlined
+              label="Add new Game"
+              icons={<AddIcon />}
+              // onClick={handleAddNew}
             />
-            <FormRadioField
-              value="developerName"
-              label="Developer"
-              selectedValue={searchField}
-              onChange={handleSearchFieldChange}
-            />
-          </RadioGroup>
-        </FormControl>
+          </Box>
+        </Box>
       </Box>
       <Paper sx={{ minHeight: 100, width: "100%" }}>
         <TableData
@@ -336,7 +404,15 @@ function GameManagementAdmin() {
               }}
             >
               <Card sx={{ borderRadius: 4 }}>
-                <CardActionArea onClick={handleOpenDialog}>
+                <CardActionArea
+                  onClick={() =>
+                    handleOpenDialog(
+                      "thumbnail",
+                      -1,
+                      editedProduct.imageThumbnail || ""
+                    )
+                  }
+                >
                   <Box
                     sx={{
                       position: "relative",
@@ -431,32 +507,62 @@ function GameManagementAdmin() {
                   </CardContent>
                 </CardActionArea>
               </Card>
-              <Button
-                variant="contained"
-                component="span"
-                startIcon={<PhotoLibraryIcon />}
-                // onClick={handleButtonClick}
-                sx={{
-                  marginY: 2,
-                  bgcolor: theme.palette.secondary.light,
-                  color: theme.palette.secondary.contrastText,
-                  fontSize: { xs: "1rem", md: "1.25rem" },
-                  fontWeight: "400",
-                  paddingX: { xs: 1, md: 2 },
-                  paddingY: { xs: 0, md: 1 },
-                  borderRadius: 8,
-                  boxShadow: 2,
-                  whiteSpace: "nowrap",
-                  transition: "all 0.2s ease",
-                  "&:hover": {
-                    bgcolor: theme.palette.secondary.dark,
-                    color: theme.palette.primary.contrastText,
-                  },
-                }}
-              >
-                Select slideshow images
-              </Button>
-              //TODO: slideshow images
+              <ButtonOutlined
+                label="Add new slideshow image"
+                icons={<PhotoLibraryIcon />}
+                onClick={() => handleOpenDialog("addSlideshow")}
+              />
+              {editedProduct.imageSlideshow ? (
+                <Box sx={{ display: "flex", overflowX: "auto", mt: 1 }}>
+                  {editedProduct.imageSlideshow.map((image, index) => (
+                    <Box
+                      key={index}
+                      sx={{ position: "relative", marginRight: 1 }}
+                    >
+                      <Box
+                        component="img"
+                        src={image}
+                        sx={{
+                          width: "100px",
+                          height: "100px",
+                          objectFit: "cover",
+                          objectPosition: "center",
+                          cursor: "pointer",
+                        }}
+                        loading="lazy"
+                        onClick={() =>
+                          handleOpenDialog("slideshow", index, image)
+                        }
+                      />
+                      <Box
+                        sx={{
+                          position: "absolute",
+                          top: 0,
+                          right: 0,
+                          backgroundColor: theme.palette.negative.default,
+                          color: theme.palette.error.contrastText,
+                          borderRadius: "50%",
+                          width: 24,
+                          height: 24,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          cursor: "pointer",
+                          zIndex: 1,
+                          "&:hover": {
+                            backgroundColor: theme.palette.error.dark,
+                          },
+                        }}
+                        onClick={() => handleRemoveSlideshowImage(index)}
+                      >
+                        <CloseIcon sx={{ fontSize: 14 }} />
+                      </Box>
+                    </Box>
+                  ))}
+                </Box>
+              ) : (
+                <Typography variant="body1">No images in slideshow.</Typography>
+              )}
             </Box>
 
             <Box
@@ -608,11 +714,28 @@ function GameManagementAdmin() {
       <DialogImageUrl
         open={isDialogOpen}
         onClose={handleCloseDialog}
-        imageURL={imageURL}
-        onImageURLChange={handleImageURLChange}
+        imageURL={
+          editingImageType === "addSlideshow" ? newSlideshowImageURL : imageURL
+        }
+        onImageURLChange={(e) => {
+          if (editingImageType === "addSlideshow") {
+            setNewSlideshowImageURL(e.target.value);
+            setImageURL(e.target.value);
+          } else {
+            setImageURL(e.target.value);
+          }
+        }}
         onSave={handleSaveImageURL}
+        title={
+          editingImageType === "thumbnail"
+            ? "Edit Thumbnail URL"
+            : editingImageType === "slideshow"
+            ? "Edit Slideshow Image URL"
+            : editingImageType === "addSlideshow"
+            ? "Add New Slideshow Image URL"
+            : "Edit Image URL"
+        }
       />
-
       {!editedProduct && (
         <Box sx={{ marginTop: 2 }}>
           <Typography>Click on a row to edit user details.</Typography>
