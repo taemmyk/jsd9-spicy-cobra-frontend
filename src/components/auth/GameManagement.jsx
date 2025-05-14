@@ -29,7 +29,7 @@ import ButtonGeneric from "../common/ButtonGeneric";
 import api from "../../services/api";
 import convertTitleToSlug from "../../utils/generateSlug";
 import {calculateSalePrice} from "../../utils/calculatePrice";
-import DialogImageUrl from "../common/DialogImageURL";
+import DialogImageUrl from "../common/DialogImageUrl";
 
 const paginationModel = { page: 0, pageSize: 10 };
 
