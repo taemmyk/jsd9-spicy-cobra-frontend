@@ -5,42 +5,48 @@ import {
   CardContent,
   CardMedia,
   Collapse,
-  Grid,
   IconButton,
   Typography,
   Tooltip,
-  Rating,
+  Box,
 } from "@mui/material";
-import { useTheme } from '@mui/material/styles';
-import {
-  ContactSupport as ContactSupportIcon,
-  CloudDownload as CloudDownloadIcon,
-  Share as ShareIcon,
-  ExpandMore as ExpandMoreIcon,
-} from "@mui/icons-material";
-import StarIcon from "@mui/icons-material/Star";
-import {
-  generateRandomDateAndTime,
-  formatDateWithTime,
-  generateDatetimeTransaction,
-} from "../../utils/getRandomDatetime";
+import { useTheme } from "@mui/material/styles";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ShareIcon from '@mui/icons-material/Share';
+import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
+import ContactSupportIcon from '@mui/icons-material/ContactSupport';
+import ErrorIcon from "@mui/icons-material/Error";
 
-function ExpandableCard({ product, ratingValue, reviewContent }) {
+function ExpandableCard({ order }) {
   const theme = useTheme();
   const [expanded, setExpanded] = useState(false);
-  const orderDatetimeRef = useRef(null);
-  const transactionDatetimeRef = useRef(null);
-
-  if (!orderDatetimeRef.current) {
-    orderDatetimeRef.current = generateRandomDateAndTime();
-    transactionDatetimeRef.current = generateDatetimeTransaction(
-      orderDatetimeRef.current
-    );
-  }
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case "Paid":
+        return (
+          <CheckCircleIcon sx={{ color: theme.palette.accent.dark, mr: 0.5 }} />
+        );
+      case "Pending":
+        return (
+          <ErrorIcon sx={{ color: theme.palette.accent.emphasis, mr: 0.5 }} />
+        );
+      case "Cancelled":
+        return (
+          <CancelIcon sx={{ color: theme.palette.negative.default, mr: 0.5 }} />
+        );
+      default:
+        return null;
+    }
+  };
+
+  const statusIcon = getStatusIcon(order.orderStatus);
 
   return (
     <Card
@@ -50,50 +56,38 @@ function ExpandableCard({ product, ratingValue, reviewContent }) {
       }}
     >
       <CardContent>
-        <Grid container spacing={2}>
-          <Grid>
-            <CardMedia
-              component="img"
-              image={product.image_thumbnail}
-              alt={product.title}
-              sx={{ height: "auto", maxWidth: "100%" }}
-              loading="lazy"
-            />
-          </Grid>
-          <Grid>
-            <Typography
-              variant="h5"
-              sx={{ color: theme.palette.accent.default }}
-            >
-              {product.title}
-            </Typography>
+        <Typography variant="h5" sx={{ color: theme.palette.accent.default }}>
+          #{order.orderNumber} {statusIcon}
+        </Typography>
+        <Typography
+          variant="body2"
+          sx={{ color: theme.palette.secondary.light }}
+        >
+          ฿{order.totalPrice}
+        </Typography>
+        <Typography
+          variant="body2"
+          sx={{ color: theme.palette.primary.contrastText }}
+        >
+          <b>Order Date:</b> {new Date(order.orderAt).toLocaleString()}
+        </Typography>
+        {order.orderStatus === "Paid" && (
+          <>
             <Typography
               variant="body2"
-              sx={{ color: theme.palette.secondary.light }}
+              sx={{ color: theme.palette.primary.contrastText }}
             >
-              ฿{product.price}
+              <b>Transaction Date:</b>{" "}
+              {new Date(order.transactionAt).toLocaleString()}
             </Typography>
             <Typography
               variant="body2"
               sx={{ color: theme.palette.primary.contrastText }}
             >
-              <b>Order No.</b> #1234567
+              <b>Payment method:</b> {order.paymentMethod}
             </Typography>
-            <Typography
-              variant="body2"
-              sx={{ color: theme.palette.primary.contrastText }}
-            >
-              <b>Order</b> {formatDateWithTime(orderDatetimeRef.current)}
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{ color: theme.palette.primary.contrastText }}
-            >
-              <b>Transaction</b>{" "}
-              {formatDateWithTime(transactionDatetimeRef.current)}
-            </Typography>
-          </Grid>
-        </Grid>
+          </>
+        )}
       </CardContent>
       <CardActions disableSpacing>
         <Tooltip title="Share">
@@ -130,24 +124,20 @@ function ExpandableCard({ product, ratingValue, reviewContent }) {
         <CardContent>
           <Typography
             variant="body1"
-            sx={{ marginBottom: 2, color: theme.palette.secondary.light }}
+            sx={{ color: theme.palette.secondary.light, paddingBottom: 1 }}
           >
-            Your Review on This Game
+            Order items
           </Typography>
-          <Rating
-            name="text-feedback"
-            value={ratingValue}
-            readOnly
-            precision={0.5}
-            emptyIcon={
-              <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
-            }
-          />
-          <Typography variant="body2">
-            {reviewContent
-              ? reviewContent
-              : "You have not review this game yet."}
-          </Typography>
+          {order.items &&
+            order.items.map((item) => (
+              <Box
+                key={item._id}
+                sx={{ display: "flex", justifyContent: "space-between" }}
+              >
+                <Typography>{item.product.title}</Typography>
+                <Typography>{item.sellPrice.toFixed(2)}</Typography>
+              </Box>
+            ))}
         </CardContent>
       </Collapse>
     </Card>

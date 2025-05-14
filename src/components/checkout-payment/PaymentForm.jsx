@@ -52,11 +52,11 @@ function PaymentForm() {
   };
 
   const handleCreditCardSelect = () => {
-    setPaymentMethod("creditCard");
+    setPaymentMethod("Credit Card");
   };
 
   const handleQrCodeSelect = () => {
-    setPaymentMethod("qrCode");
+    setPaymentMethod("QR");
   };
 
   return (
@@ -82,10 +82,10 @@ function PaymentForm() {
             }}
           >
             <Card
-              selected={paymentMethod === "creditCard"}
+              selected={paymentMethod === "Credit Card"}
               sx={{
                 backgroundColor: theme.palette.background.card,
-                ...(paymentMethod === "creditCard" && {
+                ...(paymentMethod === "Credit Card" && {
                   backgroundColor: theme.palette.background.layout,
                 }),
               }}
@@ -122,7 +122,7 @@ function PaymentForm() {
                       {
                         color: theme.palette.primary.contrastText,
                       },
-                      paymentMethod === "creditCard" && {
+                      paymentMethod === "Credit Card" && {
                         color: theme.palette.primary.contrastText,
                       },
                     ]}
@@ -132,10 +132,10 @@ function PaymentForm() {
               </CardActionArea>
             </Card>
             <Card
-              selected={paymentMethod === "qrCode"}
+              selected={paymentMethod === "QR"}
               sx={{
                 backgroundColor: theme.palette.background.card,
-                ...(paymentMethod === "qrCode" && {
+                ...(paymentMethod === "QR" && {
                   backgroundColor: theme.palette.background.layout,
                 }),
               }}
@@ -172,7 +172,7 @@ function PaymentForm() {
                       {
                         color: theme.palette.primary.contrastText,
                       },
-                      paymentMethod === "qrCode" && {
+                      paymentMethod === "QR" && {
                         color: theme.palette.primary.contrastText,
                       },
                     ]}
@@ -183,7 +183,7 @@ function PaymentForm() {
             </Card>
           </RadioGroup>
         </FormControl>
-        {paymentMethod === "creditCard" && (
+        {paymentMethod === "Credit Card" && (
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
             <Box
               sx={{
@@ -259,7 +259,7 @@ function PaymentForm() {
             </Box>
           </Box>
         )}
-        {paymentMethod === "qrCode" && (
+        {paymentMethod === "QR" && (
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
             <Typography variant="body1">QR Code</Typography>
             <Typography variant="body2" gutterBottom>

@@ -12,7 +12,7 @@ import {
   Rating,
 } from "@mui/material";
 import { useTheme } from '@mui/material/styles';
-import calculateSalePrice from "../../utils/calculateSalePrice";
+import {calculateSalePrice} from "../../utils/calculatePrice";
 
 function ProductCard({ product }) {
   const theme = useTheme();

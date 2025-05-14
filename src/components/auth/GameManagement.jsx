@@ -10,11 +10,9 @@ import {
   MenuItem,
   Button,
   Card,
-  CardHeader,
   CardActionArea,
   CardMedia,
   CardContent,
-  TextField,
   Stack,
   Avatar,
 } from "@mui/material";
@@ -22,7 +20,6 @@ import dayjs from "dayjs";
 import TableData from "../common/TableData";
 import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
 import CloseIcon from "@mui/icons-material/Close";
-import Heading from "../common/Heading";
 import { useTheme } from "@mui/material/styles";
 import FormTextField from "../common/FormTextField";
 import FormSelect from "../common/FormSelect";
@@ -31,7 +28,8 @@ import FormCheckbox from "../common/FormCheckbox";
 import ButtonGeneric from "../common/ButtonGeneric";
 import api from "../../services/api";
 import convertTitleToSlug from "../../utils/generateSlug";
-import calculateSalePrice from "../../utils/calculateSalePrice";
+import {calculateSalePrice} from "../../utils/calculatePrice";
+import DialogImageUrl from "../common/DialogImageURL";
 
 const paginationModel = { page: 0, pageSize: 10 };
 
@@ -47,6 +45,8 @@ function GameManagementAdmin() {
   const [searchField, setSearchField] = useState("title");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [editedProduct, setEditedProduct] = useState(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [imageURL, setImageURL] = useState("");
 
   const handleSearchFieldChange = (event) => {
     setSearchField(event.target.value);
@@ -116,8 +116,7 @@ function GameManagementAdmin() {
 
     const updatedProductData = {
       ...editedProduct,
-      genres: selectedGenreIds,
-      releaseDate: releaseDate ? releaseDate.toISOString() : null,
+      genres: selectedGenreIds, //TODO:
     };
 
     try {
@@ -133,7 +132,7 @@ function GameManagementAdmin() {
 
       setSelectedProduct(null);
       setEditedProduct(null);
-      setReleaseDate(null);
+      // setReleaseDate(null); //TODO:
     } catch (error) {
       console.error("Error updating product:", error);
     }
@@ -229,6 +228,28 @@ function GameManagementAdmin() {
     );
   }
 
+  const handleOpenDialog = () => {
+    setImageURL(editedProduct.imageThumbnail || "");
+    setIsDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
+    setImageURL("");
+  };
+
+  const handleImageURLChange = (event) => {
+    setImageURL(event.target.value);
+  };
+
+  const handleSaveImageURL = () => {
+    setEditedProduct((prevEditedProduct) => ({
+      ...prevEditedProduct,
+      imageThumbnail: imageURL,
+    }));
+    handleCloseDialog();
+  };
+
   return (
     <Box
       sx={{
@@ -315,7 +336,7 @@ function GameManagementAdmin() {
               }}
             >
               <Card sx={{ borderRadius: 4 }}>
-                <CardActionArea>
+                <CardActionArea onClick={handleOpenDialog}>
                   <Box
                     sx={{
                       position: "relative",
@@ -323,31 +344,32 @@ function GameManagementAdmin() {
                       flexDirection: "column",
                     }}
                   >
-                    <Box
-                      sx={{
-                        position: "absolute",
-                        backgroundColor: theme.palette.accent.emphasis,
-                        top: theme.spacing(2),
-                        left: theme.spacing(2),
-                        borderRadius: 4,
-                        padding: theme.spacing(0.5, 1),
-                      }}
-                    >
-                      {editedProduct.discountPercentage > 0 && (
+                    {editedProduct.discountPercentage > 0 && (
+                      <Box
+                        sx={{
+                          position: "absolute",
+                          backgroundColor: theme.palette.accent.emphasis,
+                          top: theme.spacing(2),
+                          left: theme.spacing(2),
+                          borderRadius: 4,
+                          padding: theme.spacing(0.5, 1),
+                        }}
+                      >
                         <Typography variant="saleTag">
                           {editedProduct.discountPercentage}%
                         </Typography>
-                      )}
-                    </Box>
+                      </Box>
+                    )}
                     <CardMedia
                       component="img"
-                      height="140"
+                      height="100%"
                       image={
                         editedProduct.imageThumbnail ||
                         "https://placehold.co/460x215/DBDBDB/DBDBDB"
                       }
                       alt={editedProduct.title}
                       loading="lazy"
+                      sx={{ cursor: "pointer" }}
                     />
                     <Box
                       sx={{
@@ -467,8 +489,8 @@ function GameManagementAdmin() {
                 onChange={handleInputChange}
               />
               <FormTextField
-                id="developer"
-                name="developer"
+                id="developerName"
+                name="developerName"
                 label="Developer"
                 type="text"
                 placeholder="developer"
@@ -477,8 +499,8 @@ function GameManagementAdmin() {
                 onChange={handleInputChange}
               />
               <FormTextField
-                id="publisher"
-                name="publisher"
+                id="publisherName"
+                name="publisherName"
                 label="Publisher"
                 type="text"
                 placeholder="publisher"
@@ -557,8 +579,8 @@ function GameManagementAdmin() {
                 <MenuItem value={70}>70%</MenuItem>
               </FormSelect>
               <FormTextField
-                id="release-date"
-                name="release-date"
+                id="releaseDate"
+                name="releaseDate"
                 label="Release date"
                 type="text"
                 placeholder="DD-MM-YYYY"
@@ -582,6 +604,14 @@ function GameManagementAdmin() {
           </Box>
         </Box>
       )}
+
+      <DialogImageUrl
+        open={isDialogOpen}
+        onClose={handleCloseDialog}
+        imageURL={imageURL}
+        onImageURLChange={handleImageURLChange}
+        onSave={handleSaveImageURL}
+      />
 
       {!editedProduct && (
         <Box sx={{ marginTop: 2 }}>
