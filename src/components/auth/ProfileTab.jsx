@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { useAuth } from "../contexts/authContext";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import Heading from "../common/Heading";
 import ButtonGeneric from "../common/ButtonGeneric";
 import FormTextField from "../common/FormTextField";
 import DividerGeneric from "../common/DividerGeneric";
 import api from "../../services/api";
+
 export default function ProfileTab() {
   const theme = useTheme();
-  // const userPassword = "currentpassword123"; // TODO: Replace this with actual API call to verify current password
+  const { user } = useAuth();
   const [currentPasswordToCheck, setCurrentPasswordToCheck] = useState("");
   const [password, setPassword] = useState(""); //new password
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -91,10 +93,10 @@ export default function ProfileTab() {
             }}
           >
             <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <Typography variant="h5">username@mail.com</Typography>
+              <Typography variant="h5">{user.email}</Typography>
               <Typography variant="body1">
                 <VerifiedIcon sx={{ color: theme.palette.secondary.light }} />{" "}
-                role
+                {user.role}
               </Typography>
             </Box>
           </Box>

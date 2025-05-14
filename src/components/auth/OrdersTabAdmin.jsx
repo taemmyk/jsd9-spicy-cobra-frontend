@@ -61,7 +61,7 @@ function OrdersTabAdmin() {
   };
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchField, setSearchField] = useState("username");
+  const [searchField, setSearchField] = useState("user.email");
 
   const handleSearchFieldChange = (event) => {
     setSearchField(event.target.value);
@@ -85,11 +85,11 @@ function OrdersTabAdmin() {
   const getStatusColor = (status) => {
     switch (status) {
       case "Paid":
-        return theme.palette.success.main;
+        return theme.palette.accent.dark;
       case "Pending":
-        return theme.palette.warning.main;
+        return theme.palette.accent.emphasis;
       case "Cancelled":
-        return theme.palette.error.main;
+        return theme.palette.negative.default;
       default:
         return theme.palette.secondary.light;
     }
@@ -100,15 +100,15 @@ function OrdersTabAdmin() {
       case "Paid":
         return (
           <CheckCircleIcon
-            sx={{ mr: 0.5, color: theme.palette.success.main }}
+            sx={{ mr: 0.5, color: theme.palette.accent.dark }}
           />
         );
       case "Pending":
         return (
-          <PendingIcon sx={{ mr: 0.5, color: theme.palette.warning.main }} />
+          <PendingIcon sx={{ mr: 0.5, color: theme.palette.accent.emphasis }} />
         );
       case "Cancelled":
-        return <CancelIcon sx={{ mr: 0.5, color: theme.palette.error.main }} />;
+        return <CancelIcon sx={{ mr: 0.5, color: theme.palette.negative.default }} />;
       default:
         return null;
     }
@@ -207,14 +207,8 @@ function OrdersTabAdmin() {
               onChange={handleSearchFieldChange}
             >
               <FormRadioField
-                value="username"
-                label="Username"
-                selectedValue={searchField}
-                onChange={handleSearchFieldChange}
-              />
-              <FormRadioField
-                value="product"
-                label="Product"
+                value="user.email"
+                label="Email"
                 selectedValue={searchField}
                 onChange={handleSearchFieldChange}
               />

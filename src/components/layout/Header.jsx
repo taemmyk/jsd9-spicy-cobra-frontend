@@ -101,19 +101,19 @@ const Header = () => {
               to={user ? "/dashboard" : "/membership"}
               style={{ textDecoration: "none" }}
             >
-              <IconButton>
                 {user ? (
                   // ✅ แสดงชื่อหรืออีเมลถ้า login แล้ว
                   <Typography
                     sx={{
                       fontSize: { xs: 12, md: 16 },
-                      color: "secondary.light",
+                      color: theme.palette.secondary.light,
                       textTransform: "none",
                     }}
                   >
                     {user.email}
                   </Typography>
                 ) : (
+                  <IconButton>
                   <PersonIcon
                     sx={{
                       width: { xs: 28, md: 40 },
@@ -121,8 +121,8 @@ const Header = () => {
                       color: theme.palette.secondary.light,
                     }}
                   />
+                  </IconButton>
                 )}
-              </IconButton>
             </Link>
           </Box>
         </Container>

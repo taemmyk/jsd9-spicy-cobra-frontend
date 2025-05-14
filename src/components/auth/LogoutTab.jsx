@@ -1,49 +1,27 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import {
   Box,
   Typography,
-  Avatar,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import CreditCardIcon from "@mui/icons-material/CreditCard";
-import VerifiedIcon from "@mui/icons-material/Verified";
+import { useAuth } from "../contexts/authContext";
+import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import Heading from "../common/Heading";
 import ButtonGeneric from "../common/ButtonGeneric";
-import FormTextField from "../common/FormTextField";
-import DividerGeneric from "../common/DividerGeneric";
 import { logoutUser } from "../../services/authService";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/authContext";
 
 export default function ProfileTab() {
   const theme = useTheme();
-  const avatarFileInputRef = useRef(null);
-  const [avatarImage, setAvatarImage] = useState(
-    "https://placehold.co/50x50/DBDBDB/DBDBDB"
-  );
-  const { setUser } = useAuth();
+  const { user, setUser } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
+    navigate("/");
     setUser(null);
     await logoutUser();
     localStorage.removeItem("token");
     console.log("logout successfully");
-    navigate("/");
-  };
-
-  const handleAvatarClick = () => {
-    avatarFileInputRef.current.click();
-  };
-
-  const handleAvatarFileChange = (event) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setAvatarImage(URL.createObjectURL(file));
-    }
   };
 
   return (
@@ -56,7 +34,7 @@ export default function ProfileTab() {
           width: "100%",
         }}
       >
-        <Heading section="Your Account" />
+        <Heading section="Logout" />
         <Box
           sx={{
             display: "flex",
@@ -72,31 +50,13 @@ export default function ProfileTab() {
               marginBottom: 2,
             }}
           >
-            <Avatar
-              alt="Developer avatar"
-              src={avatarImage}
-              sx={{
-                width: 136,
-                height: 136,
-                objectFit: "cover",
-                cursor: "pointer",
-              }}
-              onClick={handleAvatarClick}
-            />
-            <input
-              type="file"
-              accept="image/*"
-              style={{ display: "none" }}
-              ref={avatarFileInputRef}
-              onChange={handleAvatarFileChange}
-            />
             <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <Typography variant="h5">username@mail.com</Typography>
-              <Typography variant="body1">
-                <VerifiedIcon sx={{ color: theme.palette.secondary.light }} />{" "}
-                Are you sure that logout ?
+              <Typography variant="h5">{user?user.email:''}</Typography>
+              <Typography variant="body1" sx={{ paddingBottom: 2}}>
+                <NewReleasesIcon sx={{ color: theme.palette.secondary.light }} />{" "}
+                Are you sure you want to log out?
               </Typography>
-              <button onClick={handleLogout}>Logout</button>
+              <ButtonGeneric label="Logout" onClick={handleLogout}></ButtonGeneric>
             </Box>
           </Box>
         </Box>
