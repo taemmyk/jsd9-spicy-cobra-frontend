@@ -14,9 +14,9 @@ import Heading from "../common/Heading";
 import ButtonGeneric from "../common/ButtonGeneric";
 import FormTextField from "../common/FormTextField";
 import DividerGeneric from "../common/DividerGeneric";
-
 import { logoutUser } from "../../services/authService";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/authContext";
 
 export default function ProfileTab() {
   const theme = useTheme();
@@ -24,14 +24,16 @@ export default function ProfileTab() {
   const [avatarImage, setAvatarImage] = useState(
     "https://placehold.co/50x50/DBDBDB/DBDBDB"
   );
-
+  const { setUser } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
+    setUser(null);
     await logoutUser();
-    console.log('logout successfully');
+    localStorage.removeItem("token");
+    console.log("logout successfully");
     navigate("/");
-  }
+  };
 
   const handleAvatarClick = () => {
     avatarFileInputRef.current.click();

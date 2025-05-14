@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import {
   AppBar,
@@ -10,6 +10,7 @@ import {
   Container,
   IconButton,
 } from "@mui/material";
+import { useAuth } from "../contexts/authContext";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonIcon from "@mui/icons-material/Person";
 import Logo from "../../assets/logo.png";
@@ -20,7 +21,7 @@ const Header = () => {
   const theme = useTheme();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation(); // ใช้เพื่อตรวจสอบตำแหน่งปัจจุบัน
+  const { user, loading } = useAuth();
 
   const toggleCartDrawer = (newOpen) => () => {
     setIsCartOpen(newOpen);
@@ -30,6 +31,9 @@ const Header = () => {
     navigate("/games");
   };
 
+  if (loading) {
+    return <div>loading</div>;
+  }
   return (
     <AppBar
       position="static"
@@ -94,23 +98,30 @@ const Header = () => {
               toggleDrawer={toggleCartDrawer}
             />
             <Link
-              to={
-                localStorage.getItem("token")
-                  ? location.pathname === "/"
-                    ? "/dashboard" // ถ้าอยู่หน้า "/" ให้ไปหน้า "dashboard"
-                    : "/" // ถ้าอยู่หน้าอื่น เช่น "dashboard" ให้กลับไปหน้า "/"
-                  : "/membership" // ถ้ายังไม่ได้ล็อกอิน ให้ไปหน้า "membership"
-              }
+              to={user ? "/dashboard" : "/membership"}
               style={{ textDecoration: "none" }}
             >
               <IconButton>
-                <PersonIcon
-                  sx={{
-                    width: { xs: 28, md: 40 },
-                    height: { xs: 28, md: 40 },
-                    color: theme.palette.secondary.light,
-                  }}
-                />
+                {user ? (
+                  // ✅ แสดงชื่อหรืออีเมลถ้า login แล้ว
+                  <Typography
+                    sx={{
+                      fontSize: { xs: 12, md: 16 },
+                      color: "secondary.light",
+                      textTransform: "none",
+                    }}
+                  >
+                    {user.email}
+                  </Typography>
+                ) : (
+                  <PersonIcon
+                    sx={{
+                      width: { xs: 28, md: 40 },
+                      height: { xs: 28, md: 40 },
+                      color: theme.palette.secondary.light,
+                    }}
+                  />
+                )}
               </IconButton>
             </Link>
           </Box>
