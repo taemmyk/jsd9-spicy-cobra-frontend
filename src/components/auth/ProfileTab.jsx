@@ -6,10 +6,11 @@ import Heading from "../common/Heading";
 import ButtonGeneric from "../common/ButtonGeneric";
 import FormTextField from "../common/FormTextField";
 import DividerGeneric from "../common/DividerGeneric";
+import api from "../../services/api";
 
 export default function ProfileTab() {
   const theme = useTheme();
-  const userPassword = "currentpassword123"; // TODO: Replace this with actual API call to verify current password
+  // const userPassword = "currentpassword123"; // TODO: Replace this with actual API call to verify current password
   const [currentPasswordToCheck, setCurrentPasswordToCheck] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -39,16 +40,35 @@ export default function ProfileTab() {
     setConfirmPassword(event.target.value);
   };
 
-  const handleSaveChanges = () => {
-    if (currentPasswordToCheck === userPassword) {
+  const handleSaveChanges = async () => {
+    try {
+      const userId = localStorage.getItem("userId"); 
+      console.log("Sending to verify-password API:", {
+        userId,
+        newPassword: password,
+      });
+
+      // update password
       if (isPasswordMatch) {
+        await api.put("/auth/update-password", {
+          userId,
+          newPassword: password,
+        });
+
+        // reset form
         setCurrentPasswordToCheck("");
         setPassword("");
         setConfirmPassword("");
-        setShowPasswordMismatch(false); // TODO: Implement actual save new password logic
+        setShowPasswordMismatch(false);
+        alert("Password updated successfully!");
       }
-    } else {
-      setShowCurrentPasswordMismatch(true);
+    } catch (error) {
+      if (error.response?.status === 400) {
+        setShowCurrentPasswordMismatch(true);
+      } else {
+        console.error("Error updating password:", error);
+        alert("An error occurred while updating the password.");
+      }
     }
   };
 

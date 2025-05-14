@@ -27,7 +27,7 @@ const Home = () => {
   const [products, setProducts] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [errorProducts, setErrorProducts] = useState(null);
-  const recommendedGames = productsLocal.slice(0, 5);
+  const recommendedGames = productsLocal.slice(0, 10);
 
   const textRef = useRef([]);
   const text1 = `Unleash your indie game. Limitless creativity`;
@@ -125,7 +125,7 @@ const Home = () => {
       {/* {products.map((item) => (
         <ProductCard key={item._id} product={item} />
       ))} */}
-      {/* <Box sx={{ backgroundColor: theme.palette.secondary.dark }}>
+      <Box sx={{ backgroundColor: theme.palette.secondary.dark }}>
         <Container maxWidth="xl">
           <Box
             sx={{
@@ -182,7 +182,7 @@ const Home = () => {
       </Box>
       <Container maxWidth="xl" sx={{ paddingY: 2 }}>
         <SwiperPerViewAuto products={recommendedGames} />
-      </Container> */}
+      </Container>
       <Box sx={{ backgroundColor: theme.palette.background.paper }}>
         <Container maxWidth="xl">
           <Box
@@ -202,7 +202,7 @@ const Home = () => {
           </Box>
         </Container>
       </Box>
-      {/* <Container maxWidth="xl">
+      <Container maxWidth="xl">
         <Box sx={{ paddingBottom: 2, marginX: 2 }}>
           <Heading section="New Release" />
           <SwiperAutoplay products={recommendedGames} />
@@ -401,7 +401,7 @@ const Home = () => {
             </Box>
           </Box>
         </Container>
-      </Box> */}
+      </Box>
     </>
   );
 };

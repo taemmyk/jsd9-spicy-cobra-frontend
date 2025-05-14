@@ -54,3 +54,18 @@ export const resetPassword = async ({ token, password }) => {
   const response = await api.post(`/auth/reset-password/${token}`, { password });
   return response.data;
 };
+
+// Verify current password
+export const verifyCurrentPassword = async (currentPassword) => {
+  const response = await api.post("/auth/verify-password", { currentPassword });
+  return response.data;
+};
+
+// Update password
+export const updatePassword = async ({ currentPassword, newPassword }) => {
+  const response = await api.put("/auth/update-password", {
+    currentPassword,
+    newPassword,
+  });
+  return response.data;
+};

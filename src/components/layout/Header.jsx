@@ -8,6 +8,7 @@ import {
   Typography,
   Box,
   Container,
+  IconButton,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonIcon from "@mui/icons-material/Person";
