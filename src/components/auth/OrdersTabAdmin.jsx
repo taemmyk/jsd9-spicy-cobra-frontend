@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   Box,
   Typography,
@@ -6,6 +6,7 @@ import {
   FormControl,
   FormLabel,
   RadioGroup,
+  CircularProgress,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Heading from "../common/Heading";
@@ -16,18 +17,24 @@ import FormRadioField from "../common/FormRadioField";
 import PendingIcon from "@mui/icons-material/Pending";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import api from "../../services/api";
 
 const orderColums = [
   { field: "orderNumber", headerName: "Order No.", flex: 1 },
-  { field: "username", headerName: "Username", flex: 2 },
-  { field: "product", headerName: "Product", flex: 2 },
+  {
+    field: "user.email",
+    headerName: "Email",
+    flex: 2,
+  },
+  {
+    field: "itemsCount",
+    headerName: "Items Quantity",
+    flex: 1,
+  },
   {
     field: "totalPrice",
     headerName: "Total",
     flex: 1,
-    valueFormatter: (params) => {
-      return params.toFixed(2);
-    },
   },
   { field: "orderStatus", headerName: "Status", flex: 1 },
   {
@@ -40,113 +47,13 @@ const orderColums = [
   },
 ];
 
-const mockOrderData = [
-  {
-    orderNumber: "20250509-001",
-    username: "user123@example.com",
-    product: "Cyberpunk 2077",
-    totalPrice: 1790,
-    orderStatus: "paid",
-    paymentMethod: "credit card",
-    orderAt: new Date("2025-05-08T10:30:00Z"),
-    transactionAt: new Date("2025-05-08T11:00:00Z"),
-  },
-  {
-    orderNumber: "20250509-002",
-    username: "guest_456@sample.org",
-    product: "Stardew Valley",
-    totalPrice: 499,
-    orderStatus: "paid",
-    paymentMethod: "qr",
-    orderAt: new Date("2025-05-08T14:15:00Z"),
-    transactionAt: new Date("2025-05-08T14:30:00Z"),
-  },
-  {
-    orderNumber: "20250509-003",
-    username: "techGuru@dev.io",
-    product: "Elden Ring",
-    totalPrice: 2190,
-    orderStatus: "pending",
-    paymentMethod: "credit card",
-    orderAt: new Date("2025-05-09T09:00:00Z"),
-    transactionAt: null,
-  },
-  {
-    orderNumber: "20250509-004",
-    username: "artLover@design.net",
-    product: "The Legend of Zelda: Tears of the Kingdom",
-    totalPrice: 2250,
-    orderStatus: "paid",
-    paymentMethod: "qr",
-    orderAt: new Date("2025-05-07T18:45:00Z"),
-    transactionAt: new Date("2025-05-07T19:10:00Z"),
-  },
-  {
-    orderNumber: "20250509-005",
-    username: "codeMaster@stack.com",
-    product: "Minecraft",
-    totalPrice: 750,
-    orderStatus: "paid",
-    paymentMethod: "credit card",
-    orderAt: new Date("2025-05-09T11:20:00Z"),
-    transactionAt: new Date("2025-05-09T11:45:00Z"),
-  },
-  {
-    orderNumber: "20250509-006",
-    username: "musicFan@melody.fm",
-    product: "Final Fantasy VII Remake",
-    totalPrice: 1990,
-    orderStatus: "paid",
-    paymentMethod: "qr",
-    orderAt: new Date("2025-05-06T20:05:00Z"),
-    transactionAt: new Date("2025-05-06T20:30:00Z"),
-  },
-  {
-    orderNumber: "20250509-007",
-    username: "gameOn@play.gg",
-    product: "Red Dead Redemption 2",
-    totalPrice: 1500,
-    orderStatus: "paid",
-    paymentMethod: "credit card",
-    orderAt: new Date("2025-05-09T13:55:00Z"),
-    transactionAt: new Date("2025-05-09T14:10:00Z"),
-  },
-  {
-    orderNumber: "20250509-008",
-    username: "bookWorm@library.org",
-    product: "Hades",
-    totalPrice: 650,
-    orderStatus: "paid",
-    paymentMethod: "qr",
-    orderAt: new Date("2025-05-07T08:20:00Z"),
-    transactionAt: new Date("2025-05-07T08:40:00Z"),
-  },
-  {
-    orderNumber: "20250509-009",
-    username: "travelBug@globe.net",
-    product: "The Witcher 3: Wild Hunt",
-    totalPrice: 1200,
-    orderStatus: "cancelled",
-    paymentMethod: "credit card",
-    orderAt: new Date("2025-05-08T22:30:00Z"),
-    transactionAt: null,
-  },
-  {
-    orderNumber: "20250509-010",
-    username: "foodie@recipe.com",
-    product: "Animal Crossing: New Horizons",
-    totalPrice: 1690,
-    orderStatus: "paid",
-    paymentMethod: "qr",
-    orderAt: new Date("2025-05-09T07:40:00Z"),
-    transactionAt: new Date("2025-05-09T08:05:00Z"),
-  },
-];
-
 const paginationModel = { page: 0, pageSize: 5 };
 
 function OrdersTabAdmin() {
   const theme = useTheme();
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [selectedRowData, setSelectedRowData] = useState(null);
 
   const handleRowClick = (params) => {
@@ -177,11 +84,11 @@ function OrdersTabAdmin() {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case "paid":
+      case "Paid":
         return theme.palette.success.main;
-      case "pending":
+      case "Pending":
         return theme.palette.warning.main;
-      case "cancelled":
+      case "Cancelled":
         return theme.palette.error.main;
       default:
         return theme.palette.secondary.light;
@@ -190,22 +97,76 @@ function OrdersTabAdmin() {
 
   const getStatusIcon = (status) => {
     switch (status) {
-      case "paid":
+      case "Paid":
         return (
           <CheckCircleIcon
             sx={{ mr: 0.5, color: theme.palette.success.main }}
           />
         );
-      case "pending":
+      case "Pending":
         return (
           <PendingIcon sx={{ mr: 0.5, color: theme.palette.warning.main }} />
         );
-      case "cancelled":
+      case "Cancelled":
         return <CancelIcon sx={{ mr: 0.5, color: theme.palette.error.main }} />;
       default:
         return null;
     }
   };
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await api.get("/orders");
+        const fetchedOrders = response.data.data.map((order) => ({
+          _id: order._id,
+          orderNumber: order.orderNumber,
+          "user.email": order.user.email,
+          items: order.items,
+          itemsCount: order.items?.length,
+          totalPrice: order.totalPrice?.toFixed(2),
+          orderStatus: order.orderStatus,
+          orderAt: order.orderAt,
+        }));
+        setOrders(fetchedOrders);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+        setError(error);
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "200px",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box sx={{ margin: 4 }}>
+        <Typography color="error">
+          Error loading orders: {error.message}
+        </Typography>
+      </Box>
+    );
+  }
+
   return (
     <>
       <Box
@@ -268,7 +229,7 @@ function OrdersTabAdmin() {
         </Box>
         <Paper sx={{ minHeight: 100, width: "100%" }}>
           <TableData
-            rows={mockOrderData}
+            rows={orders}
             columns={orderColums}
             getRowId={(row) => row.orderNumber}
             paginationModel={paginationModel}
@@ -299,27 +260,100 @@ function OrdersTabAdmin() {
                 {selectedRowData.orderStatus}
               </Typography>
             </Box>
-            <Typography>Username: {selectedRowData.username}</Typography>
-            <Typography>Product: {selectedRowData.product}</Typography>
-            <Typography>
-              Total Price: {selectedRowData.totalPrice.toFixed(2)}{" "}
-            </Typography>
-
-            {selectedRowData.paymentMethod && (
+            <Typography>Email: {selectedRowData["user.email"]}</Typography>
+            {selectedRowData.orderStatus == "Paid" && (
               <Typography>
                 Payment Method: {selectedRowData.paymentMethod}
               </Typography>
             )}
             <Typography>
-              Order At: {selectedRowData.orderAt.toLocaleString()}
+              Order At: {new Date(selectedRowData.orderAt).toLocaleString()}
             </Typography>
-            {selectedRowData.transactionAt && (
+            {selectedRowData.orderStatus == "Paid" && (
               <Typography>
-                Transaction At: {selectedRowData.transactionAt.toLocaleString()}
+                Transaction At:{" "}
+                {new Date(selectedRowData.transactionAt).toLocaleString()}
               </Typography>
             )}
-            {!selectedRowData.transactionAt && (
-              <Typography>Transaction At: No transaction yet</Typography>
+
+            <Typography
+              variant="body1"
+              sx={{ color: theme.palette.secondary.light, marginTop: 2 }}
+            >
+              Items:
+            </Typography>
+            {selectedRowData.items && selectedRowData.items.length > 0 ? (
+              <Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginY: 1,
+                  }}
+                >
+                  <Box sx={{ width: "50%" }}>
+                    <Typography
+                      variant="body1"
+                      sx={{ color: theme.palette.secondary.light }}
+                    >
+                      Title
+                    </Typography>
+                  </Box>
+                  <Typography
+                    variant="body1"
+                    sx={{ color: theme.palette.secondary.light }}
+                  >
+                    Unit Price
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    sx={{ color: theme.palette.secondary.light }}
+                  >
+                    Selling Price
+                  </Typography>
+                </Box>
+                {selectedRowData.items.map((item, index) => (
+                  <Box
+                    key={index}
+                    sx={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <Box sx={{ width: "50%" }}>
+                      <Typography variant="body2">
+                        {item.product?.title}
+                      </Typography>
+                    </Box>
+                    <Typography variant="body2">
+                      {item.product?.price.toFixed(2)}
+                    </Typography>
+                    <Typography variant="body2">
+                      {item.sellPrice.toFixed(2)}
+                    </Typography>
+                  </Box>
+                ))}
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginY: 1,
+                  }}
+                >
+                  <Box sx={{ width: "50%" }}></Box>
+                  <Typography
+                    variant="body1"
+                    sx={{ color: theme.palette.secondary.light }}
+                  >
+                    Total
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    sx={{ color: theme.palette.secondary.light }}
+                  >
+                    {selectedRowData.totalPrice}
+                  </Typography>
+                </Box>
+              </Box>
+            ) : (
+              <Typography sx={{ ml: 2 }}>No items in this order.</Typography>
             )}
           </Box>
         )}

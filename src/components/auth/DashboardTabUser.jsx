@@ -159,6 +159,14 @@ function DashboardTab() {
             </Card>
           ))
         )}
+        {!userGames ||
+          (userGames.length === 0 && !loading && !error && (
+            <Box sx={{ marginTop: 4 }}>
+              <Typography variant="body1">
+                Welcome, newcomer!
+              </Typography>
+            </Box>
+          ))}
       </Box>
     </Box>
   );
