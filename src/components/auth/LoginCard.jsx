@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { Button, Box, Typography, FormControlLabel } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import EmailIcon from "@mui/icons-material/Email";
@@ -9,39 +9,46 @@ import ButtonGeneric from "../common/ButtonGeneric";
 import FormTextFieldWithIcon from "../common/FormTextFieldWithIcon";
 
 import { loginUser } from "../../services/authService.js";
-// import {useAuth} from "../contexts/authContext.jsx";
+import { useAuth } from "../contexts/authContext.jsx";
+import api from "../../services/api.js";
 
 const LoginCard = () => {
-  // const { setUser } = useAuth();
+  const { setUser } = useAuth();
   const theme = useTheme();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
 
   const [error, setError] = useState(false);
-  // const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     // setError("");
-    // setLoading(true);
+    setLoading(true);
     try {
       const data = await loginUser({ email, password });
-      console.log(data);
-      console.log("token from localStorage", localStorage.getItem("token"));
+
       // get token in localstorage
       if (data.token) {
         localStorage.setItem("token", data.token);
-      }
+        const res = await api.get("/profile");
+        console.log("res from profile", res);
 
-      // setUser(data.user);  //save user to authcontext
-      navigate("/dashboard"); //redirect after successful login
+        setUser(res.data.user); //save user to authcontext
+        console.log("kkkkkkkkkkkkkkk", res.user);
+        console.log("token from localStorage", localStorage.getItem("token"));
+        navigate(location.pathname === "/dashboard" ? "/" : "/dashboard");
+      }
     } catch (err) {
       console.error(err, error);
       setError(
         err?.response?.data?.message || "Login failed. Please try again."
       );
+    } finally {
+      setLoading(false);
     }
   };
 

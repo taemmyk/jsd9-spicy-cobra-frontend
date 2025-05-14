@@ -21,6 +21,7 @@ import ProductList from "./components/products/ProductList";
 
 import LoginCard from "./components/auth/LoginCard";
 import { Login } from "./pages/Login";
+import { AuthProvider } from "./components/contexts/authContext";
 
 const router = createBrowserRouter([
   {
@@ -72,15 +73,15 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
       { path: "search", element: <ProductList /> },
-      { path: "login", element: <Login />}
+      { path: "login", element: <Login /> },
     ],
   },
 ]);
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />
+    <ThemeProvider theme={theme}>  
+        <RouterProvider router={router} />      
     </ThemeProvider>
   );
 }

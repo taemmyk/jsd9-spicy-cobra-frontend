@@ -26,6 +26,6 @@ export const logoutUser = async () => {
 };
 
 export const getProfile = async () => {
-  const response = await api.get("/mongo/auth/profile");
+  const response = await api.get("/profile");
   return response.data;
 };
