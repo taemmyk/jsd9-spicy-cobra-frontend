@@ -16,22 +16,19 @@ import { useTheme } from "@mui/material/styles";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ReceiptIcon from "@mui/icons-material/Receipt";
-import SummarizeIcon from "@mui/icons-material/Summarize";
 import PersonIcon from "@mui/icons-material/Person";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import InventoryIcon from "@mui/icons-material/Inventory";
-import DashboardTab from "../components/auth/DashboardTab";
+
+import DashboardTabUser from "../components/auth/DashboardTabUser";
 import OrdersTab from "../components/auth/OrdersTab";
-import CommunityTab from "../components/auth/CommunityTab";
+import CommunityTabUser from "../components/auth/CommunityTabUser";
 import ProfileTab from "../components/auth/ProfileTab";
 import LogoutTab from "../components/auth/LogoutTab";
 
 import CommunityTabAdmin from "../components/auth/CommunityTabAdmin";
 import OrderTabAdmin from "../components/auth/OrdersTabAdmin";
 import InventoryTabAdmin from "../components/auth/InventoryTabAdmin";
-import InventoryTabTable from "../components/auth/InventoryTabTable";
-import GameManagementAdmin from "../components/auth/GameManagementAdmin";
-import CommunityTabAdminInvitations from "../components/auth/CommunityTabAdminInvitations";
 
 function Dashboard() {
   const theme = useTheme();
@@ -263,10 +260,10 @@ function Dashboard() {
                 minHeight: "100vh",
               }}
             >
-              {selectedTab === "dashboard" && <DashboardTab />}
+              {selectedTab === "dashboard" && <DashboardTabUser />}
               {selectedTab === "orders" && <OrdersTab />}
               {selectedTab === "review" && <CommunityTabAdmin />}
-              {selectedTab === "inventory" && <InventoryTabTable />}
+              {selectedTab === "inventory" && <InventoryTabAdmin />}
               {selectedTab === "profile" && <ProfileTab />}
               {selectedTab === "logout" && <LogoutTab />}
             </Box>

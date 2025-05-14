@@ -3,17 +3,14 @@ import {
   Box,
 } from "@mui/material";
 import Heading from "../common/Heading";
-import { useTheme } from "@mui/material/styles";
 import TabsGeneric from "../common/TabsGeneric";
-import CommunityTabAdminInvitations from "./CommunityTabAdminInvitations";
-import CommunityTabAdminAllUsers from "./CommunityTabAdminAllUsers";
+import AdminInvitationsManagement from "./AdminInvitationsManagement";
+import AllUsersManagement from "./AllUsersManagement";
 
 function CommunityTabAdmin() {
-  const theme = useTheme();
-
   const tabData = [
-    { label: "All users", component: <CommunityTabAdminAllUsers/> },
-    { label: "Admin invitations", component: <CommunityTabAdminInvitations/> },
+    { label: "All users", component: <AllUsersManagement/> },
+    { label: "Admin invitations", component: <AdminInvitationsManagement/> },
   ];
 
   return (

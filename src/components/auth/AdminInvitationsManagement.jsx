@@ -63,8 +63,6 @@ function CommunityTabAdminInvitations() {
       } catch (error) {
         // console.log("Error sending invitation", error);
       }
-    } else {
-      // console.log("Invalid email format");
     }
   };
 

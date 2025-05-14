@@ -65,7 +65,6 @@ function GenreManagement() {
 
     try {
       if (editedGenre._id) {
-        // TODO: api to edit genre
         const response = await api.put(`/genres/${editedGenre._id}`, {
           genreName: editedGenre.genreName,
           genreDescription: editedGenre.genreDescription,
@@ -75,7 +74,6 @@ function GenreManagement() {
         );
         setGenresData(updatedGenres);
       } else {
-        // TODO: api to create new genre
         const response = await api.post("/genres", {
           genreName: editedGenre.genreName,
           genreDescription: editedGenre.genreDescription,

@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import Heading from "../../components/common/Heading";
+import Heading from "../common/Heading";
 import {
   Card,
   CardActionArea,
@@ -85,24 +85,12 @@ function DashboardTab() {
       sx={{
         display: "flex",
         flexDirection: "column",
-        flex: 2,
-        backgroundColor: theme.palette.background.paper,
-        padding: 2,
-        alignItems: "center",
-        gap: 4,
-        borderRadius: 4,
-        marginY: 2,
+        margin: 4,
+        width: "100%",
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          width: "100%",
-        }}
-      >
-        <Heading section="Your Game Library" />
-      </Box>
+      <Heading section="Your Game Library" />
+
       <Box
         sx={{
           display: "grid",
@@ -115,8 +103,7 @@ function DashboardTab() {
             xs: 2,
             md: 4,
           },
-          marginLeft: 4,
-          marginRight: 4,
+          marginTop: 2,
         }}
       >
         {userGames.map((userGame) =>
