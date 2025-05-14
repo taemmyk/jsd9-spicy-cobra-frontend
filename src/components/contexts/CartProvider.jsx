@@ -7,6 +7,8 @@ import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
+  const [paymentMethod, setPaymentMethod] = useState("Credit Card");
+
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarBgColor, setSnackbarBgColor] = useState(null);
@@ -24,7 +26,7 @@ export const CartProvider = ({ children }) => {
   const addToCart = (
     (itemToAdd) => {
       const isItemInCart = cartItems.some(
-        (item) => item.product_id === itemToAdd.product_id
+        (item) => item._id === itemToAdd._id
       );
 
       if (!isItemInCart) {
@@ -46,9 +48,9 @@ export const CartProvider = ({ children }) => {
 
   const removeFromCart = useCallback(
     (itemId) => {
-      const itemToRemove = cartItems.find((item) => item.product_id === itemId);
+      const itemToRemove = cartItems.find((item) => item._id === itemId);
       const updatedCart = cartItems.filter(
-        (item) => item.product_id !== itemId
+        (item) => item._id !== itemId
       );
       setCartItems(updatedCart);
       if (itemToRemove) {
@@ -70,11 +72,17 @@ export const CartProvider = ({ children }) => {
     }
   }, [cartItems]);
 
+  const setPayment = useCallback((method) => {
+    setPaymentMethod(method);
+  }, []);
+
   const cartContextValue = {
     items: cartItems,
+    paymentMethod: paymentMethod,
     addItem: addToCart,
     removeItem: removeFromCart,
     clearCart: clearCart,
+    setPaymentMethod: setPayment,
   };
 
   return (

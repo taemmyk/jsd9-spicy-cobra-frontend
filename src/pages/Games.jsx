@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   Typography,
@@ -8,20 +8,20 @@ import {
   Box,
   Paper,
   Container,
+  CircularProgress,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import ProductCard from "../components/products/ProductCard";
 import Heading from "../components/common/Heading";
 import SearchInput from "../components/common/SearchInput";
-import ProductsData from "../data/products.json";
-import GenresData from "../data/genre.json";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
 import SelectorCard from "../components/common/SelectorCard";
 import { motion, useAnimate } from "framer-motion";
+import useFetchProducts from "../hooks/useFetchProducts";
+import useFetchGenres from "../hooks/useFetchGenres";
 
 const MotionBox = motion.create(Box);
-const genres = GenresData.map((genre) => genre.genre_name);
 
 function Games() {
   const theme = useTheme();
@@ -36,40 +36,72 @@ function Games() {
   const [animateDescription, setAnimateDescription] = useState(false);
   const [scope, animate] = useAnimate();
 
-  const handleInputChange = (event) => {
-    const newValue = event.target.value;
-    setSearchText(newValue);
-    navigate(`/search?search=${encodeURIComponent(newValue)}`, {
-      replace: true,
+  const {
+    products,
+    loading: loadingProducts,
+    error: errorProducts,
+  } = useFetchProducts(searchText, selectedGenre);
+  const {
+    genres,
+    loading: loadingGenres,
+    error: errorGenres,
+  } = useFetchGenres();
+
+  const updateQuery = useCallback(
+    (newParams) => {
+      const searchParams = new URLSearchParams(location.search);
+      for (const key in newParams) {
+        if (newParams[key]) {
+          searchParams.set(key, newParams[key]);
+        } else {
+          searchParams.delete(key);
+        }
+      }
+      navigate(`/games?${searchParams.toString()}`, { replace: true });
+    },
+    [navigate, location.search]
+  );
+
+  const handleSearch = (query) => {
+    setSearchText(query);
+    updateQuery({
+      search: query,
+      genre: selectedGenre !== "View All" ? selectedGenre : null,
     });
+  };
+
+  const handleInputChange = (event) => {
+    setSearchText(event.target.value);
+    handleSearch(event.target.value);
   };
 
   const handleClearInput = () => {
     setSearchText("");
-    const searchParams = new URLSearchParams(location.search);
-    searchParams.delete("search");
-    navigate(
-      `/games${searchParams.toString() ? "?" + searchParams.toString() : ""}`,
-      { replace: true }
-    );
+    updateQuery({ search: null, genre: null });
     if (inputRef.current) {
       inputRef.current.focus();
     }
   };
 
-  const handleSearchSubmit = (event) => {
-    event.preventDefault();
+  const handleGenreChange = (event) => {
+    const newGenre = event.target.value;
+    setSelectedGenre(newGenre);
+    setAnimateDescription(true);
+    updateQuery({
+      genre: newGenre !== "View All" ? newGenre : null,
+      search: searchText || null,
+    });
   };
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const query = searchParams.get("search");
-    const genreParam = searchParams.get("genre");
+    const genreNameParam = searchParams.get("genre");
     if (query) {
       setSearchText(query);
-    }
-    if (genreParam) {
-      setSelectedGenre(genreParam);
+      setSelectedGenre(genreNameParam || "View All");
+    } else if (genreNameParam) {
+      setSelectedGenre(genreNameParam);
     } else {
       setSelectedGenre("View All");
     }
@@ -78,34 +110,20 @@ function Games() {
     }
   }, [location.search]);
 
-  const handleGenreChange = (event) => {
-    const newGenre = event.target.value;
-    setSelectedGenre(newGenre);
-    setAnimateDescription(true);
-
-    const searchParams = new URLSearchParams(location.search);
-    if (newGenre !== "View All") {
-      searchParams.set("genre", newGenre);
-    } else {
-      searchParams.delete("genre");
-    }
-    navigate(`/games?${searchParams.toString()}`, { replace: true });
-  };
-
   useEffect(() => {
-    if (animateDescription) {
+    if (animateDescription && genres && genres.length > 0) {
       animate(
         scope.current,
         { y: [0, 40], opacity: [1, 0] },
         { duration: 0.2 }
       ).then(() => {
-        const selectedGenreData = GenresData.find(
-          (genre) => genre.genre_name === selectedGenre
+        const selectedGenreData = genres.find(
+          (genre) => genre.genreName === selectedGenre
         );
         setDescription(
           selectedGenre === "View All"
             ? "Explore a wide variety of your next favorite games across different genres!"
-            : selectedGenreData?.description ||
+            : selectedGenreData?.genreDescription ||
                 `Information about the ${selectedGenre} genre will be displayed here.`
         );
         animate(
@@ -115,20 +133,7 @@ function Games() {
         ).then(() => setAnimateDescription(false));
       });
     }
-  }, [animateDescription, selectedGenre, animate, scope]);
-
-  const filteredProducts = useMemo(() => {
-    if (selectedGenre === "View All") {
-      return ProductsData;
-    }
-    return ProductsData.filter((product) => {
-      return (
-        product.genre_id_1 === selectedGenre ||
-        product.genre_id_2 === selectedGenre ||
-        product.genre_id_3 === selectedGenre
-      );
-    });
-  }, [selectedGenre]);
+  }, [animateDescription, selectedGenre, animate, scope, genres]);
 
   return (
     <>
@@ -228,20 +233,25 @@ function Games() {
                 searchText={searchText}
                 inputRef={inputRef}
                 handleInputChange={handleInputChange}
-                handleSearchSubmit={handleSearchSubmit}
+                handleSearchSubmit={(e) => e.preventDefault()}
                 sx={{ mx: 2, flexGrow: 1 }}
               />
-              {searchText && (
-                <IconButton onClick={handleClearInput} sx={{ p: 1 }}>
-                  <ClearIcon
-                    sx={{
-                      width: { xs: 28, md: 40 },
-                      height: { xs: 28, md: 40 },
-                      color: theme.palette.secondary.light,
-                    }}
-                  />
-                </IconButton>
-              )}
+
+              <IconButton
+                onClick={handleClearInput}
+                disabled={!searchText}
+                sx={{ p: 1 }}
+              >
+                <ClearIcon
+                  sx={{
+                    width: { xs: 28, md: 40 },
+                    height: { xs: 28, md: 40 },
+                    color: searchText
+                      ? theme.palette.secondary.light
+                      : theme.palette.background.paper,
+                  }}
+                />
+              </IconButton>
             </Box>
 
             {/* Genre Selector */}
@@ -267,9 +277,9 @@ function Games() {
                 />
                 {genres.map((genre) => (
                   <SelectorCard
-                    key={genre}
-                    value={genre}
-                    label={genre}
+                    key={genre._id}
+                    value={genre.genreName}
+                    label={genre.genreName}
                     selectedType={selectedGenre}
                     handleTypeChange={handleGenreChange}
                   />
@@ -281,25 +291,38 @@ function Games() {
       </Box>
       {/* Product Grid */}
       <Container maxWidth="xl">
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: {
-              xs: "repeat(1, 1fr)",
-              sm: "repeat(2, 1fr)",
-              md: "repeat(3, 1fr)",
-            },
-            gap: {
-              xs: 2,
-              md: 4,
-            },
-            margin: 4,
-          }}
-        >
-          {filteredProducts.map((item) => (
-            <ProductCard key={item.product_id} product={item} />
-          ))}
-        </Box>
+        {loadingProducts ? (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              my: 4,
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        ) : (
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: {
+                xs: "repeat(1, 1fr)",
+                sm: "repeat(2, 1fr)",
+                md: "repeat(3, 1fr)",
+              },
+              gap: {
+                xs: 2,
+                md: 4,
+              },
+              margin: 4,
+            }}
+          >
+            {products.map((item) => (
+              <ProductCard key={item._id} product={item} />
+            ))}
+          </Box>
+        )}
       </Container>
     </>
   );

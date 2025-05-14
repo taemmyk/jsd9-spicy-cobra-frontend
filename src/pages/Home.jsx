@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
   Typography,
@@ -17,14 +17,36 @@ import SwiperAutoplay from "../components/common/SwiperAutoplay";
 import SwiperGrid from "../components/common/SwiperGrid";
 import { animate, stagger } from "motion";
 
-import products from "../data/products.json";
+import productsLocal from "../data/products.json";
 import { newsItems } from "../data/misc";
 
+import api from "../services/api";
+import ProductCard from "../components/products/ProductCard";
+
 const Home = () => {
-  const recommendedGames = products.slice(0, 5);
+  const [products, setProducts] = useState([]);
+  const [loadingProducts, setLoadingProducts] = useState(true);
+  const [errorProducts, setErrorProducts] = useState(null);
+  const recommendedGames = productsLocal.slice(0, 10);
 
   const textRef = useRef([]);
   const text1 = `Unleash your indie game. Limitless creativity`;
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setLoadingProducts(true);
+      setErrorProducts(null);
+      try {
+        const response = await api.get("/products");
+        setProducts(response.data);
+        setLoadingProducts(false);
+      } catch (error) {
+        setErrorProducts(error);
+        setLoadingProducts(false);
+      }
+    };
+    fetchProducts();
+  }, []);
 
   useEffect(() => {
     const elements = textRef.current.filter(Boolean);
@@ -100,6 +122,9 @@ const Home = () => {
 
   return (
     <>
+      {/* {products.map((item) => (
+        <ProductCard key={item._id} product={item} />
+      ))} */}
       <Box sx={{ backgroundColor: theme.palette.secondary.dark }}>
         <Container maxWidth="xl">
           <Box

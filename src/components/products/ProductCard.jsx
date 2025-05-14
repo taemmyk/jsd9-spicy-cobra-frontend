@@ -12,7 +12,7 @@ import {
   Rating,
 } from "@mui/material";
 import { useTheme } from '@mui/material/styles';
-import calculateSalePrice from "../../utils/calculateSalePrice";
+import {calculateSalePrice} from "../../utils/calculatePrice";
 
 function ProductCard({ product }) {
   const theme = useTheme();
@@ -26,7 +26,7 @@ function ProductCard({ product }) {
   return (
     <>
       <Link
-        to={`/games/${product.product_id}`}
+        to={`/games/${product.slug}`}
         style={{ textDecoration: "none" }}
       >
         <Card sx={{ borderRadius: 4 }}>
@@ -38,7 +38,7 @@ function ProductCard({ product }) {
                 flexDirection: "column",
               }}
             >
-              {product.discount_percentage > 0 && (
+              {product.discountPercentage > 0 && (
                 <Box
                   sx={{
                     position: "absolute",
@@ -50,14 +50,14 @@ function ProductCard({ product }) {
                   }}
                 >
                   <Typography variant="saleTag">
-                    {product.discount_percentage}%
+                    {product.discountPercentage}%
                   </Typography>
                 </Box>
               )}
               <CardMedia
                 component="img"
                 height="auto"
-                image={product.image_thumbnail}
+                image={product.imageThumbnail}
                 alt={product.title}
                 sx={{
                   width: "100%",
@@ -76,7 +76,7 @@ function ProductCard({ product }) {
                   padding: theme.spacing(1, 2),
                 }}
               >
-                {product.discount_percentage > 0 &&
+                {product.discountPercentage > 0 &&
                   product.price !== undefined && (
                     <Typography
                       variant="strikePriceTag"
@@ -107,11 +107,11 @@ function ProductCard({ product }) {
                 }}
               >
                 <Avatar
-                  alt={product.developer}
-                  src={product.developer_avatar}
+                  alt={product.developerName}
+                  src={product.developerAvatar}
                   sx={{ width: 48, height: 48, objectFit: "cover" }}
                 />
-                <Typography variant="body3">{product.developer}</Typography>
+                <Typography variant="body3">{product.developerName}</Typography>
               </Stack>
               <Stack
                 sx={{

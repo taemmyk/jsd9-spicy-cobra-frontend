@@ -41,7 +41,7 @@ const router = createBrowserRouter([
         element: <Games />,
       },
       {
-        path: "/games/:gameId",
+        path: "/games/:gameSlug",
         element: <GameDetail />,
       },
       {
@@ -65,7 +65,7 @@ const router = createBrowserRouter([
         element: <ForgotPassword />,
       },
       {
-        path: "reset-password",
+        path: "reset-password/:token",
         element: <ResetPassword />,
       },
       {

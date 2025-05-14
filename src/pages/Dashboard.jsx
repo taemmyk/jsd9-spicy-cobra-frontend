@@ -2,9 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
   Typography,
-  Card,
-  CardActionArea,
-  CardContent,
   RadioGroup,
   FormControl,
   Accordion,
@@ -16,27 +13,31 @@ import { useTheme } from "@mui/material/styles";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ReceiptIcon from "@mui/icons-material/Receipt";
-import SummarizeIcon from "@mui/icons-material/Summarize";
 import PersonIcon from "@mui/icons-material/Person";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import InventoryIcon from "@mui/icons-material/Inventory";
-import DashboardTab from "../components/auth/DashboardTab";
+import SelectorCardDashboard from "../components/common/SelectorCardDashboard";
+import { decodeToken } from "../utils/decodeToken";
+
+import DashboardTabUser from "../components/auth/DashboardTabUser";
 import OrdersTab from "../components/auth/OrdersTab";
-import CommunityTab from "../components/auth/CommunityTab";
-import ReportTab from "../components/auth/ReportTab";
-import InventoryTab from "../components/auth/InventoryTab";
+import CommunityTabUser from "../components/auth/CommunityTabUser";
 import ProfileTab from "../components/auth/ProfileTab";
 import LogoutTab from "../components/auth/LogoutTab";
+
+import CommunityTabAdmin from "../components/auth/CommunityTabAdmin";
+import OrderTabAdmin from "../components/auth/OrdersTabAdmin";
+import InventoryTabAdmin from "../components/auth/InventoryTabAdmin";
 
 function Dashboard() {
   const theme = useTheme();
   const [selectedTab, setSelectedTab] = useState("dashboard");
+  const [userRole, setUserRole] = useState(null);
+  const inputRef = useRef(null);
 
   const handleTabChange = (event) => {
     setSelectedTab(event.target.value);
   };
-
-  const inputRef = useRef(null);
 
   const displayTabIcon = (value) => {
     const defaultIconSx = [
@@ -52,86 +53,29 @@ function Dashboard() {
       return <DashboardIcon fontSize="small" sx={defaultIconSx} />;
     } else if (value === "orders") {
       return <ReceiptIcon fontSize="small" sx={defaultIconSx} />;
-    } else if (value === "report") {
-      return <SummarizeIcon fontSize="small" sx={defaultIconSx} />;
     } else if (value === "profile") {
       return <PersonIcon fontSize="small" sx={defaultIconSx} />;
     } else if (value === "review") {
       return <RateReviewIcon fontSize="small" sx={defaultIconSx} />;
     } else if (value === "inventory") {
       return <InventoryIcon fontSize="small" sx={defaultIconSx} />;
-    } else if(value === "logout") {
-      return < PersonIcon fontSize="small" sx={defaultIconSx} />
+    } else if (value === "logout") {
+      return <PersonIcon fontSize="small" sx={defaultIconSx} />;
     }
     return null;
   };
 
-  const TabSelectorCard = ({
-    value,
-    label,
-    sx: customCardSx,
-    actionAreaSx: customActionAreaSx,
-    typographySx: customTypographySx,
-  }) => (
-    <Card
-      selected={selectedTab === value}
-      sx={{
-        backgroundColor: theme.palette.background.layout,
-        borderRadius: 0,
-        boxShadow: "none",
-        ...(selectedTab === value && {
-          backgroundColor: theme.palette.background.paper,
-        }),
-        ...customCardSx,
-      }}
-    >
-      <CardActionArea
-        onClick={() => handleTabChange({ target: { value } })}
-        sx={{
-          ".MuiCardActionArea-focusHighlight": {
-            backgroundColor: theme.palette.secondary.dark,
-          },
-          "&:hover": {
-            backgroundColor: theme.palette.secondary.light,
-            "& .MuiTypography-root": {
-              color: theme.palette.secondary.contrastText,
-            },
-            "& svg": {
-              color: theme.palette.secondary.contrastText,
-            },
-          },
-          "&.Mui-selected": {
-            backgroundColor: theme.palette.secondary.main,
-          },
-          "&.Mui-selected:hover": {
-            backgroundColor: theme.palette.secondary.dark,
-          },
-          ...customActionAreaSx,
-        }}
-      >
-        <CardContent sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          {displayTabIcon(value)}
-          <Typography
-            sx={{
-              fontWeight: selectedTab === value ? "500" : "400",
-              paddingRight: 3,
-              color:
-                selectedTab === value
-                  ? theme.palette.secondary.light
-                  : theme.palette.primary.contrastText,
-              ...customTypographySx,
-            }}
-          >
-            {label}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
-  );
-
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
+    }
+
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decodedToken = decodeToken(token);
+      if (decodedToken && decodedToken.role) {
+        setUserRole(decodedToken.role);
+      }
     }
   }, []);
   return (
@@ -178,13 +122,48 @@ function Dashboard() {
                       flexDirection: "column",
                     }}
                   >
-                    <TabSelectorCard value="dashboard" label="Dashboard" />
-                    <TabSelectorCard value="orders" label="Orders" />
-                    <TabSelectorCard value="review" label="Community" />
-                    <TabSelectorCard value="inventory" label="Inventory" />
-                    <TabSelectorCard value="report" label="Report" />
-                    <TabSelectorCard value="profile" label="Profile" />
-                    <TabSelectorCard value="logout" label="Logout" />
+                    <SelectorCardDashboard
+                      value="dashboard"
+                      label="Dashboard"
+                      selectedTab={selectedTab}
+                      handleTabChange={handleTabChange}
+                    />
+                    <SelectorCardDashboard
+                      value="orders"
+                      label="Orders"
+                      selectedTab={selectedTab}
+                      handleTabChange={handleTabChange}
+                    />
+
+                    <SelectorCardDashboard
+                      value="review"
+                      label="Community"
+                      selectedTab={selectedTab}
+                      handleTabChange={handleTabChange}
+                    />
+                    {userRole == "admin" && (
+                      <>
+                        <SelectorCardDashboard
+                          value="inventory"
+                          label="Inventory"
+                          selectedTab={selectedTab}
+                          handleTabChange={handleTabChange}
+                        />
+                      </>
+                    )}
+
+                    <SelectorCardDashboard
+                      value="profile"
+                      label="Profile"
+                      selectedTab={selectedTab}
+                      handleTabChange={handleTabChange}
+                    />
+                    <SelectorCardDashboard
+                      value="logout"
+                      label="Logout"
+                      selectedTab={selectedTab}
+                      handleTabChange={handleTabChange}
+                    />
                   </RadioGroup>
                 </FormControl>
               </Box>
@@ -236,13 +215,47 @@ function Dashboard() {
                           flexDirection: "column",
                         }}
                       >
-                        <TabSelectorCard value="dashboard" label="Dashboard" />
-                        <TabSelectorCard value="orders" label="Orders" />
-                        <TabSelectorCard value="review" label="Community" />
-                        <TabSelectorCard value="inventory" label="Inventory" />
-                        <TabSelectorCard value="report" label="Report" />
-                        <TabSelectorCard value="profile" label="Profile" />
-                        <TabSelectorCard value="logout" label="Logout" />
+                        <SelectorCardDashboard
+                          value="dashboard"
+                          label="Dashboard"
+                          selectedTab={selectedTab}
+                          handleTabChange={handleTabChange}
+                        />
+                        <SelectorCardDashboard
+                          value="orders"
+                          label="Orders"
+                          selectedTab={selectedTab}
+                          handleTabChange={handleTabChange}
+                        />
+
+                        <SelectorCardDashboard
+                          value="review"
+                          label="Community"
+                          selectedTab={selectedTab}
+                          handleTabChange={handleTabChange}
+                        />
+                        {userRole == "admin" && (
+                          <>
+                            <SelectorCardDashboard
+                              value="inventory"
+                              label="Inventory"
+                              selectedTab={selectedTab}
+                              handleTabChange={handleTabChange}
+                            />
+                          </>
+                        )}
+                        <SelectorCardDashboard
+                          value="profile"
+                          label="Profile"
+                          selectedTab={selectedTab}
+                          handleTabChange={handleTabChange}
+                        />
+                        <SelectorCardDashboard
+                          value="logout"
+                          label="Logout"
+                          selectedTab={selectedTab}
+                          handleTabChange={handleTabChange}
+                        />
                       </RadioGroup>
                     </FormControl>
                   </AccordionDetails>
@@ -262,11 +275,20 @@ function Dashboard() {
                 minHeight: "100vh",
               }}
             >
-              {selectedTab === "dashboard" && <DashboardTab />}
-              {selectedTab === "orders" && <OrdersTab />}
-              {selectedTab === "review" && <CommunityTab />}
-              {selectedTab === "report" && <ReportTab />}
-              {selectedTab === "inventory" && <InventoryTab />}
+              {selectedTab === "dashboard" && <DashboardTabUser />}
+              {selectedTab === "orders" && (
+                <>
+                  {userRole === "admin" && <OrderTabAdmin />}
+                  {userRole === "user" && <OrdersTab />}
+                </>
+              )}
+              {selectedTab === "review" && (
+                <>
+                  {userRole === "admin" && <CommunityTabAdmin />}
+                  {userRole === "user" && <CommunityTabUser />}
+                </>
+              )}
+              {selectedTab === "inventory" && <InventoryTabAdmin />}
               {selectedTab === "profile" && <ProfileTab />}
               {selectedTab === "logout" && <LogoutTab />}
             </Box>

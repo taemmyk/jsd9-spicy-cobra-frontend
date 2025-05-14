@@ -25,6 +25,7 @@ function CommunityTab() {
           }}
         >
           <Typography variant="h5">Your Reviews</Typography>
+          <Typography variant="body1">Future implementation ...</Typography>
           {reviewItems.map((review, index) => (
             <ReviewCard
               key={index}
