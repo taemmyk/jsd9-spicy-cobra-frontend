@@ -77,7 +77,7 @@ function ExpandableCard({ order }) {
               variant="body2"
               sx={{ color: theme.palette.primary.contrastText }}
             >
-              <b>Transaction Date:</b>{" "}
+              <b>Paid Date:</b>{" "}
               {new Date(order.transactionAt).toLocaleString()}
             </Typography>
             <Typography
