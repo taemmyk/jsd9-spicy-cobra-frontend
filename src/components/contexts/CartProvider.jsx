@@ -62,6 +62,23 @@ export const CartProvider = ({ children }) => {
     },
     [cartItems]
   );
+  
+  const removeDuplicatedFromAccount = useCallback(
+    (itemId) => {
+      const itemToRemove = cartItems.find((item) => item._id === itemId);
+      const updatedCart = cartItems.filter(
+        (item) => item._id !== itemId
+      );
+      setCartItems(updatedCart);
+      if (itemToRemove) {
+        setSnackbarBgColor("#A63D4A");
+        setSnackbarIcon(<RemoveShoppingCartIcon />);
+        setSnackbarMessage(`You already have ${itemToRemove.title} in your inventory.`);
+        setSnackbarOpen(true);
+      }
+    },
+    [cartItems]
+  );
 
   const clearCart = useCallback(() => {
     if (cartItems.length > 0) {
@@ -81,6 +98,7 @@ export const CartProvider = ({ children }) => {
     paymentMethod: paymentMethod,
     addItem: addToCart,
     removeItem: removeFromCart,
+    removeDuplicated: removeDuplicatedFromAccount,
     clearCart: clearCart,
     setPaymentMethod: setPayment,
   };

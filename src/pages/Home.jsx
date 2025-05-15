@@ -20,7 +20,6 @@ import { animate, stagger } from "motion";
 import { newsItems } from "../data/misc";
 
 import api from "../services/api";
-import ProductCard from "../components/products/ProductCard";
 
 const Home = () => {
   const [products, setProducts] = useState([]);

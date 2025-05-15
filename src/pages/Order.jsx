@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Box, Typography, Button } from "@mui/material";
+import React, { useState, useEffect, useContext } from "react";
+import { Box, Typography, Button, CircularProgress } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../components/contexts/CartContext";
@@ -7,28 +7,97 @@ import Heading from "../components/common/Heading";
 import OrderItemReviewCard from "../components/checkout-payment/OrderItemReviewCard";
 import CartItemCard from "../components/cart/CartItemCard";
 import {
-  calculateSalePrice,
   calculateItemTotalPrice,
   calculateOrderTotalPrice,
 } from "../utils/calculatePrice";
+import { decodeToken } from "../utils/decodeToken";
+import api from "../services/api";
 
 function Order({ onCloseDrawer }) {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { items, removeItem } = useContext(CartContext);
+  const { items, removeItem, removeDuplicated } = useContext(CartContext);
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleRemove = (itemId) => {
     removeItem(itemId);
   };
 
-  const handleCheckoutClick = () => {
+  const handleRemoveDuplicated = (itemId) => {
+    removeDuplicated(itemId);
+  };
+
+  const fetchItemsAndCompare = async () => {
+    setIsCheckingOut(true);
+    setError(null);
+    setLoading(true);
+
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setLoading(false);
+        setIsCheckingOut(false);
+        return false;
+      }
+
+      const decodedToken = decodeToken(token);
+      if (!decodedToken || !decodedToken.userId) {
+        setError("Invalid or missing userId in token");
+        setLoading(false);
+        setIsCheckingOut(false);
+        return false;
+      }
+
+      const userIdFromToken = decodedToken.userId;
+      const response = await api.get(`/orders/user/${userIdFromToken}`);
+
+      if (response.data && !response.data.error && response.data.data) {
+        const productIdsFromOrders = [];
+        response.data.data.forEach((order) => {
+          order.items.forEach((item) => {
+            productIdsFromOrders.push(item.product._id);
+          });
+        });
+
+        const itemsToRemove = [];
+        items.forEach((cartItem) => {
+          if (productIdsFromOrders.includes(cartItem._id)) {
+            itemsToRemove.push(cartItem._id);
+          }
+        });
+        itemsToRemove.forEach((idToRemove) =>
+          handleRemoveDuplicated(idToRemove)
+        );
+
+        setLoading(false);
+        setIsCheckingOut(false);
+        return true;
+      } else {
+        setError("Failed to fetch orders");
+        setLoading(false);
+        setIsCheckingOut(false);
+        return false;
+      }
+    } catch (err) {
+      setError("Failed to fetch orders", err);
+      setLoading(false);
+      setIsCheckingOut(false);
+      return false;
+    }
+  };
+
+  const handleCheckoutClick = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
       alert("You need to log in to checkout!");
       navigate("/membership");
-    } else {
-      navigate("/checkout");
+      return;
     }
+
+    await fetchItemsAndCompare();
+    navigate("/checkout");
   };
 
   const OrderButtonSmall = ({ label, to, onClick }) => {
@@ -61,6 +130,14 @@ function Order({ onCloseDrawer }) {
     );
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      fetchItemsAndCompare();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items, removeItem, removeDuplicated]);
+
   return (
     <>
       <Box
@@ -82,6 +159,16 @@ function Order({ onCloseDrawer }) {
           backgroundColor: theme.palette.background.paper,
         }}
       >
+        {loading && (
+          <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
+            <CircularProgress />
+          </Box>
+        )}
+        {error && !loading && (
+          <Typography color="error" sx={{ padding: 2 }}>
+            {error}
+          </Typography>
+        )}
         {items.length > 0 ? (
           <Box
             sx={{
@@ -154,13 +241,21 @@ function Order({ onCloseDrawer }) {
               : "฿0.00"
           }
         />
-        {items.length > 0 ? (
+        {items.length > 0 && (
           <OrderButtonSmall
             label="Continue to Checkout"
             onClick={handleCheckoutClick}
           />
-        ) : (
-          <></>
+        )}
+        {loading && (
+          <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+            <CircularProgress size={24} />
+          </Box>
+        )}
+        {error && !loading && (
+          <Typography color="error" sx={{ mt: 2 }}>
+            {error}
+          </Typography>
         )}
       </Box>
     </>

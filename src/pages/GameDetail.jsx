@@ -20,10 +20,9 @@ import ButtonGeneric from "../components/common/ButtonGeneric";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import SwiperProductNavigation from "../components/products/SwiperProductNavigation";
-// import products from "../data/products.json";
 import Heading from "../components/common/Heading";
 import { CartContext } from "../components/contexts/CartContext";
-import {calculateSalePrice} from "../utils/calculatePrice";
+import { calculateSalePrice } from "../utils/calculatePrice";
 import SwiperPerViewAuto from "../components/common/SwiperPerViewAuto";
 import { systemRequirements } from "../data/misc";
 import { motion } from "framer-motion";
@@ -36,6 +35,7 @@ function GameDetail() {
   const theme = useTheme();
   const { gameSlug } = useParams();
   const [gameData, setGameData] = useState(null);
+  const [recommendedGames, setRecommendedGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { items, addItem } = useContext(CartContext);
@@ -49,11 +49,6 @@ function GameDetail() {
     Math.floor(thumbsupCount * Math.random() * 0.1)
   );
 
-  // const recommendedGames = products
-  //   .filter((product) => product.product_id !== gameId)
-  //   .sort(() => Math.random() - 0.5)
-  //   .slice(0, 3);
-
   const handleAddToCart = () => {
     addItem(gameData);
   };
@@ -61,9 +56,7 @@ function GameDetail() {
   const handleBuyNow = async () => {
     if (!gameData) return;
 
-    const isItemInCart = items.some(
-      (item) => item._id === gameData._id
-    );
+    const isItemInCart = items.some((item) => item._id === gameData._id);
 
     if (isItemInCart) {
       navigate("/checkout");
@@ -117,16 +110,39 @@ function GameDetail() {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, [gameSlug]);
 
+  useEffect(() => {
+    const fetchRecommendedGames = async () => {
+      if (gameData?.genres && gameData.genres.length > 0) {
+        const genreId = gameData.genres[0]._id;
+        try {
+          const response = await api.get(`/products/genre/id/${genreId}`);
+          if (response.status < 200 || response.status >= 300) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const filteredGames = response.data.filter(
+            (game) => game._id !== gameData._id
+          );
+          setRecommendedGames(filteredGames);
+        } catch (err) {
+          console.error("Error fetching recommended games:", err);
+        }
+      }
+    };
+
+    fetchRecommendedGames();
+  }, [gameData]);
+
   if (loading) {
-    return <div>Loading game details...</div>;
+    return <>Loading game details...</>;
   }
 
   if (error) {
-    return <div>Error loading game: {error}</div>;
+    return <>Error loading game: {error}</>;
   }
 
   if (!gameData) {
-    return <div>Game not found.</div>;
+    return <>Game not found.</>;
   }
 
   return (
@@ -557,9 +573,9 @@ function GameDetail() {
           >
             <Heading section="You may also like" />
 
-            {/* <Box sx={{ paddingBottom: 2, paddingX: 4 }}>
+            <Box sx={{ paddingBottom: 2, paddingX: 4 }}>
               <SwiperPerViewAuto products={recommendedGames} />
-            </Box> */}
+            </Box>
           </Box>
         </Container>
       </Box>

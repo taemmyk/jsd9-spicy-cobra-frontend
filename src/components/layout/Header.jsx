@@ -21,7 +21,7 @@ const Header = () => {
   const theme = useTheme();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const navigate = useNavigate();
-  const { user, loading } = useAuth();
+  const { user } = useAuth();
 
   const toggleCartDrawer = (newOpen) => () => {
     setIsCartOpen(newOpen);
@@ -31,9 +31,6 @@ const Header = () => {
     navigate("/games");
   };
 
-  if (loading) {
-    return <div>loading</div>;
-  }
   return (
     <AppBar
       position="static"
