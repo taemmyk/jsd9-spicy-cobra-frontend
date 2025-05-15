@@ -1,19 +1,34 @@
 import React, { useContext } from "react";
 import { Box, Typography, Button } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../components/contexts/CartContext";
 import Heading from "../components/common/Heading";
 import OrderItemReviewCard from "../components/checkout-payment/OrderItemReviewCard";
 import CartItemCard from "../components/cart/CartItemCard";
-import { calculateSalePrice, calculateItemTotalPrice, calculateOrderTotalPrice } from "../utils/calculatePrice";
+import {
+  calculateSalePrice,
+  calculateItemTotalPrice,
+  calculateOrderTotalPrice,
+} from "../utils/calculatePrice";
 
 function Order({ onCloseDrawer }) {
   const theme = useTheme();
+  const navigate = useNavigate();
   const { items, removeItem } = useContext(CartContext);
 
   const handleRemove = (itemId) => {
     removeItem(itemId);
+  };
+
+  const handleCheckoutClick = () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("You need to log in to checkout!");
+      navigate("/membership");
+    } else {
+      navigate("/checkout");
+    }
   };
 
   const OrderButtonSmall = ({ label, to, onClick }) => {
@@ -116,7 +131,8 @@ function Order({ onCloseDrawer }) {
           total={
             items.length > 0
               ? `฿${(
-                  calculateItemTotalPrice(items) - calculateOrderTotalPrice(items)
+                  calculateItemTotalPrice(items) -
+                  calculateOrderTotalPrice(items)
                 ).toFixed(2)}`
               : "฿0.00"
           }
@@ -139,7 +155,10 @@ function Order({ onCloseDrawer }) {
           }
         />
         {items.length > 0 ? (
-          <OrderButtonSmall label="Continue to Checkout" to="/checkout" />
+          <OrderButtonSmall
+            label="Continue to Checkout"
+            onClick={handleCheckoutClick}
+          />
         ) : (
           <></>
         )}
