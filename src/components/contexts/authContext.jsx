@@ -16,7 +16,10 @@ export const AuthProvider = ({ children }) => {
           const response = await api.get("/profile");
           setUser(response.data.user);
         } catch (err) {
-          // console.error("Not authenticated", err);
+          console.error("Not authenticated", err);
+          if (err.response?.data?.code === "TOKEN_EXPIRED") {
+            localStorage.removeItem("token");
+          }
           setUser(null);
         } finally {
           setLoading(false);
