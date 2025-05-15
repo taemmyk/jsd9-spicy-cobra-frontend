@@ -13,7 +13,7 @@ const Layout = () => {
   const scrollToTop = () => {
     headerRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-  const hideHeaderOn = ["/membership", "/checkout", "/forgot-password", "/reset-password"];
+  const hideHeaderOn = ["/membership", "/checkout", "/forgot-password", "/reset-password/:token"];
   const showHeader = !hideHeaderOn.includes(location.pathname);
   const showFooter = location.pathname === "/";
 
