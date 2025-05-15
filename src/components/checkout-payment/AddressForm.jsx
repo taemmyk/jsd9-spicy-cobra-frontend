@@ -1,18 +1,15 @@
 import React from "react";
-import {
-  FormControlLabel,
-  Box,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import FormTextField from "../common/FormTextField";
-import FormCheckbox from "../common/FormCheckbox";
 
 export default function AddressForm() {
   return (
     <>
+      <Typography variant="body1" sx={{ paddingTop: 4 }}>
+        Invoice Address
+      </Typography>
       <Box>
-        <Stack direction="row" spacing={2}>
+        <Stack direction="row" spacing={2} sx={{ paddingTop: 4 }}>
           <FormTextField
             id="first-name"
             name="first-name"
@@ -49,7 +46,7 @@ export default function AddressForm() {
           autoComplete="receipt address-line2"
           required
         />
-        <Stack direction="row" spacing={2} sx={{marginTop: 2}}>
+        <Stack direction="row" spacing={2} sx={{ marginTop: 2 }}>
           <FormTextField
             id="city"
             name="city"
@@ -69,7 +66,7 @@ export default function AddressForm() {
             required
           />
         </Stack>
-        <Stack direction="row" spacing={2} sx={{marginTop: 2}}>
+        <Stack direction="row" spacing={2} sx={{ marginTop: 2, paddingBottom: 4 }}>
           <FormTextField
             id="zip"
             name="zip"
@@ -90,15 +87,6 @@ export default function AddressForm() {
           />
         </Stack>
       </Box>
-      <FormControlLabel
-        control={<FormCheckbox />}
-        label={
-          <Typography variant="body2" marginLeft={2} marginY={2}>
-            Save this address as your primary address
-          </Typography>
-        }
-        sx={{ paddingX: 1 }}
-      />
     </>
   );
 }

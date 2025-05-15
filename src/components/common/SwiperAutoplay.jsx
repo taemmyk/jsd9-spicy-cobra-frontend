@@ -7,7 +7,7 @@ import "./swiperStyles.css";
 import { Autoplay, Pagination } from "swiper/modules";
 import banners from "../../assets/game-banner-bounty-brawl.jpg";
 
-export default function App() {
+export default function SwiperAutoplay() {
   const numberOfSlides = 3; //TODO: Repeated slide
 
   return (
@@ -27,7 +27,7 @@ export default function App() {
       >
         {Array.from({ length: numberOfSlides }).map((_, index) => (
           <SwiperSlide key={index}>
-            <Link to={`/games/6`}>
+            <Link to={`/games/bounty-brawl-most-wanted`}>
               <img src={banners} alt="Bounty Brawl: Most Wanted" loading="lazy" />
             </Link>
           </SwiperSlide>

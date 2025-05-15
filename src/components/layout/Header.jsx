@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import {
   AppBar,
   Toolbar,
-  IconButton,
+  Button,
   Typography,
   Box,
   Container,
+  IconButton,
 } from "@mui/material";
+import { useAuth } from "../contexts/authContext";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonIcon from "@mui/icons-material/Person";
 import Logo from "../../assets/logo.png";
@@ -19,6 +21,7 @@ const Header = () => {
   const theme = useTheme();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const navigate = useNavigate();
+  const { user, loading } = useAuth();
 
   const toggleCartDrawer = (newOpen) => () => {
     setIsCartOpen(newOpen);
@@ -28,8 +31,14 @@ const Header = () => {
     navigate("/games");
   };
 
+  if (loading) {
+    return <div>loading</div>;
+  }
   return (
-    <AppBar position="static" sx={{ backgroundColor: theme.palette.background.layout }}>
+    <AppBar
+      position="static"
+      sx={{ backgroundColor: theme.palette.background.layout }}
+    >
       <Toolbar>
         <Container
           maxWidth="xl"
@@ -75,7 +84,7 @@ const Header = () => {
               gap: { xs: 1, md: 4 },
             }}
           >
-            <IconButton onClick={handleSearchClick} sx={{ p: 1 }}>
+            <Button onClick={handleSearchClick} sx={{ p: 1 }}>
               <SearchIcon
                 sx={{
                   width: { xs: 28, md: 40 },
@@ -83,21 +92,37 @@ const Header = () => {
                   color: theme.palette.secondary.light,
                 }}
               />
-            </IconButton>
+            </Button>
             <TemporaryDrawer
               open={isCartOpen}
               toggleDrawer={toggleCartDrawer}
             />
-            <Link to="/membership" style={{ textDecoration: "none" }}>
-              <IconButton>
-                <PersonIcon
-                  sx={{
-                    width: { xs: 28, md: 40 },
-                    height: { xs: 28, md: 40 },
-                    color: theme.palette.secondary.light,
-                  }}
-                />
-              </IconButton>
+            <Link
+              to={user ? "/dashboard" : "/membership"}
+              style={{ textDecoration: "none" }}
+            >
+                {user ? (
+                  // ✅ แสดงชื่อหรืออีเมลถ้า login แล้ว
+                  <Typography
+                    sx={{
+                      fontSize: { xs: 12, md: 16 },
+                      color: theme.palette.secondary.light,
+                      textTransform: "none",
+                    }}
+                  >
+                    {user.email}
+                  </Typography>
+                ) : (
+                  <IconButton>
+                  <PersonIcon
+                    sx={{
+                      width: { xs: 28, md: 40 },
+                      height: { xs: 28, md: 40 },
+                      color: theme.palette.secondary.light,
+                    }}
+                  />
+                  </IconButton>
+                )}
             </Link>
           </Box>
         </Container>
