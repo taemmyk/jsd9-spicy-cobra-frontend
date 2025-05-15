@@ -168,7 +168,7 @@ function GameManagementAdmin() {
     { field: "title", headerName: "Title", flex: 3 },
     {
       field: "developerName",
-      headerName: "DeveloperName",
+      headerName: "Developer",
       flex: 2,
       resizable: false,
     },
@@ -177,16 +177,22 @@ function GameManagementAdmin() {
       headerName: "Rating",
       flex: 1,
       resizable: false,
+      align: "center",
     },
     {
       field: "price",
       headerName: "Price",
       flex: 1,
+      align: "right",
+      valueFormatter: (params) => {
+        return params.toFixed(2);
+      },
     },
     {
       field: "discountPercentage",
-      headerName: "Current Discount",
+      headerName: "Promotion",
       flex: 1,
+      align: "right",
     },
   ];
 

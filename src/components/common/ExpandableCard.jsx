@@ -63,7 +63,7 @@ function ExpandableCard({ order }) {
           variant="body2"
           sx={{ color: theme.palette.secondary.light }}
         >
-          ฿{order.totalPrice}
+          ฿{order.totalPrice.toFixed(2)}
         </Typography>
         <Typography
           variant="body2"

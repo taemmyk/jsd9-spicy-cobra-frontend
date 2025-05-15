@@ -28,18 +28,20 @@ const orderColums = [
   },
   {
     field: "itemsCount",
-    headerName: "Items Quantity",
+    headerName: "Quantity",
     flex: 1,
+    align: "center",
   },
   {
     field: "totalPrice",
     headerName: "Total",
     flex: 1,
+    alight: "right",
   },
-  { field: "orderStatus", headerName: "Status", flex: 1 },
+  { field: "orderStatus", headerName: "Status", flex: 1, align: "center" },
   {
     field: "orderAt",
-    headerName: "Order At",
+    headerName: "Order Date",
     flex: 2,
     valueFormatter: (params) => {
       return formatDateDDMMYYYY(params);
@@ -47,7 +49,7 @@ const orderColums = [
   },
 ];
 
-const paginationModel = { page: 0, pageSize: 5 };
+const paginationModel = { page: 0, pageSize: 10 };
 
 function OrdersTabAdmin() {
   const theme = useTheme();
@@ -99,16 +101,16 @@ function OrdersTabAdmin() {
     switch (status) {
       case "Paid":
         return (
-          <CheckCircleIcon
-            sx={{ mr: 0.5, color: theme.palette.accent.dark }}
-          />
+          <CheckCircleIcon sx={{ mr: 0.5, color: theme.palette.accent.dark }} />
         );
       case "Pending":
         return (
           <PendingIcon sx={{ mr: 0.5, color: theme.palette.accent.emphasis }} />
         );
       case "Cancelled":
-        return <CancelIcon sx={{ mr: 0.5, color: theme.palette.negative.default }} />;
+        return (
+          <CancelIcon sx={{ mr: 0.5, color: theme.palette.negative.default }} />
+        );
       default:
         return null;
     }
@@ -129,6 +131,7 @@ function OrdersTabAdmin() {
           totalPrice: order.totalPrice?.toFixed(2),
           orderStatus: order.orderStatus,
           orderAt: order.orderAt,
+          transactionAt: order.transactionAt,
         }));
         setOrders(fetchedOrders);
         setLoading(false);
@@ -227,7 +230,7 @@ function OrdersTabAdmin() {
             columns={orderColums}
             getRowId={(row) => row.orderNumber}
             paginationModel={paginationModel}
-            pageSizeOptions={[5, 10]}
+            pageSizeOptions={[10, 20]}
             checkboxSelection={false}
             onRowClick={handleRowClick}
             filterModel={filterModel}
@@ -261,11 +264,11 @@ function OrdersTabAdmin() {
               </Typography>
             )}
             <Typography>
-              Order At: {new Date(selectedRowData.orderAt).toLocaleString()}
+              Order Date: {new Date(selectedRowData.orderAt).toLocaleString()}
             </Typography>
             {selectedRowData.orderStatus == "Paid" && (
               <Typography>
-                Transaction At:{" "}
+                Paid Date:{" "}
                 {new Date(selectedRowData.transactionAt).toLocaleString()}
               </Typography>
             )}

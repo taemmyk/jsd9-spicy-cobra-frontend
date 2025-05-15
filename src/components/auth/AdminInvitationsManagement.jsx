@@ -112,8 +112,9 @@ function CommunityTabAdminInvitations() {
       headerName: "Status",
       flex: 1,
       resizable: false,
+      align: "center",
       valueFormatter: (params) => {
-        return params ? "active" : "inactive";
+        return params ? "Active" : "Inactive";
       },
     },
     {
