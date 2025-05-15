@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   Typography,
@@ -20,6 +20,7 @@ import SelectorCard from "../components/common/SelectorCard";
 import { motion, useAnimate } from "framer-motion";
 import useFetchProducts from "../hooks/useFetchProducts";
 import useFetchGenres from "../hooks/useFetchGenres";
+import useDebounce from "../hooks/useDebounce";
 
 const MotionBox = motion.create(Box);
 
@@ -36,12 +37,15 @@ function Games() {
   const [animateDescription, setAnimateDescription] = useState(false);
   const [scope, animate] = useAnimate();
   const searchTimeoutRef = useRef(null);
+  const debouncedSearchText = useDebounce(searchText, 1000);
 
-  const {
-    products,
-    loading: loadingProducts,
-    error: errorProducts,
-  } = useFetchProducts(searchText, selectedGenre);
+const {
+  products,
+  allProducts,
+  loading: loadingProducts,
+  error: errorProducts,
+} = useFetchProducts(debouncedSearchText);
+
   const {
     genres,
     loading: loadingGenres,
@@ -145,6 +149,19 @@ function Games() {
       }
     };
   }, [animateDescription, selectedGenre, animate, scope, genres]);
+
+  const filteredProducts = useMemo(() => {
+    if (selectedGenre === "View All") return products;
+
+    const selectedGenreObj = genres.find(
+      (genre) => genre.genreName === selectedGenre
+    );
+    if (!selectedGenreObj) return products;
+
+    return products.filter((product) =>
+      product.genres.includes(selectedGenreObj._id)
+    );
+  }, [products, selectedGenre, genres]);
 
   return (
     <>
@@ -320,7 +337,7 @@ function Games() {
               margin: 4,
             }}
           >
-            {products.map((item) => (
+            {filteredProducts.map((item) => (
               <ProductCard key={item._id} product={item} />
             ))}
           </Box>
