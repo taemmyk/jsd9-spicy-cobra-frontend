@@ -149,7 +149,7 @@ function GameManagementAdmin() {
       setSelectedProduct(null);
       setEditedProduct(null);
     } catch (error) {
-      console.error("Error updating product:", error);
+      // console.error("Error updating product:", error);
     }
   };
 

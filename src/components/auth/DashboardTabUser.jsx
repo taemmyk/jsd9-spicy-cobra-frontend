@@ -45,7 +45,7 @@ function DashboardTab() {
         setUserGames(response.data.data);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching orders:", error);
+        // console.error("Error fetching orders:", error);
         setError("Failed to fetch orders");
         setLoading(false);
       }

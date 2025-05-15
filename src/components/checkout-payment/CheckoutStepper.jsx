@@ -148,12 +148,12 @@ function CheckoutStepper({ onStepChange }) {
         const patchResponse = await api.patch(`/orders/${orderId}`, {
           orderStatus: "Paid",
         });
-        console.log("Order patched successfully:", patchResponse.data);
+        // console.log("Order patched successfully:", patchResponse.data);
       } catch (error) {
-        console.error("Error patching order:", error);
+        // console.error("Error patching order:", error);
       }
     } else {
-      console.warn("Order ID is not available, cannot patch.");
+      // console.warn("Order ID is not available, cannot patch.");
     }
   };
 
@@ -173,19 +173,19 @@ function CheckoutStepper({ onStepChange }) {
         totalPrice: calculateOrderTotalPrice(cartItems),
         paymentMethod: paymentMethod,
       };
-      console.log(JSON.stringify(orderData, null, 2));
+      // console.log(JSON.stringify(orderData, null, 2));
 
       const response = await api.post("/orders", orderData);
 
       if (response.status === 200 || response.status === 201) {
-        console.log("Order created successfully:", response.data);
+        // console.log("Order created successfully:", response.data);
         setOrderId(response.data.data._id);
         setOrderNumber(response.data.data.orderNumber);
       } else {
-        console.error("Error creating order:", response.data);
+        // console.error("Error creating order:", response.data);
       }
     } catch (error) {
-      console.error("Error calling create order API:", error);
+      // console.error("Error calling create order API:", error);
     }
   };
 

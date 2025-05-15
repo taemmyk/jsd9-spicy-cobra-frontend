@@ -14,7 +14,7 @@ export const loginUser = async ({ email, password }) => {
     email,
     password,
   });
-  console.log(response.data);
+  // console.log(response.data);
   return response.data;
 };
 
@@ -39,8 +39,8 @@ export const forgotPassword = async (email) => {
     }
     return response.data;
   } catch (error) {
-    console.error("Error in forgotPassword:", error.response?.data || error.message);
-    throw error;
+    // console.error("Error in forgotPassword:", error.response?.data || error.message);
+    // throw error;
   }
 };
 

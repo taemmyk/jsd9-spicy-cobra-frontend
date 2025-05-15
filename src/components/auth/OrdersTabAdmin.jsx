@@ -36,7 +36,7 @@ const orderColums = [
     field: "totalPrice",
     headerName: "Total",
     flex: 1,
-    alight: "right",
+    align: "right",
   },
   { field: "orderStatus", headerName: "Status", flex: 1, align: "center" },
   {
@@ -130,13 +130,14 @@ function OrdersTabAdmin() {
           itemsCount: order.items?.length,
           totalPrice: order.totalPrice?.toFixed(2),
           orderStatus: order.orderStatus,
+          paymentMethod: order.paymentMethod,
           orderAt: order.orderAt,
           transactionAt: order.transactionAt,
         }));
         setOrders(fetchedOrders);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching orders:", error);
+        // console.error("Error fetching orders:", error);
         setError(error);
         setLoading(false);
       }

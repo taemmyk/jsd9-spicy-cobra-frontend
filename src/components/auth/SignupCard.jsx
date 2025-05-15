@@ -52,12 +52,12 @@ const SignupCard = ({ onSwitchToLogin }) => {
 
     try{
       const data = await signupUser({email, password, confirmPassword});
-      console.log(data);
+      // console.log(data);
       if (onSwitchToLogin) {
         onSwitchToLogin(); // เปลี่ยน state เป็น login แทน
       }
     } catch(err) {
-      console.error(err);
+      // console.error(err);
     }
   };
 

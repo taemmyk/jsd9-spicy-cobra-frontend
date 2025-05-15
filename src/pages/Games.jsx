@@ -35,6 +35,7 @@ function Games() {
   );
   const [animateDescription, setAnimateDescription] = useState(false);
   const [scope, animate] = useAnimate();
+  const searchTimeoutRef = useRef(null);
 
   const {
     products,
@@ -59,20 +60,11 @@ function Games() {
       }
       navigate(`/games?${searchParams.toString()}`, { replace: true });
     },
-    [navigate, location.search]
+    [location.search, navigate]
   );
-
-  const handleSearch = (query) => {
-    setSearchText(query);
-    updateQuery({
-      search: query,
-      genre: selectedGenre !== "View All" ? selectedGenre : null,
-    });
-  };
 
   const handleInputChange = (event) => {
     setSearchText(event.target.value);
-    handleSearch(event.target.value);
   };
 
   const handleClearInput = () => {
@@ -94,6 +86,25 @@ function Games() {
   };
 
   useEffect(() => {
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+
+    searchTimeoutRef.current = setTimeout(() => {
+      updateQuery({
+        search: searchText || null,
+        genre: selectedGenre !== "View All" ? selectedGenre : null,
+      });
+    }, 2000);
+
+    return () => {
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
+      }
+    };
+  }, [searchText, selectedGenre, updateQuery]);
+
+  useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const query = searchParams.get("search");
     const genreNameParam = searchParams.get("genre");
@@ -112,11 +123,7 @@ function Games() {
 
   useEffect(() => {
     if (animateDescription && genres && genres.length > 0) {
-      animate(
-        scope.current,
-        { y: [0, 40], opacity: [1, 0] },
-        { duration: 0.2 }
-      ).then(() => {
+      animate(scope.current, { y: [0, 40], opacity: [1, 0] }, { duration: 0.2 }).then(() => {
         const selectedGenreData = genres.find(
           (genre) => genre.genreName === selectedGenre
         );
@@ -124,15 +131,19 @@ function Games() {
           selectedGenre === "View All"
             ? "Explore a wide variety of your next favorite games across different genres!"
             : selectedGenreData?.genreDescription ||
-                `Information about the ${selectedGenre} genre will be displayed here.`
+              `Information about the ${selectedGenre} genre will be displayed here.`
         );
-        animate(
-          scope.current,
-          { y: [40, 0], opacity: [0, 1] },
-          { duration: 0.2 }
-        ).then(() => setAnimateDescription(false));
+        animate(scope.current, { y: [40, 0], opacity: [0, 1] }, { duration: 0.2 }).then(() =>
+          setAnimateDescription(false)
+        );
       });
     }
+
+    return () => {
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
+      }
+    };
   }, [animateDescription, selectedGenre, animate, scope, genres]);
 
   return (
@@ -143,10 +154,7 @@ function Games() {
             sx={{
               position: "relative",
               width: "100%",
-              height: {
-                xs: "auto",
-                md: "50vh",
-              },
+              height: { xs: "auto", md: "50vh" },
               objectFit: "cover",
               objectPosition: "center",
             }}
@@ -204,13 +212,10 @@ function Games() {
 
       <Box sx={{ backgroundColor: theme.palette.background.paper }}>
         <Container maxWidth="xl">
-          <Box
-            sx={{
-              paddingX: 2,
-            }}
-          >
+          <Box sx={{ paddingX: 2 }}>
             <Paper elevation={3} />
             <Heading section="Games" />
+
             {/* Search Bar */}
             <Box
               sx={{
@@ -236,7 +241,6 @@ function Games() {
                 handleSearchSubmit={(e) => e.preventDefault()}
                 sx={{ mx: 2, flexGrow: 1 }}
               />
-
               <IconButton
                 onClick={handleClearInput}
                 disabled={!searchText}
@@ -289,6 +293,7 @@ function Games() {
           </Box>
         </Container>
       </Box>
+
       {/* Product Grid */}
       <Container maxWidth="xl">
         {loadingProducts ? (
@@ -311,10 +316,7 @@ function Games() {
                 sm: "repeat(2, 1fr)",
                 md: "repeat(3, 1fr)",
               },
-              gap: {
-                xs: 2,
-                md: 4,
-              },
+              gap: { xs: 2, md: 4 },
               margin: 4,
             }}
           >

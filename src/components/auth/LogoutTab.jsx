@@ -21,7 +21,7 @@ export default function ProfileTab() {
     setUser(null);
     await logoutUser();
     localStorage.removeItem("token");
-    console.log("logout successfully");
+    // console.log("logout successfully");
   };
 
   return (

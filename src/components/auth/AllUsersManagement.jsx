@@ -55,7 +55,7 @@ function CommunityTabAdminAllUsers() {
     try {
       await api.patch(`/auth/status/${user._id}`);
     } catch (updateError) {
-      console.error("Error updating user status:", updateError);
+      // console.error("Error updating user status:", updateError);
       setError("Failed to update user status.");
       setUsers(users);
     }
@@ -67,11 +67,9 @@ function CommunityTabAdminAllUsers() {
       setError(null);
       try {
         const response = await api.get("/auth/users");
-        console.log(response.data);
         setUsers(response.data.users);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching users:", error);
         setError(error);
         setLoading(false);
       }

@@ -83,10 +83,10 @@ function GenreManagement() {
       setSelectedGenre(null);
       setEditedGenre(null);
     } catch (error) {
-      console.error(
-        editedGenre._id ? "Error updating genre:" : "Error adding new genre:",
-        error
-      );
+      // console.error(
+      //   editedGenre._id ? "Error updating genre:" : "Error adding new genre:",
+      //   error
+      // );
     }
   };
 

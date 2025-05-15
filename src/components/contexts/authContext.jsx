@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
           const response = await api.get("/profile");
           setUser(response.data.user);
         } catch (err) {
-          console.error("Not authenticated", err);
+          // console.error("Not authenticated", err);
           setUser(null);
         } finally {
           setLoading(false);
@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
       const response = await api.get("/profile");
       setUser(response.data.user);
     } catch (err) {
-      console.error("Not authenticated", err);
+      // console.error("Not authenticated", err);
       setUser(null);
     } finally {
       setLoading(false);
@@ -47,9 +47,9 @@ export const AuthProvider = ({ children }) => {
       await api.post("/auth/logout");
       setUser(null);
       localStorage.removeItem("token");
-      console.log("Logout successful");
+      // console.log("Logout successful");
     } catch (err) {
-      console.error("Logout failed:", err);
+      // console.error("Logout failed:", err);
     }
   };
 

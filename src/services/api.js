@@ -17,7 +17,11 @@ api.interceptors.request.use((config) => {
   console.log("Interceptor fired");
 
   // รายการ endpoint ที่ไม่ควรแนบ token
-  const publicEndpoints = ["/auth/forgot-password", "/auth/register", "/auth/login"];
+  const publicEndpoints = [
+    "/auth/forgot-password",
+    "/auth/register",
+    "/auth/login",
+  ];
 
   // ตรวจว่า URL นี้ไม่ใช่ public endpoint ก่อนจะแนบ token
   const isPublic = publicEndpoints.some((endpoint) =>
@@ -28,7 +32,7 @@ api.interceptors.request.use((config) => {
     const token = localStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
-      console.log("Sending token:", token);
+      // console.log("Sending token:", token);
     }
   }
 

@@ -35,11 +35,8 @@ const LoginCard = () => {
       if (data.token) {
         localStorage.setItem("token", data.token);
         const res = await api.get("/profile");
-        console.log("res from profile", res);
 
         setUser(res.data.user); //save user to authcontext
-        console.log("kkkkkkkkkkkkkkk", res.user);
-        console.log("token from localStorage", localStorage.getItem("token"));
         navigate(location.pathname === "/dashboard" ? "/" : "/dashboard");
       }
     } catch (err) {

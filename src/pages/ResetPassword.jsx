@@ -58,7 +58,6 @@ function ResetPassword() {
 
     try {
       const response = await resetPassword({ token, password });
-      console.log(response.message);
       navigate("/membership");
     } catch (error) {
       const errorMsg = error.response?.data?.message || "Failed to reset password.";

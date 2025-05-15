@@ -125,7 +125,7 @@ function GameDetail() {
           );
           setRecommendedGames(filteredGames);
         } catch (err) {
-          console.error("Error fetching recommended games:", err);
+          // console.error("Error fetching recommended games:", err);
         }
       }
     };
@@ -273,7 +273,7 @@ function GameDetail() {
                   justifyContent: "center",
                 }}
               >
-                <MotionBox
+                {/* <MotionBox
                   whileHover={{ scale: 1.2 }}
                   whileTap={{ scale: 0.8 }}
                 >
@@ -288,7 +288,7 @@ function GameDetail() {
                     }}
                     onClick={handleBuyNow}
                   />
-                </MotionBox>
+                </MotionBox> */}
                 <MotionBox
                   whileHover={{ scale: 1.2 }}
                   whileTap={{ scale: 0.8 }}

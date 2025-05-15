@@ -11,8 +11,8 @@ export function Login() {
     e.preventDefault();
     try {
       const data = await loginUser({ email, password });
-      console.log(data);
-      console.log("token from localStorage", localStorage.getItem("token"));
+      // console.log(data);
+      // console.log("token from localStorage", localStorage.getItem("token"));
 
       localStorage.setItem('token', data.token);
       navigate('/dashboard');

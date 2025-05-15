@@ -80,7 +80,7 @@ function CommunityTabAdminInvitations() {
         setInvitations(response.data.data);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching users:", error);
+        // console.error("Error fetching users:", error);
         setError(error);
         setLoading(false);
       }

@@ -59,7 +59,7 @@ export default function ProfileTab() {
       if (error.response?.status === 400) {
         setShowCurrentPasswordMismatch(true);
       } else {
-        console.error("Error updating password:", error);
+        // console.error("Error updating password:", error);
         alert("An error occurred while updating the password.");
       }
     } finally {
