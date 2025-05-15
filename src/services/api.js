@@ -14,7 +14,7 @@ const api = axios.create({
 
 // เพิ่ม interceptor เพื่อแนบ token อัตโนมัติ
 api.interceptors.request.use((config) => {
-  console.log("Interceptor fired");
+  // console.log("Interceptor fired");
 
   // รายการ endpoint ที่ไม่ควรแนบ token
   const publicEndpoints = [
