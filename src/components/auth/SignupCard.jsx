@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-// import { useNavigate, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import {
   Typography,
   Box,
@@ -12,7 +11,7 @@ import FormCheckbox from "../common/FormCheckbox";
 import ButtonGeneric from "../common/ButtonGeneric";
 import FormTextFieldWithIcon from "../common/FormTextFieldWithIcon";
 
-import {signupUser} from "../../services/authService.js"
+import { signupUser } from "../../services/authService.js"
 
 const SignupCard = ({ onSwitchToLogin }) => {
   const theme = useTheme();
@@ -21,45 +20,49 @@ const SignupCard = ({ onSwitchToLogin }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordMatchError, setPasswordMatchError] = useState("");
-  // const navigate = useNavigate();
+  const [termsAgreed, setTermsAgreed] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
 
-  // const handlePasswordChange = (event) => {
-  //   setPassword(event.target.value);
-  //   if (confirmPassword != "") {
-  //     if (event.target.value !== confirmPassword) {
-  //       setPasswordMatchError("Passwords do not match");
-  //     } else {
-  //       setPasswordMatchError("");
-  //     }
-  //   }
-  // };
-  // const handleConfirmPasswordChange = (event) => {
-  //   setConfirmPassword(event.target.value);
-  //   if (event.target.value !== password) {
-  //     setPasswordMatchError("Passwords do not match");
-  //   } else {
-  //     setPasswordMatchError("");
-  //   }
-  // };
+  const handleTermsChange = (event) => {
+    setTermsAgreed(event.target.checked);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!isFormValid) {
+      return;
+    }
 
     if (password !== confirmPassword) {
       setPasswordMatchError("Passwords do not match");
       return;
     }
 
-    try{
-      const data = await signupUser({email, password, confirmPassword});
-      // console.log(data);
+    try {
+      const data = await signupUser({ email, password, confirmPassword });
       if (onSwitchToLogin) {
-        onSwitchToLogin(); // เปลี่ยน state เป็น login แทน
+        onSwitchToLogin();
       }
-    } catch(err) {
+    } catch (err) {
       // console.error(err);
     }
   };
+
+  useEffect(() => {
+    const isEmailValid = email.trim() !== "";
+    const isPasswordValid = password.trim() !== "";
+    const isConfirmPasswordValid = confirmPassword.trim() !== "";
+    const isPasswordMatch = password === confirmPassword;
+
+    setIsFormValid(
+      isEmailValid &&
+      isPasswordValid &&
+      isConfirmPasswordValid &&
+      isPasswordMatch &&
+      termsAgreed
+    );
+  }, [email, password, confirmPassword, termsAgreed]);
 
   return (
     <>
@@ -110,7 +113,7 @@ const SignupCard = ({ onSwitchToLogin }) => {
           <FormTextFieldWithIcon
             id="confirmPassword"
             name="confirmPassword"
-            label="confirmPassword"
+            label="Confirm Password"
             type="password"
             placeholder="confirm password"
             value={confirmPassword}
@@ -136,17 +139,8 @@ const SignupCard = ({ onSwitchToLogin }) => {
           )}
         </Box>
 
-        {/* <FormTextFieldWithIcon
-          id="birthday"
-          name="birthday"
-          label="Birthday"
-          type="date"
-          placeholder="MM/DD/YYYY"
-          required
-        /> */}
-
         <FormControlLabel
-          control={<FormCheckbox />}
+          control={<FormCheckbox checked={termsAgreed} onChange={handleTermsChange} name="termsAgreed" />}
           label={
             <Typography variant="body2" marginLeft={2} marginY={2}>
               I agree to platform terms & condition
@@ -159,6 +153,7 @@ const SignupCard = ({ onSwitchToLogin }) => {
           label="Sign up"
           type="submit"
           sx={{ marginTop: 2, alignItems: "center" }}
+          disabled={!isFormValid}
         />
       </Box>
     </>

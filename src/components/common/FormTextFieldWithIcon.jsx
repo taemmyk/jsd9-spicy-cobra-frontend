@@ -73,6 +73,7 @@ const FormTextfieldWithIcon = ({
         }}
       >
         {label}
+        {required && <span style={{ color: theme.palette.secondary.light, marginLeft: 4 }}>*</span>}
       </FormLabel>
       <OutlinedInput
         id={id}
