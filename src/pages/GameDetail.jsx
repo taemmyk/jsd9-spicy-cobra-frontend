@@ -148,12 +148,12 @@ function GameDetail() {
   return (
     <>
       <Container maxWidth="xl">
-        <Box sx={{ padding: 4 }}>
+        <Box sx={{ paddingX: 4, paddingTop: 4 }}>
           <Box
             sx={{
               display: "flex",
               flexDirection: { xs: "column", lg: "row" },
-              gap: 2,
+              gap: 4,
               width: "100%",
             }}
           >
