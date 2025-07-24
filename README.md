@@ -7,6 +7,7 @@ This project was developed as part of the **Junior Software Developer Bootcamp �
 
 - **CRUD Operations** – Manage games and orders (create, read, update, delete).
 - **User Authentication** – JWT-based secure routes.
+- **Forget Password + Email Reset** – Sends secure reset link via email with unique token (OAuth 2.0)
 - **Search with Debouncing** – Efficient game search experience.
 - **Tag Filtering** – Discover games by genre or category.
 - **Related Game Suggestions** – Personalized game recommendations.
